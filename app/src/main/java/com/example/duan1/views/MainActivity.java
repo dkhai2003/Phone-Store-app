@@ -1,8 +1,10 @@
-package com.example.duan1;
+package com.example.duan1.views;
 
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.duan1.R;
 
 public class MainActivity extends AppCompatActivity {
 
