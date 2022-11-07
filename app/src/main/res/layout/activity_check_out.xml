@@ -26,7 +26,7 @@
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="36dp"
                 android:layout_weight="7"
                 android:text="Shipping information"
                 android:textColor="#000"
@@ -37,7 +37,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="50dp"
+                android:layout_marginEnd="36dp"
                 android:layout_weight="3"
                 android:gravity="center"
                 android:text="change"
@@ -47,9 +47,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="50dp"
+            android:layout_marginStart="36dp"
             android:layout_marginTop="20dp"
-            android:layout_marginEnd="50dp"
+            android:layout_marginEnd="36dp"
             android:background="@drawable/check_out_background"
             android:orientation="vertical">
 
@@ -136,7 +136,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
+                android:layout_marginStart="36dp"
                 android:text="Payment Method"
                 android:textColor="#000"
                 android:textSize="17sp"
