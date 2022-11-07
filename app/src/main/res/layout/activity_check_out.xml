@@ -62,7 +62,7 @@
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/user" />
+                    android:src="@drawable/checkout_profile_icons" />
 
                 <TextView
                     android:layout_width="0dp"
