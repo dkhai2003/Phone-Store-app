@@ -6,10 +6,26 @@
     android:background="#F5F5F8"
     tools:context=".views.CheckOutActivity">
 
+<<<<<<< HEAD
+=======
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <include
+        layout="@layout/toolbar_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+>>>>>>> 70a425d554e52dd77c2c177b3fc3067cdada151b
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+=======
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="45dp"
+>>>>>>> 70a425d554e52dd77c2c177b3fc3067cdada151b
         android:orientation="vertical">
 
 
@@ -56,6 +72,7 @@
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="36dp"
+<<<<<<< HEAD
                 android:background="@drawable/check_out_background"
                 android:orientation="vertical">
 
@@ -127,6 +144,13 @@
                         android:textSize="17sp" />
                 </LinearLayout>
             </LinearLayout>
+=======
+                android:layout_weight="3"
+                android:gravity="center"
+                android:text="change"
+                android:textColor="#5956E9"
+                android:textSize="17sp" />
+>>>>>>> 70a425d554e52dd77c2c177b3fc3067cdada151b
         </LinearLayout>
 
         <LinearLayout
@@ -153,6 +177,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+<<<<<<< HEAD
                 android:layout_marginStart="36dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="36dp"
@@ -244,8 +269,206 @@
                             android:textSize="17sp" />
                     </LinearLayout>
                 </RadioGroup>
+=======
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/checkout_location_icons" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:text="43 Oxford Road M13 4GR Manchester, UK"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/checkout_call_icons" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="11dp"
+                    android:layout_weight="1"
+                    android:text="+234 9011039271"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
             </LinearLayout>
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="36dp"
+                android:text="Payment Method"
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="36dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="36dp"
+            android:background="@drawable/check_out_background"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:layout_width="62dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/checkout_visa_image" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="17dp"
+                    android:text="**** **** **** 1234"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:layout_width="62dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/checkout_master_image" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="17dp"
+                    android:text="**** **** **** 1234"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center" />
+
+                <ImageView
+                    android:layout_width="62dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="12dp"
+                    android:src="@drawable/checkout_bank_image" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="17dp"
+                    android:text="**** **** **** 1234"
+                    android:textColor="#000"
+                    android:textSize="17sp" />
+>>>>>>> 70a425d554e52dd77c2c177b3fc3067cdada151b
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="36dp"
+                android:layout_weight="3"
+                android:text="Total"
+                android:textColor="#000"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="36dp"
+                android:layout_weight="3"
+                android:gravity="end"
+                android:text="$ 954"
+                android:textColor="#5956E9"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/buttom_custom"
+            android:padding="18dp"
+            android:text="Confirm and pay"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
+
     </LinearLayout>
 </ScrollView>
 
