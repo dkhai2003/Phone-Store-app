@@ -20,7 +20,6 @@ public class CheckOutActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Check Out");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setTitleMarginStart(160);
     }
 
     private void anhXa() {
