@@ -15,7 +15,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:layout_marginBottom="45dp"
         android:orientation="vertical">
 
@@ -264,5 +264,17 @@
                 android:textSize="17sp"
                 android:textStyle="bold" />
         </LinearLayout>
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="56dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginEnd="32dp"
+            android:background="@drawable/buttom_custom"
+            android:padding="18dp"
+            android:text="Confirm and pay"
+            android:textColor="@color/white"
+            android:textSize="20dp" />
     </LinearLayout>
 </LinearLayout>
