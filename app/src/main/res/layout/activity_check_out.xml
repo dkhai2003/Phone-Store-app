@@ -13,9 +13,9 @@
         android:layout_height="wrap_content" />
 
     <LinearLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="45dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -120,6 +120,123 @@
                     android:textColor="#000"
                     android:textSize="17sp" />
             </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="50dp"
+                android:text="Payment Method"
+                android:textColor="#000"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="50dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="50dp"
+            android:background="@drawable/check_out_background"
+            android:orientation="vertical">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_marginStart="12dp"
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/checkout_visa_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="17dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_marginStart="12dp"
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/checkout_master_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="17dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_height="wrap_content" />
+
+                    <ImageView
+                        android:layout_marginStart="12dp"
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:src="@drawable/checkout_bank_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="17dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </RadioGroup>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
