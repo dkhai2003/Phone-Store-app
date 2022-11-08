@@ -28,7 +28,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".views.MainActivity"
             android:name=".views.CheckOutActivity"
             android:exported="true">
             <intent-filter>
