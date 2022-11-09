@@ -3,13 +3,14 @@ package com.example.duan1.views;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.duan1.R;
-import com.example.duan1.fragment.BottomSheetDialog;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -27,10 +28,23 @@ public class CheckOutActivity extends AppCompatActivity {
         btnConfirmAndPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomSheetDialog bottomSheetDialog = BottomSheetDialog.newInstance();
-                bottomSheetDialog.show(getSupportFragmentManager(), bottomSheetDialog.getTag());
+                clickOpenBottomSheetDialog();
             }
         });
+    }
+
+    private void clickOpenBottomSheetDialog() {
+        View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
+        btnPayNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
+            }
+        });
+        bottomSheetDialog.setContentView(viewDialog);
+        bottomSheetDialog.show();
     }
 
     private void anhXa() {

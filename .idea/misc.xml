@@ -3,8 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/background_bottom_sheet_dialog.xml" value="0.2545" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/bottom_sheet_background_custom.xml" value="0.189" />
-        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.15049864007252947" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.16" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.20735356990166737" />
