@@ -5,12 +5,16 @@
       <map>
         <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/background_bottom_sheet_dialog.xml" value="0.2545" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/bottom_sheet_background_custom.xml" value="0.189" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/circle.xml" value="0.2545" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/drawable/line.xml" value="0.2545" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.16" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_finished_payment.xml" value="0.33" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/toolbar_custom.xml" value="0.15049864007252947" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/test/drawable/ic_baseline_check_24.xml" value="0.2545" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.268" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/button_custom.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.268" />
