@@ -1,106 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    >
+    android:background="  #ffffff"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
+    <include
+        layout="@layout/toolbar_custom"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="45dp"
-            android:layout_height="64dp"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-
-            android:src="@drawable/ip4" />
-
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="45dp"
-            android:layout_height="64dp"
-            android:layout_weight="1"
-
-            android:src="@drawable/ip3" />
-
-        <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="45dp"
-            android:layout_height="64dp"
-            android:layout_weight="1"
-
-            android:src="@drawable/ip1" />
-
-        <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="45dp"
-            android:layout_height="64dp"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-
-            android:src="@drawable/ip2" />
-
-    </LinearLayout>
-
-
-    <ImageView
-        android:id="@+id/imageView5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/left"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
-        android:src="@drawable/heart"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/imageView5" />
+        android:layout_height="wrap_content" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="376dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:src="@drawable/ip"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView5" />
+        android:src="@drawable/ip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_details_item"
+            android:src="@drawable/ip4" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_details_item"
+            android:src="@drawable/ip4" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="82dp"
+
+            android:layout_weight="1"
+            android:background="@drawable/background_details_item"
+            android:src="@drawable/ip4" />
+
+        <ImageView
+            android:layout_width="60dp"
+            android:layout_height="82dp"
+            android:layout_weight="1"
+            android:background="@drawable/background_details_item"
+            android:src="@drawable/ip4" />
+
+
+    </LinearLayout>
 
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_margin="16dp"
         android:fontFamily="@font/interbold"
         android:text="Cult 70’s Armchair, matte Chair."
         android:textColor="#535353"
         android:textSize="21dp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.166"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -119,28 +87,28 @@
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/sao" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/sao" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/sao" />
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:src="@drawable/sao0" />
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
 
             android:text="Review(96)" />
@@ -186,11 +154,12 @@
 
         <TextView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:layout_weight="1"
             android:fontFamily="@font/interbold"
+            android:gravity="center"
             android:text="5"
             android:textColor="#535353"
             android:textSize="17dp" />
@@ -228,7 +197,8 @@
     <TextView
         android:layout_width="160dp"
         android:layout_height="50dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="12dp"
         android:layout_marginEnd="32dp"
         android:background="#6139FF"
         android:drawableStart="@drawable/ic_baseline_shopping_cart_24"
@@ -243,4 +213,4 @@
         app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>
