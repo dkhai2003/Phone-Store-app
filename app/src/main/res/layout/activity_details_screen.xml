@@ -68,7 +68,7 @@
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
-                <ImageView      
+                <ImageView
                     android:layout_width="60dp"
                     android:layout_height="82dp"
                     android:layout_margin="8dp"
