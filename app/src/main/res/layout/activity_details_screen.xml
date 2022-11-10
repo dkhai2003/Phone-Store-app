@@ -41,12 +41,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
+                android:layout_margin="8dp"
                 android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
@@ -54,6 +55,7 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
@@ -61,14 +63,15 @@
                 <ImageView
                     android:layout_width="60dp"
                     android:layout_height="82dp"
-
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
-                <ImageView
+                <ImageView      
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
@@ -203,9 +206,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:textSize="16sp"
+                android:text="A device that uses either a system of wires along which electrical signals are sent or a system of radio signals to make it possible for you to speak to someone in another place who has a similar device"
                 android:textColor="#000"
-                android:text="A device that uses either a system of wires along which electrical signals are sent or a system of radio signals to make it possible for you to speak to someone in another place who has a similar device" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView6"
