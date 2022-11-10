@@ -14,8 +14,15 @@
         android:theme="@style/Theme.Duan1"
         tools:targetApi="31">
         <activity
-            android:name=".FavoriteActivity"
-            android:exported="false" />
+            android:name=".views.FavoriteActivity"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".views.FinishedPaymentActivity"
             android:exported="false" />
@@ -35,24 +42,10 @@
         </activity>
         <activity
             android:name=".views.CheckOutActivity"
-            android:exported="false">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".views.OrderHistoryActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".views.MainActivity"
             android:exported="false">
