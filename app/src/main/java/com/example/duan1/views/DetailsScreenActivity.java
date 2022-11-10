@@ -19,12 +19,11 @@ public class DetailsScreenActivity extends AppCompatActivity {
         anhXa();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Check Out");
+        actionBar.setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     private void anhXa() {
         toolbar = findViewById(R.id.toolbar);
-
     }
 }
