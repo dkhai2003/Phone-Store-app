@@ -18,9 +18,11 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_favorite.xml" value="0.19495510902094912" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_finished_payment.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.20735356990166737" />
-        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.20735356990166737" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello2.xml" value="0.2997007268063275" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_order_history.xml" value="0.20735356990166737" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user_tt.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.264" />
@@ -32,7 +34,6 @@
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/button_custom.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.268" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.1" />
-        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_details_screen.xml" value="0.14709569577935647" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.3009833262077811" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/toolbar_custom.xml" value="0.30055579307396324" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.268" />
