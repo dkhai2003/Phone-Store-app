@@ -15,4 +15,4 @@ public class HelloActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hello);
         //cc
     }
-}
+}   
