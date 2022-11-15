@@ -62,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
                 myRef.child("u" + maxid).setValue(user.toMap(), new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        Intent intent = new Intent(SignUpActivity.this, LoginActivity .class);
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
                         intent.putExtra("maUser", maUser);
                         startActivity(intent);
                         finish();
@@ -85,8 +85,11 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public Boolean checkValidate(String tenDangNhap, String pass, String rePass) {
-        if (!tenDangNhap.isEmpty() || !pass.isEmpty() || !rePass.isEmpty()) {
+        if (!tenDangNhap.isEmpty() && !pass.isEmpty() && !rePass.isEmpty()) {
             return true;
+        }
+        if (tenDangNhap.isEmpty()) {
+            edtEmail.setError("Email is empty !");
         }
         return false;
     }

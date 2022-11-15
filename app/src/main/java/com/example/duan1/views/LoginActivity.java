@@ -103,5 +103,4 @@ public class LoginActivity extends AppCompatActivity {
         edtEmail = findViewById(R.id.edtEmail);
         edtPass = findViewById(R.id.edtPassword);
     }
-
 }
