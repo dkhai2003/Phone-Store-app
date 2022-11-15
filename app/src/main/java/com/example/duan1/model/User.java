@@ -43,15 +43,15 @@ public class User {
         this.tenDangNhap = tenDangNhap;
     }
 
-//    @Exclude
-//    public Map<String, Object> toMap() {
-//        HashMap<String, Object> result = new HashMap<>();
-//        result.put("maUser", maUser);
-//        result.put("matKhau", matKhau);
-//        result.put("tenDangNhap", tenDangNhap);
-//
-//        return result;
-//    }
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("maUser", maUser);
+        result.put("matKhau", matKhau);
+        result.put("tenDangNhap", tenDangNhap);
+
+        return result;
+    }
 
     @Override
     public String toString() {

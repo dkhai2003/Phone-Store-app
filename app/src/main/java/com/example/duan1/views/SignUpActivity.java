@@ -40,7 +40,7 @@ public class SignUpActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (snapshot.exists()) {
                     maxid = (snapshot.getChildrenCount());
-                    Toast.makeText(SignUpActivity.this, "" + maxid, Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(SignUpActivity.this, "" + maxid, Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -52,29 +52,28 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void onClickSignUpUser(View view) {
-//        String maUser = "user" + maxid;
-//        String tenDangNhap = edtEmail.getText().toString().trim();
-//        String matKhau = edtPassword.getText().toString().trim();
-//        String reMatKhau = edtConfirm_pass.getText().toString().trim();
-//        if (matKhau.equals(reMatKhau)) {
-//            User user = new User(maUser, matKhau, tenDangNhap);
-//            myRef.child("u" + maxid).setValue(user.toMap(), new DatabaseReference.CompletionListener() {
-//                @Override
-//                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-//                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-//                    intent.putExtra("maUser", maUser);
-//                    startActivity(intent);
-//                }
-//            });
-//        } else {
-//            Toast.makeText(this, "Nhập lại mật khẩu sai", Toast.LENGTH_SHORT).show();
-//        }
-
-    }
-
-    public void setTvLogin(View view) {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
+        String maUser = "user" + maxid;
+        String tenDangNhap = edtEmail.getText().toString().trim();
+        String matKhau = edtPassword.getText().toString().trim();
+        String reMatKhau = edtConfirm_pass.getText().toString().trim();
+        if (checkValidate(tenDangNhap, matKhau, reMatKhau)) {
+            if (matKhau.equals(reMatKhau)) {
+                User user = new User(maUser, matKhau, tenDangNhap);
+                myRef.child("u" + maxid).setValue(user.toMap(), new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                        intent.putExtra("maUser", maUser);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Nhập lại mật khẩu sai", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Nhập thiếu thông tin", Toast.LENGTH_SHORT).show();
+        }
     }
 
     //Ánh Xạ
@@ -83,5 +82,18 @@ public class SignUpActivity extends AppCompatActivity {
         edtEmail = (EditText) findViewById(R.id.edtEmail);
         edtPassword = (EditText) findViewById(R.id.edtPassword);
         edtConfirm_pass = (EditText) findViewById(R.id.edtConfirm_pass);
+    }
+
+    public Boolean checkValidate(String tenDangNhap, String pass, String rePass) {
+        if (!tenDangNhap.isEmpty() || !pass.isEmpty() || !rePass.isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
+    public void setTvLogin(View view) {
+        Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
+        startActivity(i);
+        finish();
     }
 }

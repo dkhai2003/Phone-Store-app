@@ -66,14 +66,24 @@ public class LoginActivity extends AppCompatActivity {
                     list.add(user);
                 }
                 Log.d("Tag", String.valueOf(list.size()));
+                int checkLogin = 0;
                 for (User u : list) {
                     if (u.getTenDangNhap().equals(email) && u.getMatKhau().equals(matKhau)) {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
+                        Log.d("LOGIN", u.getTenDangNhap());
+                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
+                        i.putExtra("maUser", u.getMaUser());
+                        finish();
+                        startActivity(i);
+                        checkLogin = 1;
                         break;
                     } else {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập không thành công", Toast.LENGTH_SHORT).show();
-                        break;
+                        checkLogin = 0;
                     }
+                }
+                if (checkLogin == 0) {
+                    Toast.makeText(LoginActivity.this, "Login Failed", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Login Succesfully", Toast.LENGTH_SHORT).show();
                 }
             }
 
