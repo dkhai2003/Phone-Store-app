@@ -62,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
                 myRef.child("u" + maxid).setValue(user.toMap(), new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                        Intent intent = new Intent(SignUpActivity.this, LoginActivity .class);
                         intent.putExtra("maUser", maUser);
                         startActivity(intent);
                         finish();
