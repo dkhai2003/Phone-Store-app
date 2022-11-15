@@ -14,22 +14,33 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
+    private static final int RC_SIGN_IN = 123;
     private TextView tvForgot, tvCreate;
     private Button btnLogin;
+    private SignInButton btnGoogleSignIn;
     private EditText edtEmail, edtPass;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("duan");
-    private ProgressDialog progressDialog;
+    private ProgressDialog progressDialogLogin, progressDialogLoginGoogle;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,12 +56,78 @@ public class LoginActivity extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog = new ProgressDialog(LoginActivity.this);
-                progressDialog.setTitle("Please Wait..");
-                progressDialog.setMessage("Connecting to the server ... ");
+                progressDialogLogin = new ProgressDialog(LoginActivity.this);
+                progressDialogLogin.setTitle("Please Wait..");
+                progressDialogLogin.setMessage("Connecting to the server ... ");
                 onClickSignInUser();
             }
         });
+        //<== Login Google Authenticate
+        createRequest();
+        btnGoogleSignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                progressDialogLoginGoogle = new ProgressDialog(LoginActivity.this);
+                progressDialogLogin.setTitle("Please Wait..");
+                progressDialogLogin.setMessage("Connecting to Google ... ");
+                onClickSignInGoogle();
+            }
+        });
+    }// ==>
+
+    private void onClickSignInGoogle() {
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void createRequest() {
+        // <==Configure Google Sign In
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+        // ==>
+
+        // <== Build a GoogleSignInClient with the options specified by gso
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        // ==>
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                //Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        progressDialogLoginGoogle.show();
+        AuthCredential firebaseCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        mAuth.signInWithCredential(firebaseCredential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Log.d("User Google", user.getEmail());
+                            progressDialogLoginGoogle.dismiss();
+                            startMainActivityMethod(user.getUid());
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signInWithCredential:failure", task.getException());
+                        }
+                    }
+                });
     }
 
     public void setTvCreate() {
@@ -63,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
         String email = edtEmail.getText().toString().trim();
         String password = edtPass.getText().toString().trim();
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        progressDialog.show();
+        progressDialogLogin.show();
         if (validate(email, password)) {
             mAuth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -78,11 +155,11 @@ public class LoginActivity extends AppCompatActivity {
                                 String userId = user.getUid();
 
                                 // ==>
-                                progressDialog.dismiss();
+                                progressDialogLogin.dismiss();
                                 startMainActivityMethod(userId);
                             } else {
                                 // If sign in fails, display a message to the user.
-                                progressDialog.dismiss();
+                                progressDialogLogin.dismiss();
                                 Log.w("TAG", "signInWithEmail:failure", task.getException());
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
@@ -90,7 +167,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            progressDialog.dismiss();
+            progressDialogLogin.dismiss();
         }
     }
 
@@ -100,9 +177,10 @@ public class LoginActivity extends AppCompatActivity {
         tvForgot = (TextView) findViewById(R.id.tvForgot);
         tvCreate = (TextView) findViewById(R.id.tvCreate);
         btnLogin = (Button) findViewById(R.id.btnLogin);
-        edtEmail = findViewById(R.id.edtEmail);
-        edtPass = findViewById(R.id.edtPassword);
-        inpPass = findViewById(R.id.inpPass);
+        edtEmail = (EditText) findViewById(R.id.edtEmail);
+        edtPass = (EditText) findViewById(R.id.edtPassword);
+        inpPass = (TextInputLayout) findViewById(R.id.inpPass);
+        btnGoogleSignIn = (SignInButton) findViewById(R.id.btnGoogleSignIn);
     }
 
     // <== Validate form

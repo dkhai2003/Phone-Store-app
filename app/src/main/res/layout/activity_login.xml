@@ -25,20 +25,22 @@
             android:textStyle="bold" />
 
         <ImageView
-            android:layout_marginTop="-20dp"
             android:layout_width="100dp"
             android:layout_height="200dp"
+            android:layout_marginTop="-20dp"
             android:src="@drawable/top_arc" />
+
         <ImageView
-            android:layout_marginTop="-20dp"
             android:layout_width="100dp"
             android:layout_height="200dp"
+            android:layout_marginTop="-20dp"
             android:src="@drawable/top_arc2" />
+
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleY="3"
             android:layout_alignParentRight="true"
+            android:scaleY="3"
             android:src="@drawable/bottom_arc" />
     </RelativeLayout>
 
@@ -175,6 +177,17 @@
             android:gravity="center"
             android:text="Log in instantly with your social medias" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
+            <com.google.android.gms.common.SignInButton
+                android:id="@+id/btnGoogleSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
