@@ -76,6 +76,7 @@
                     android:id="@+id/edtEmail"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:layout_margin="2dp"
                     android:background="@drawable/edit_text_background"
                     android:hint="Email"
                     android:paddingStart="18dp" />
