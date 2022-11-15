@@ -8,6 +8,8 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class HelloActivity extends AppCompatActivity {
 
@@ -27,9 +29,17 @@ public class HelloActivity extends AppCompatActivity {
     }
 
     private void getStart() {
-        Intent intent = new Intent(HelloActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            Intent intent = new Intent(HelloActivity.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            Intent intent = new Intent(HelloActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+
     }
 
     private void unitUi() {
