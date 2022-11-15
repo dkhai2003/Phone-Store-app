@@ -68,8 +68,8 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 progressDialogLoginGoogle = new ProgressDialog(LoginActivity.this);
-                progressDialogLogin.setTitle("Please Wait..");
-                progressDialogLogin.setMessage("Connecting to Google ... ");
+                progressDialogLoginGoogle.setTitle("Please Wait..");
+                progressDialogLoginGoogle.setMessage("Connecting to Google ... ");
                 onClickSignInGoogle();
             }
         });
