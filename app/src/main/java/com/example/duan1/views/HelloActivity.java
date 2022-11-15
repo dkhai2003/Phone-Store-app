@@ -35,7 +35,7 @@ public class HelloActivity extends AppCompatActivity {
             startActivity(intent);
             finish();
         } else {
-            Intent intent = new Intent(HelloActivity.this, MainActivity.class);
+            Intent intent = new Intent(HelloActivity.this, HomeScreenActivity.class);
             startActivity(intent);
             finish();
         }

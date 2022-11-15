@@ -16,14 +16,14 @@ public class UserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-        anhXa();
+        unitUi();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("User");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void anhXa() {
+    private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
     }
 }

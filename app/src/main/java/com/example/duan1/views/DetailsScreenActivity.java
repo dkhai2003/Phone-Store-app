@@ -16,14 +16,14 @@ public class DetailsScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_screen);
-        anhXa();
+        unitUi();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    private void anhXa() {
+    private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
     }
 }

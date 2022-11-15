@@ -19,7 +19,7 @@ public class FavoriteActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
-        anhXa();
+        unitUi();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Favorites");
@@ -32,7 +32,7 @@ public class FavoriteActivity extends AppCompatActivity {
         });
     }
 
-    private void anhXa() {
+    private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
         btnStartOrdering = findViewById(R.id.btnStartOrdering);
     }

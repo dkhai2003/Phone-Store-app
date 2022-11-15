@@ -176,42 +176,4 @@ public class SignUpActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }    // ==>
-
 }
-
-
-//<-- SignUp Old
-//    public void onClickSignUpUser(View view) {
-//        String maUser = "user" + maxid;
-//        String tenDangNhap = edtEmail.getText().toString().trim();
-//        String matKhau = edtPassword.getText().toString().trim();
-//        String reMatKhau = edtConfirm_pass.getText().toString().trim();
-//        if (checkValidate(tenDangNhap, matKhau, reMatKhau)) {
-//            if (matKhau.equals(reMatKhau)) {
-//                User user = new User(maUser, matKhau, tenDangNhap);
-//                myRef.child("u" + maxid).setValue(user.toMap(), new DatabaseReference.CompletionListener() {
-//                    @Override
-//                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-//                        Intent intent = new Intent(SignUpActivity.this, LoginActivity.class);
-//                        intent.putExtra("maUser", maUser);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                });
-//            } else {
-//                Toast.makeText(this, "Nhập lại mật khẩu sai", Toast.LENGTH_SHORT).show();
-//            }
-//        } else {
-//            Toast.makeText(this, "Nhập thiếu thông tin", Toast.LENGTH_SHORT).show();
-//        }
-//    }
-//public Boolean checkValidate(String tenDangNhap, String pass, String rePass) {
-//    if (!tenDangNhap.isEmpty() && !pass.isEmpty() && !rePass.isEmpty()) {
-//        return true;
-//    }
-//    if (tenDangNhap.isEmpty()) {
-//        edtEmail.setError("Email is empty !");
-//    }
-//    return false;
-//}
-//SignUp Old-->
