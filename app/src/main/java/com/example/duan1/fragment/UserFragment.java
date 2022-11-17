@@ -80,7 +80,7 @@ public class UserFragment extends Fragment {
         getActivity().finish();
     }
 
-    private void getUserInformation() {
+    public void getUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user != null) {
             // Name, email address, and profile photo Url

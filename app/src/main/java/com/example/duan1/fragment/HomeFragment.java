@@ -54,7 +54,7 @@ public class HomeFragment extends Fragment {
         tvNameHome = (TextView) mView.findViewById(R.id.tvNameHome);
     }
 
-    private void setUserInformation() {
+    public void setUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
