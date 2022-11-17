@@ -1,36 +1,51 @@
-package com.example.duan1.views;
+package com.example.duan1.fragment;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.fragment.FrofileFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class UserActivity extends AppCompatActivity {
+public class UserFragment extends Fragment {
     private Toolbar toolbar;
     private TextView userName, userEmail;
     private ImageView userAvatar;
     private Button btnLogout;
     private Button btnEditProfile;
     private FrameLayout frameUser;
+    private View mView;
+
+    public static UserFragment newInstance() {
+        Bundle args = new Bundle();
+        UserFragment fragment = new UserFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        mView = inflater.inflate(R.layout.fragment_user, container, false);
+        return mView;
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         unitUi();
         getUserInformation();
 
@@ -49,15 +64,11 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void onClickEditProfile() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
     }
 
     private void onClickLogout() {
         FirebaseAuth.getInstance().signOut();
-        Intent intent = new Intent(UserActivity.this, LoginActivity.class);
-        Toast.makeText(this, "You are log out !", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
-        finish();
     }
 
     private void getUserInformation() {
@@ -77,12 +88,12 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void unitUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        userName = (TextView) findViewById(R.id.userName);
-        userEmail = (TextView) findViewById(R.id.userEmail);
-        userAvatar = (ImageView) findViewById(R.id.userAvatar);
-        btnLogout = (Button) findViewById(R.id.btnLogout);
-        btnEditProfile = (Button) findViewById(R.id.btnEditProfile);
-        frameUser = (FrameLayout) findViewById(R.id.frameUser);
+        toolbar = (Toolbar) mView.findViewById(R.id.toolbar);
+        userName = (TextView) mView.findViewById(R.id.userName);
+        userEmail = (TextView) mView.findViewById(R.id.userEmail);
+        userAvatar = (ImageView) mView.findViewById(R.id.userAvatar);
+        btnLogout = (Button) mView.findViewById(R.id.btnLogout);
+        btnEditProfile = (Button) mView.findViewById(R.id.btnEditProfile);
+        frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
     }
 }

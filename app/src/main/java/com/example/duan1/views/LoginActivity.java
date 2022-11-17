@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
+import com.example.duan1.fragment.UserFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -210,7 +211,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // <== Start intent to LoginActivity.class
     private void startMainActivityMethod(String userId) {
-        Intent i = new Intent(LoginActivity.this, UserActivity.class);
+        Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
         startActivity(i);
         finish();
     }    // ==>
