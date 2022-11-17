@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintBottom_toTopOf="@+id/rcvCategoryProduct"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct_type"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -112,25 +112,25 @@
 
         <androidx.recyclerview.widget.RecyclerView
 
-            android:layout_marginRight="16dp"
-            android:layout_marginLeft="8dp"
-            android:id="@+id/rcvCategoryProduct"
+            android:id="@+id/recyclerViewListProduct_type"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            app:layout_constraintBottom_toTopOf="@+id/rvcMainProduct"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ln" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:background="#E9EAEC"
-            android:id="@+id/rvcMainProduct"
+            android:id="@+id/recyclerViewListProduct"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rcvCategoryProduct">
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewListProduct_type">
 
         </androidx.recyclerview.widget.RecyclerView>
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,6 +32,7 @@
         android:background="@color/white"
         app:itemIconTint="@color/purple_500"
         app:itemTextColor="@color/purple_500"
+
         app:menu="@menu/menu_bnv" />
 
 </RelativeLayout>

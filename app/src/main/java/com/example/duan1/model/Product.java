@@ -1,37 +1,39 @@
 package com.example.duan1.model;
 
 public class Product {
-    private int imgAllItem;
-    private String nameItems;
-    private String priceItems;
+    private int giaSP;
+    private String hinhSP,tenSP;
 
-    public Product(int imgAllItem, String nameItems, String priceItems) {
-        this.imgAllItem = imgAllItem;
-        this.nameItems = nameItems;
-        this.priceItems = priceItems;
+    public Product(int giaSP, String hinhSP, String tenSP) {
+        this.giaSP = giaSP;
+        this.hinhSP = hinhSP;
+        this.tenSP = tenSP;
     }
 
-    public int getImgAllItem() {
-        return imgAllItem;
+    public Product() {
     }
 
-    public void setImgAllItem(int imgAllItem) {
-        this.imgAllItem = imgAllItem;
+    public int getGiaSP() {
+        return giaSP;
     }
 
-    public String getNameItems() {
-        return nameItems;
+    public void setGiaSP(int giaSP) {
+        this.giaSP = giaSP;
     }
 
-    public void setNameItems(String nameItems) {
-        this.nameItems = nameItems;
+    public String getHinhSP() {
+        return hinhSP;
     }
 
-    public String getPriceItems() {
-        return priceItems;
+    public void setHinhSP(String hinhSP) {
+        this.hinhSP = hinhSP;
     }
 
-    public void setPriceItems(String priceItems) {
-        this.priceItems = priceItems;
+    public String getTenSP() {
+        return tenSP;
+    }
+
+    public void setTenSP(String tenSP) {
+        this.tenSP = tenSP;
     }
 }
