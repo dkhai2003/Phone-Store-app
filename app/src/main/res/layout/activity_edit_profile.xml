@@ -13,19 +13,37 @@
         <include layout="@layout/toolbar_custom" />
 
         <LinearLayout
-            android:layout_margin="16dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_margin="16dp"
             android:orientation="vertical">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/ivAvatar"
-                android:layout_width="138dp"
-                android:layout_height="138dp"
-                android:layout_gravity="center"
-                android:src="@drawable/none_avatar"
-                app:civ_border_color="#FF000000"
-                app:civ_border_width="2dp" />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAvatar"
+                    android:layout_width="138dp"
+                    android:layout_height="138dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:src="@drawable/none_avatar"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp" />
+
+                <ImageView
+                    android:id="@+id/updateAvatar"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="50dp"
+                    android:src="@drawable/ic_baseline_edit_24" />
+
+
+            </RelativeLayout>
+
 
             <EditText
                 android:id="@+id/edUsername"
@@ -34,10 +52,10 @@
                 android:hint="Username" />
 
             <EditText
-                android:id="@+id/edEmail"
+                android:id="@+id/edPhoneNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email" />
+                android:hint="Phone Number" />
 
             <Button
                 android:id="@+id/btnUpdate"
