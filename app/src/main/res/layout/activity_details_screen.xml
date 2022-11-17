@@ -6,10 +6,7 @@
     android:background="#F5F5F8"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar_custom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <include layout="@layout/toolbar_custom" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -42,39 +39,39 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
+                android:orientation="horizontal"
                 android:paddingLeft="32dp"
-                android:paddingRight="32dp"
-                android:orientation="horizontal">
+                android:paddingRight="32dp">
 
                 <ImageView
-                    android:layout_margin="4dp"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
                 <ImageView
-                    android:layout_margin="4dp"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
                 <ImageView
-                    android:layout_margin="4dp"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="4dp"
 
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
                 <ImageView
-                    android:layout_margin="4dp"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
+                    android:layout_margin="4dp"
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
@@ -209,9 +206,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:textSize="16sp"
+                android:text="A device that uses either a system of wires along which electrical signals are sent or a system of radio signals to make it possible for you to speak to someone in another place who has a similar device"
                 android:textColor="#000"
-                android:text="A device that uses either a system of wires along which electrical signals are sent or a system of radio signals to make it possible for you to speak to someone in another place who has a similar device" />
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/textView6"

@@ -52,17 +52,22 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/ivAvatarHome"
+                    android:layout_width="46dp"
+                    android:layout_height="46dp"
+                    android:layout_gravity="center"
                     android:layout_marginStart="5dp"
+                    android:src="@drawable/none_avatar"
+                    app:civ_border_color="#FF000000"
+                    app:civ_border_width="2dp"
                     app:layout_constraintEnd_toStartOf="@+id/textView"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView"
-                    app:srcCompat="@drawable/avatar" />
+                    app:layout_constraintTop_toTopOf="@+id/textView" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -71,21 +76,22 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
                         android:text="Welcome Back!"
                         android:textColor="#9F9696"
                         android:textSize="11dp"
                         android:textStyle="bold" />
 
                     <TextView
-                        android:id="@+id/textView2"
+                        android:id="@+id/tvNameHome"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:paddingStart="10dp"
                         android:text="Wade Warren"
                         android:textColor="#555353"
-                        android:textSize="19dp"
+                        android:textSize="24dp"
                         android:textStyle="bold" />
                 </LinearLayout>
 
