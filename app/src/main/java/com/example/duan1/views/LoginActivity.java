@@ -86,10 +86,17 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            startMainActivityMethod(user.getUid());
+        } else {
+            mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
+            mGoogleSignInClient.revokeAccess();
+        }
         // ==>
 
         // <== Build a GoogleSignInClient with the options specified by gso
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        mGoogleSignInClient = GoogleSignIn.getClient(LoginActivity.this, gso);
         // ==>
     }
 

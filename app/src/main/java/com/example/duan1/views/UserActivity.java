@@ -1,9 +1,13 @@
 package com.example.duan1.views;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,6 +23,7 @@ public class UserActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TextView userName, userEmail;
     private ImageView userAvatar;
+    private Button btnLogout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +35,20 @@ public class UserActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("User");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickLogout();
+            }
+        });
+    }
+
+    private void onClickLogout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(UserActivity.this, LoginActivity.class);
+        Toast.makeText(this, "You are log out !", Toast.LENGTH_SHORT).show();
+        startActivity(intent);
+        finish();
     }
 
     private void getUserInformation() {
@@ -52,9 +71,10 @@ public class UserActivity extends AppCompatActivity {
     }
 
     private void unitUi() {
-        toolbar = findViewById(R.id.toolbar);
-        userName = findViewById(R.id.userName);
-        userEmail = findViewById(R.id.userEmail);
-        userAvatar = findViewById(R.id.userAvatar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        userName = (TextView) findViewById(R.id.userName);
+        userEmail = (TextView) findViewById(R.id.userEmail);
+        userAvatar = (ImageView) findViewById(R.id.userAvatar);
+        btnLogout = (Button) findViewById(R.id.btnLogout);
     }
 }
