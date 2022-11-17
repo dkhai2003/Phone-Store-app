@@ -30,16 +30,18 @@ public class HelloActivity extends AppCompatActivity {
 
     private void getStart() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            Intent intent = new Intent(HelloActivity.this, LoginActivity.class);
-            startActivity(intent);
-            finish();
-        } else {
-            Intent intent = new Intent(HelloActivity.this, HomeScreenActivity.class);
-            startActivity(intent);
-            finish();
-        }
-
+//        if (user == null) {
+//            Intent intent = new Intent(HelloActivity.this, LoginActivity.class);
+//            startActivity(intent);
+//            finish();
+//        } else {
+//            Intent intent = new Intent(HelloActivity.this, HomeScreenActivity.class);
+//            startActivity(intent);
+//            finish();
+//        }
+        Intent intent = new Intent(HelloActivity.this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     private void unitUi() {

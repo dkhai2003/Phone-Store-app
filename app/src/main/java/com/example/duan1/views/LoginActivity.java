@@ -203,8 +203,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // <== Start intent to LoginActivity.class
     private void startMainActivityMethod(String userId) {
-        Intent i = new Intent(LoginActivity.this, HomeScreenActivity.class);
-        i.putExtra("userId", userId);
+        Intent i = new Intent(LoginActivity.this, UserActivity.class);
         startActivity(i);
         finish();
     }    // ==>
