@@ -51,9 +51,7 @@
             android:layout_gravity="center"
             android:text="Update My Frofile" />
 
-
     </LinearLayout>
-
     <ImageButton
         android:id="@+id/ibBack"
         android:layout_width="32dp"

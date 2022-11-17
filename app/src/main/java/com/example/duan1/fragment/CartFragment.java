@@ -9,18 +9,20 @@ import androidx.fragment.app.Fragment;
 
 import com.example.duan1.R;
 
-public class FavoritesFragment extends Fragment {
-    public static FavoritesFragment newInstance() {
+
+public class CartFragment extends Fragment {
+    public static CartFragment newInstance() {
         
         Bundle args = new Bundle();
         
-        FavoritesFragment fragment = new FavoritesFragment();
+        CartFragment fragment = new CartFragment();
         fragment.setArguments(args);
         return fragment;
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_favorites, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 }

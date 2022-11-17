@@ -1,77 +1,95 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.fragment.app.FragmentStatePagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import com.example.duan1.R;
-import com.example.duan1.adapter.CategoryProductAdapter;
-import com.example.duan1.adapter.ProductAdapterRCV;
-import com.example.duan1.fragment.UserFragment;
-import com.example.duan1.model.CategoryProduct;
-import com.example.duan1.model.Product;
-
-import java.util.ArrayList;
+import com.example.duan1.adapter.ViewPagerAdapter;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class HomeScreenActivity extends AppCompatActivity {
-    private RecyclerView.Adapter adapter;
-    private RecyclerView rcvCategoryProduct, rvcMainProduct;
-    private Button btnUser;
+    private BottomNavigationView mbnv;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
-        btnUser = findViewById(R.id.btnUser);
-
-        btnUser.setOnClickListener(new View.OnClickListener() {
+        mbnv = findViewById(R.id.bnv);
+        mViewPager = findViewById(R.id.viewPager);
+        setUpViewPager();
+        mbnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.frameMain, UserFragment.newInstance()).commit();
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.item_home: {
+                        mViewPager.setCurrentItem(0);
+                        break;
+                    }
+                    case R.id.item_favorite: {
+                        mViewPager.setCurrentItem(1);
+                        break;
+                    }
+                    case R.id.item_cart: {
+                        mViewPager.setCurrentItem(2);
+                        break;
+                    }
+                    case R.id.item_user: {
+                        mViewPager.setCurrentItem(3);
+                        break;
+                    }
+                    default:
+                        mViewPager.setCurrentItem(0);
+                        break;
+                }
+                return true;
             }
         });
-        recyclerViewCategory();
-        recyclerViewItemAll1();
     }
 
+    private void setUpViewPager() {
+        ViewPagerAdapter adaper = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+        mViewPager.setAdapter(adaper);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-    private void recyclerViewCategory() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        rcvCategoryProduct = findViewById(R.id.rcvCategoryProduct);
-        rcvCategoryProduct.setLayoutManager(linearLayoutManager);
-        ArrayList<CategoryProduct> category = new ArrayList<>();
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All"));
-        category.add(new CategoryProduct(R.drawable.category_icons_phone, "Phone"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 3"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 4"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 5"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 6"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 7"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 8"));
-        adapter = new CategoryProductAdapter(category);
-        rcvCategoryProduct.setAdapter(adapter);
+            }
 
-    }
+            @Override
+            public void onPageSelected(int position) {
+                switch (position) {
+                    case 0: {
+                        mbnv.getMenu().findItem(R.id.item_home).setChecked(true);
+                        break;
+                    }
+                    case 1: {
+                        mbnv.getMenu().findItem(R.id.item_favorite).setChecked(true);
+                        break;
+                    }
+                    case 2: {
+                        mbnv.getMenu().findItem(R.id.item_cart).setChecked(true);
+                        break;
+                    }
+                    case 3: {
+                        mbnv.getMenu().findItem(R.id.item_user).setChecked(true);
+                        break;
+                    }
+                    default:
+                        mbnv.getMenu().findItem(R.id.item_home).setChecked(true);
+                        break;
+                }
+            }
 
-    private void recyclerViewItemAll1() {
+            @Override
+            public void onPageScrollStateChanged(int state) {
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
-        rvcMainProduct = findViewById(R.id.rvcMainProduct);
-        rvcMainProduct.setLayoutManager(gridLayoutManager);
-        ArrayList<Product> itemAlls = new ArrayList<>();
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        adapter = new ProductAdapterRCV(itemAlls);
-        rvcMainProduct.setAdapter(adapter);
+            }
+        });
     }
 }
