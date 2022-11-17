@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+
     tools:context=".fragment.HomeFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -20,39 +21,15 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_height="35dp"
-                    android:layout_marginStart="18dp"
-                    android:layout_marginTop="18dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="18dp"
-                    android:layout_weight="15"
-                    android:background="@drawable/search_background"
-                    android:drawableStart="@drawable/search"
-                    android:drawablePadding="10dp"
-                    android:ems="10"
-                    android:hint="Search here..."
-                    android:inputType="textPersonName"
-                    android:paddingStart="10dp" />
-
-                <ImageView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
-            </LinearLayout>
 
             <LinearLayout
+                android:layout_marginBottom="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+
                 android:orientation="horizontal">
 
 
@@ -102,18 +79,51 @@
                     android:layout_marginEnd="5dp"
                     app:srcCompat="@drawable/ic_menu" />
             </LinearLayout>
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="18dp"
+
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="18dp"
+                    android:layout_weight="15"
+                    android:background="@drawable/search_background"
+                    android:drawableStart="@drawable/search"
+                    android:drawablePadding="10dp"
+                    android:ems="10"
+                    android:hint="Search here..."
+                    android:inputType="textPersonName"
+                    android:paddingStart="10dp" />
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
+            </LinearLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="8dp"
             android:id="@+id/rcvCategoryProduct"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             app:layout_constraintBottom_toTopOf="@+id/rvcMainProduct"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ln" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:background="#E9EAEC"
             android:id="@+id/rvcMainProduct"
             android:layout_width="match_parent"
             android:layout_height="0dp"
