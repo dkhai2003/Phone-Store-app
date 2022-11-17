@@ -47,10 +47,7 @@ public class FrofileFragment extends Fragment {
         ibBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getActivity().onBackPressed();
-                Intent intent = new Intent(getContext(), UserActivity.class);
-                startActivity(intent);
-
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, UserFragment.newInstance()).commit();
             }
         });
     }
