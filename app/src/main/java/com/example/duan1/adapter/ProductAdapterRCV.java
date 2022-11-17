@@ -32,9 +32,9 @@ public class ProductAdapterRCV extends RecyclerView.Adapter<ProductAdapterRCV.Vi
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Product itemAll = listItemAll.get(position);
-        holder.imgAllItems.setImageResource(itemAll.getImgAllItem());
-        holder.nameAllItems.setText(itemAll.getNameItems());
-        holder.priceAllItems.setText(itemAll.getPriceItems());
+//        holder.imgAllItems.setImageResource(itemAll.getImgAllItem());
+//        holder.nameAllItems.setText(itemAll.getNameItems());
+//        holder.priceAllItems.setText(itemAll.getPriceItems());
     }
 
     @Override

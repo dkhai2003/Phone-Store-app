@@ -16,13 +16,13 @@
         android:padding="10dp">
 
         <ImageView
-            android:id="@+id/imgCategoryProduct"
+            android:id="@+id/imgLoaiHinh"
             android:layout_width="50dp"
             android:layout_height="50dp"
             app:srcCompat="@drawable/category_icons_all" />
 
         <TextView
-            android:id="@+id/nameCategoryProduct"
+            android:id="@+id/tvTenLoai"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"

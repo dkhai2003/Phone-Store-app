@@ -16,22 +16,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.adapter.CategoryProductAdapter;
-import com.example.duan1.adapter.ProductAdapterRCV;
-import com.example.duan1.model.CategoryProduct;
+import com.example.duan1.adapter.ProductAdapter;
+import com.example.duan1.adapter.Product_TypeAdapter;
 import com.example.duan1.model.Product;
+import com.example.duan1.model.Product_Type;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import java.util.ArrayList;
+import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeFragment extends Fragment {
     private View mView;
     private RecyclerView.Adapter adapter;
-    private RecyclerView rcvCategoryProduct, rvcMainProduct;
+    private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
     private TextView tvNameHome;
     private ImageView ivAvatarHome;
+    ProductAdapter productAdapter;
+    Product_TypeAdapter product_typeAdapter;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -67,42 +69,52 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerViewCategory();
-        recyclerViewItemAll1();
+        getRecyclerViewListProduct();
+        getRecyclerViewListProduct_type();
     }
 
-    private void recyclerViewCategory() {
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
-        rcvCategoryProduct = mView.findViewById(R.id.rcvCategoryProduct);
-        rcvCategoryProduct.setLayoutManager(linearLayoutManager);
-        ArrayList<CategoryProduct> category = new ArrayList<>();
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All"));
-        category.add(new CategoryProduct(R.drawable.category_icons_phone, "Phone"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 3"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 4"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 5"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 6"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 7"));
-        category.add(new CategoryProduct(R.drawable.category_icons_all, "All 8"));
-        adapter = new CategoryProductAdapter(category);
-        rcvCategoryProduct.setAdapter(adapter);
+    private void getRecyclerViewListProduct() {
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        recyclerViewListProduct.setLayoutManager(gridLayoutManager);
+
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham"), Product.class)
+                        .build();
+
+
+        productAdapter = new ProductAdapter(options);
+        recyclerViewListProduct.setAdapter(productAdapter);
 
     }
 
-    private void recyclerViewItemAll1() {
+    private void getRecyclerViewListProduct_type() {
+        recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
+        FirebaseRecyclerOptions<Product_Type> options =
+                new FirebaseRecyclerOptions.Builder<Product_Type>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham"), Product_Type.class)
+                        .build();
 
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
-        rvcMainProduct = mView.findViewById(R.id.rvcMainProduct);
-        rvcMainProduct.setLayoutManager(gridLayoutManager);
-        ArrayList<Product> itemAlls = new ArrayList<>();
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        itemAlls.add(new Product(R.drawable.item_simple_images, "Iphone 16", "200$"));
-        adapter = new ProductAdapterRCV(itemAlls);
-        rvcMainProduct.setAdapter(adapter);
+
+        product_typeAdapter = new Product_TypeAdapter(options);
+        recyclerViewListProduct_type.setAdapter(product_typeAdapter);
+
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        productAdapter.startListening();
+        product_typeAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        productAdapter.stopListening();
+        product_typeAdapter.stopListening();
     }
 }
