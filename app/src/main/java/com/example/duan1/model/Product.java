@@ -1,11 +1,11 @@
 package com.example.duan1.model;
 
-public class SanPham {
+public class Product {
     private int imgAllItem;
     private String nameItems;
     private String priceItems;
 
-    public SanPham(int imgAllItem, String nameItems, String priceItems) {
+    public Product(int imgAllItem, String nameItems, String priceItems) {
         this.imgAllItem = imgAllItem;
         this.nameItems = nameItems;
         this.priceItems = priceItems;

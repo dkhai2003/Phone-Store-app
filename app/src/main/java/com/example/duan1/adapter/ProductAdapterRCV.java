@@ -10,28 +10,28 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
-import com.example.duan1.model.SanPham;
+import com.example.duan1.model.Product;
 
 import java.util.ArrayList;
 
-public class SanPhamAdapter extends RecyclerView.Adapter<SanPhamAdapter.ViewHolder>{
-    ArrayList<SanPham> listItemAll;
+public class ProductAdapterRCV extends RecyclerView.Adapter<ProductAdapterRCV.ViewHolder>{
+    ArrayList<Product> listItemAll;
 
-    public SanPhamAdapter(ArrayList<SanPham> listItemAll) {
+    public ProductAdapterRCV(ArrayList<Product> listItemAll) {
         this.listItemAll = listItemAll;
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_all2  , parent,false);
+        View inflate = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_custom, parent,false);
 
         return new ViewHolder(inflate);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        SanPham itemAll = listItemAll.get(position);
+        Product itemAll = listItemAll.get(position);
         holder.imgAllItems.setImageResource(itemAll.getImgAllItem());
         holder.nameAllItems.setText(itemAll.getNameItems());
         holder.priceAllItems.setText(itemAll.getPriceItems());
