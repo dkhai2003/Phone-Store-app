@@ -1,37 +1,57 @@
 package com.example.duan1.model;
 
 public class Product {
-    private int imgAllItem;
-    private String nameItems;
-    private String priceItems;
+    private String motTa, tenSanPham, image;
+    private int gia, soLuong;
 
-    public Product(int imgAllItem, String nameItems, String priceItems) {
-        this.imgAllItem = imgAllItem;
-        this.nameItems = nameItems;
-        this.priceItems = priceItems;
+    public Product(String motTa, String tenSanPham, String image, int gia, int soLuong) {
+        this.motTa = motTa;
+        this.tenSanPham = tenSanPham;
+        this.image = image;
+        this.gia = gia;
+        this.soLuong = soLuong;
     }
 
-    public int getImgAllItem() {
-        return imgAllItem;
+    public Product() {
     }
 
-    public void setImgAllItem(int imgAllItem) {
-        this.imgAllItem = imgAllItem;
+    public String getMotTa() {
+        return motTa;
     }
 
-    public String getNameItems() {
-        return nameItems;
+    public void setMotTa(String motTa) {
+        this.motTa = motTa;
     }
 
-    public void setNameItems(String nameItems) {
-        this.nameItems = nameItems;
+    public String getTenSanPham() {
+        return tenSanPham;
     }
 
-    public String getPriceItems() {
-        return priceItems;
+    public void setTenSanPham(String tenSanPham) {
+        this.tenSanPham = tenSanPham;
     }
 
-    public void setPriceItems(String priceItems) {
-        this.priceItems = priceItems;
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public int getGia() {
+        return gia;
+    }
+
+    public void setGia(int gia) {
+        this.gia = gia;
+    }
+
+    public int getSoLuong() {
+        return soLuong;
+    }
+
+    public void setSoLuong(int soLuong) {
+        this.soLuong = soLuong;
     }
 }
