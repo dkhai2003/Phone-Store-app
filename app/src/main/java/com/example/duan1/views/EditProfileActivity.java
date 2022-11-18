@@ -31,22 +31,25 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.fragment.UserFragment;
+import com.example.duan1.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 
 public class EditProfileActivity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 10;
     private Toolbar toolbar;
-    private EditText edUsername, edPhoneNumber, edSex, edAddress, edJob, edAge;
+    private EditText edUsername, edEmail, edPhoneNumber, edSex, edAddress, edJob, edAge;
     private ImageView ivAvatar, updateAvatar;
     private Button btnUpdate, btnVeri;
     private Uri uriImage;
@@ -89,7 +92,7 @@ public class EditProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_profile);
         unitUi();
         unitListener();
-        setUserInformation();
+        getInformationUserFromFirebase();
         checkVerifiedEmail();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -189,6 +192,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private void unitUi() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         edUsername = (EditText) findViewById(R.id.edUsername);
+        edEmail = (EditText) findViewById(R.id.edEmail);
         edPhoneNumber = (EditText) findViewById(R.id.edPhoneNumber);
         ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
         updateAvatar = (ImageView) findViewById(R.id.updateAvatar);
@@ -201,14 +205,52 @@ public class EditProfileActivity extends AppCompatActivity {
         edAge = (EditText) findViewById(R.id.edAge);
     }
 
-    private void setUserInformation() {
+    private void getInformationUserFromFirebase() {
+        progressDialog = new ProgressDialog(EditProfileActivity.this);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.show();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String userDisplayName = user.getDisplayName();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/");
+        Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(ivAvatar);
         if (user == null) {
             return;
         } else {
-            edUsername.setText(user.getDisplayName());
-            edPhoneNumber.setText(user.getEmail());
-            Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(ivAvatar);
+            myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    User CurrentUser = snapshot.getValue(User.class);
+                    if (CurrentUser.getUserName() == null) {
+                        edUsername.setText(userDisplayName);
+                    } else {
+                        edUsername.setText(CurrentUser.getUserName());
+                    }
+                    if (CurrentUser.getEmail() == null) {
+                        edEmail.setText(userEmail);
+                    } else {
+                        edEmail.setText(CurrentUser.getEmail());
+                    }
+                    edPhoneNumber.setText(CurrentUser.getPhoneNumber());
+                    edSex.setText(CurrentUser.getSex());
+                    edAge.setText(CurrentUser.getAge());
+                    edAddress.setText(CurrentUser.getAddress());
+                    edJob.setText(CurrentUser.getJob());
+                    checkVerifiedEmail();
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("TAG", "getInformationUserFromFirebase:error");
+                    progressDialog.dismiss();
+                }
+            });
+
         }
     }
 
@@ -217,25 +259,23 @@ public class EditProfileActivity extends AppCompatActivity {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
-        DatabaseReference myRef = database.getReference("duan/User/User" + subEmail[0]);
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/");
         progressDialog.show();
         if (user == null) {
             return;
         } else {
             if (uriImage == null) {
                 String updateName = edUsername.getText().toString().trim();
-                String updatePhoneNumber = edPhoneNumber.getText().toString().trim();
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(updateName)
                         .build();
-
                 user.updateProfile(profileUpdates)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isComplete()) {
                                     UserFragment a = new UserFragment();
-                                    a.reload(2);
                                     Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 } else {
@@ -256,35 +296,41 @@ public class EditProfileActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isComplete()) {
                                     UserFragment a = new UserFragment();
-                                    a.reload(2);
                                     Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
             }
+            String updateEmail = edEmail.getText().toString().trim();
+            String updateName = edUsername.getText().toString().trim();
             String updatePhoneNumber = edPhoneNumber.getText().toString().trim();
             String updateAddress = edAddress.getText().toString().trim();
             String updateJob = edJob.getText().toString().trim();
             String updateSex = edSex.getText().toString().trim();
             String updateAge = edAge.getText().toString().trim();
-            myRef.child("Age")
-                    .setValue(updateAge, new DatabaseReference.CompletionListener() {
+            Boolean verifyEmail = checkVerifiedEmail();
+            checkVerifiedEmail();
+            User updateUser = new User(updateEmail, updateName, updatePhoneNumber, updateAddress, updateSex, updateJob, updateAge, verifyEmail);
+            myRef.child(pathUserId)
+                    .setValue(updateUser, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
                         }
                     });
-            checkVerifiedEmail();
+
             progressDialog.dismiss();
         }
     }
 
-    private void checkVerifiedEmail() {
+    private Boolean checkVerifiedEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user.isEmailVerified()) {
             tvStatus.setText("Status: Yes");
+            return true;
         } else {
             tvStatus.setText("Status: No");
+            return false;
         }
     }
 
@@ -297,4 +343,5 @@ public class EditProfileActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

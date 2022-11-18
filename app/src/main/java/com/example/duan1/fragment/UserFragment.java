@@ -19,16 +19,21 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.model.Test;
+import com.example.duan1.model.User;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
-public class UserFragment extends Fragment implements Test {
+public class UserFragment extends Fragment {
     private Toolbar toolbar;
-    private TextView userName, userEmail;
+    private TextView userName, userEmail, userAddress, userPhoneNumber;
     private ImageView userAvatar;
     private Button btnLogout;
     private Button btnEditProfile;
@@ -92,10 +97,44 @@ public class UserFragment extends Fragment implements Test {
         progressDialog.show();
         if (user != null) {
             // Name, email address, and profile photo Url
-            userName.setText(user.getDisplayName());
-            userEmail.setText(user.getEmail());
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(userAvatar);
             // Check if user's email is verified
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String uEmail = user.getEmail();
+            String userDisplayName = user.getDisplayName();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/");
+            if (user == null) {
+                return;
+            } else {
+                myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User CurrentUser = snapshot.getValue(User.class);
+                        if (CurrentUser.getUserName() == null) {
+                            userName.setText(userDisplayName);
+                        } else {
+                            userName.setText(CurrentUser.getUserName());
+                        }
+                        if (CurrentUser.getEmail() == null) {
+                            userEmail.setText(uEmail);
+                        } else {
+                            userEmail.setText(CurrentUser.getEmail());
+                        }
+                        userAddress.setText(CurrentUser.getAddress());
+                        userPhoneNumber.setText(CurrentUser.getPhoneNumber());
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("TAG", "getInformationUserFromFirebase:error");
+                        progressDialog.dismiss();
+                    }
+                });
+
+            }
             boolean emailVerified = user.isEmailVerified();
             // The user's ID, unique to the Firebase project. Do NOT use this value to
             // authenticate with your backend server, if you have one. Use
@@ -115,14 +154,10 @@ public class UserFragment extends Fragment implements Test {
         btnLogout = (Button) mView.findViewById(R.id.btnLogout);
         btnEditProfile = (Button) mView.findViewById(R.id.btnEditProfile);
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
+        userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
+        userAddress = (TextView) mView.findViewById(R.id.tvAddress);
+
     }
 
-    @Override
-    public void reload(int a) {
-        if (a == 2) {
-            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-            user.reload();
-            Log.d("Check Inteface", a + "");
-        }
-    }
+
 }

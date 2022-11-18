@@ -1,64 +1,99 @@
 package com.example.duan1.model;
 
-import com.google.firebase.database.Exclude;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class User {
-    private String maUser;
-    private String matKhau;
-    private String tenDangNhap;
+    private String userName;
+    private String phoneNumber;
+    private String address;
+    private String sex;
+    private String email;
+    private String job;
+    private String age;
+    private Boolean verifyEmail;
+    private String userId;
 
-    public User(String maUser, String matKhau, String tenDangNhap) {
-        this.maUser = maUser;
-        this.matKhau = matKhau;
-        this.tenDangNhap = tenDangNhap;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public User() {
     }
 
-    public String getMaUser() {
-        return maUser;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setMaUser(String maUser) {
-        this.maUser = maUser;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getMatKhau() {
-        return matKhau;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getTenDangNhap() {
-        return tenDangNhap;
+    public String getAddress() {
+        return address;
     }
 
-    public void setTenDangNhap(String tenDangNhap) {
-        this.tenDangNhap = tenDangNhap;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    @Exclude
-    public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("maUser", maUser);
-        result.put("matKhau", matKhau);
-        result.put("tenDangNhap", tenDangNhap);
-
-        return result;
+    public String getSex() {
+        return sex;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "maUser='" + maUser + '\'' +
-                ", matKhau='" + matKhau + '\'' +
-                ", tenDangNhap='" + tenDangNhap + '\'' +
-                '}';
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    public String getJob() {
+        return job;
+    }
+
+    public void setJob(String job) {
+        this.job = job;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public Boolean getVerifyEmail() {
+        return verifyEmail;
+    }
+
+    public void setVerifyEmail(Boolean verifyEmail) {
+        this.verifyEmail = verifyEmail;
+    }
+
+    public User(String email, String userName, String phoneNumber, String address, String sex, String job, String age, Boolean verifyEmail) {
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.sex = sex;
+        this.job = job;
+        this.age = age;
+        this.verifyEmail = verifyEmail;
+        this.email = email;
     }
 }
