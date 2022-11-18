@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
-import com.example.duan1.fragment.UserFragment;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,6 +29,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -127,6 +128,16 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d("TAG", "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            String userEmail = user.getEmail();
+                            String[] subEmail = userEmail.split("@");
+                            DatabaseReference myRef = database.getReference("duan/User");
+                            myRef.child("User" + subEmail[0]).child("UserId")
+                                    .setValue(mAuth.getUid(), new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                            Log.d("SaveUidToRealtime", "saveIdU");
+                                        }
+                                    });
                             Log.d("User Google", user.getEmail());
                             progressDialogLoginGoogle.dismiss();
                             startMainActivityMethod(user.getUid());

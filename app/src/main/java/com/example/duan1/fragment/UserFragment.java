@@ -1,7 +1,9 @@
 package com.example.duan1.fragment;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,13 +19,14 @@ import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
+import com.example.duan1.model.Test;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class UserFragment extends Fragment {
+public class UserFragment extends Fragment implements Test {
     private Toolbar toolbar;
     private TextView userName, userEmail;
     private ImageView userAvatar;
@@ -31,6 +34,7 @@ public class UserFragment extends Fragment {
     private Button btnEditProfile;
     private FrameLayout frameUser;
     private View mView;
+    private ProgressDialog progressDialog;
 
     public static UserFragment newInstance() {
         Bundle args = new Bundle();
@@ -50,6 +54,9 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
         unitUi();
         getUserInformation();
 
@@ -82,6 +89,7 @@ public class UserFragment extends Fragment {
 
     public void getUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        progressDialog.show();
         if (user != null) {
             // Name, email address, and profile photo Url
             userName.setText(user.getDisplayName());
@@ -93,6 +101,9 @@ public class UserFragment extends Fragment {
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
+            progressDialog.dismiss();
+        } else {
+            progressDialog.dismiss();
         }
     }
 
@@ -104,5 +115,14 @@ public class UserFragment extends Fragment {
         btnLogout = (Button) mView.findViewById(R.id.btnLogout);
         btnEditProfile = (Button) mView.findViewById(R.id.btnEditProfile);
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
+    }
+
+    @Override
+    public void reload(int a) {
+        if (a == 2) {
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            user.reload();
+            Log.d("Check Inteface", a + "");
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.duan1.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,11 +35,13 @@ public class HomeFragment extends Fragment {
     private ImageView ivAvatarHome;
     ProductAdapter productAdapter;
     Product_TypeAdapter product_typeAdapter;
+    private ProgressDialog progressDialog;
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -47,7 +50,6 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
-        setUserInformation();
         return mView;
     }
 
@@ -58,9 +60,11 @@ public class HomeFragment extends Fragment {
 
     public void setUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        progressDialog.show();
         if (user == null) {
             return;
         } else {
+            progressDialog.dismiss();
             tvNameHome.setText(user.getDisplayName());
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(ivAvatarHome);
         }
@@ -69,13 +73,17 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getRecyclerViewListProduct();
-        getRecyclerViewListProduct_type();
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+//        getRecyclerViewListProduct();
+//        getRecyclerViewListProduct_type();
+        setUserInformation();
     }
 
     private void getRecyclerViewListProduct() {
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
-        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
 
         FirebaseRecyclerOptions<Product> options =
@@ -91,7 +99,7 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct_type() {
         recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
         FirebaseRecyclerOptions<Product_Type> options =
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
@@ -104,17 +112,17 @@ public class HomeFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        productAdapter.startListening();
-        product_typeAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        productAdapter.stopListening();
-        product_typeAdapter.stopListening();
-    }
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        productAdapter.startListening();
+//        product_typeAdapter.startListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        productAdapter.stopListening();
+//        product_typeAdapter.stopListening();
+//    }
 }
