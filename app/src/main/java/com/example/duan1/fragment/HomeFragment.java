@@ -4,7 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -27,6 +29,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeFragment extends Fragment {
+    private SearchView edSearch;
+
     private View mView;
     private RecyclerView.Adapter adapter;
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
@@ -48,12 +52,29 @@ public class HomeFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
         setUserInformation();
+
+        edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
         return mView;
     }
+
+
 
     private void unitUi() {
         ivAvatarHome = (ImageView) mView.findViewById(R.id.ivAvatarHome);
         tvNameHome = (TextView) mView.findViewById(R.id.tvNameHome);
+        edSearch = mView.findViewById(R.id.edSreach);
+
     }
 
     private void setUserInformation() {
@@ -102,6 +123,7 @@ public class HomeFragment extends Fragment {
         product_typeAdapter = new Product_TypeAdapter(options);
         recyclerViewListProduct_type.setAdapter(product_typeAdapter);
 
+
     }
 
     @Override
@@ -117,4 +139,8 @@ public class HomeFragment extends Fragment {
         productAdapter.stopListening();
         product_typeAdapter.stopListening();
     }
+
+
+
+
 }
