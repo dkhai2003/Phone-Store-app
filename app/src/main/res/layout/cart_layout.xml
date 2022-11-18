@@ -34,7 +34,7 @@
                     android:layout_marginTop="32dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/ic_baseline_navigate_before_24" />
+                    app:srcCompat="@drawable/search" />
 
                 <TextView
                     android:id="@+id/textView3"

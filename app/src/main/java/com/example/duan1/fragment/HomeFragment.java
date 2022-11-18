@@ -56,11 +56,13 @@ public class HomeFragment extends Fragment {
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                txtSreach(query);
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public boolean onQueryTextChange(String query) {
+                txtSreach(query);
                 return false;
             }
         });
@@ -75,7 +77,19 @@ public class HomeFragment extends Fragment {
         tvNameHome = (TextView) mView.findViewById(R.id.tvNameHome);
         edSearch = mView.findViewById(R.id.edSreach);
 
+
     }
+
+    private void txtSreach(String str){
+            FirebaseRecyclerOptions<Product> options =
+                    new FirebaseRecyclerOptions.Builder<Product>()
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
+                            .build();
+
+            productAdapter = new ProductAdapter(options);
+            productAdapter.startListening();
+            recyclerViewListProduct.setAdapter(productAdapter);
+        }
 
     private void setUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
