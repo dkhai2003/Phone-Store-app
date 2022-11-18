@@ -100,6 +100,7 @@ public class HomeFragment extends Fragment {
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(ivAvatarHome);
         }
     }
+    // asddas
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
