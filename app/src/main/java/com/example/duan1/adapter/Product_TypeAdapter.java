@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -18,15 +19,18 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Product_TypeAdapter.myViewHolder> {
 
+    private IclickListener iclickListener;
 
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public Product_TypeAdapter(@NonNull FirebaseRecyclerOptions<Product_Type> options) {
+
+
+    public interface IclickListener{
+        void onClickGetMaLoai(Product_Type type);
+    }
+
+
+    public Product_TypeAdapter(@NonNull FirebaseRecyclerOptions<Product_Type> options, IclickListener iclickListener) {
         super(options);
+        this.iclickListener = iclickListener;
     }
 
     @Override
@@ -36,6 +40,12 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Pr
         Glide.with(holder.img.getContext())
                 .load(model.getHinhLoai())
                 .into(holder.img);
+        holder.item_layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iclickListener.onClickGetMaLoai(model);
+            }
+        });
     }
 
     @NonNull
@@ -50,14 +60,14 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Pr
     class myViewHolder extends RecyclerView.ViewHolder{
         ImageView img;
         TextView name;
-
+        CardView item_layout;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
 
             img = itemView.findViewById(R.id.imgLoaiHinh);
             name = itemView.findViewById(R.id.tvTenLoai);
-
+            item_layout = itemView.findViewById(R.id.item_layout);
 
         }
     }
