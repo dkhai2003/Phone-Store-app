@@ -83,10 +83,9 @@ public class HomeFragment extends Fragment {
         edSearch = mView.findViewById(R.id.edSreach);
         recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
-
     }
 
-    
+
     private void txtSreach(String str) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
