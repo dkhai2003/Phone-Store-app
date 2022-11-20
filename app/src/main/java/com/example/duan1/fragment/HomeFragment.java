@@ -35,17 +35,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeFragment extends Fragment {
-    private SearchView edSearch;
-
     private View mView;
+    private SearchView edSearch;
     private RecyclerView.Adapter adapter;
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
     private TextView tvNameHome;
     private ImageView ivAvatarHome;
-    ProductAdapter productAdapter;
-    Product_TypeAdapter product_typeAdapter;
+
+    private ProductAdapter productAdapter;
+    private Product_TypeAdapter product_typeAdapter;
+    private String loaiSanPham = "lsp1";
     private ProgressDialog progressDialog;
-    String lsp = "lsp1";
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -65,13 +65,13 @@ public class HomeFragment extends Fragment {
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-//                txtSreach(query);
+                txtSreach(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-//                txtSreach(query);
+                txtSreach(query);
                 return false;
             }
         });
@@ -100,6 +100,20 @@ public class HomeFragment extends Fragment {
 //            recyclerViewListProduct.setAdapter(productAdapter);
 //        }
 //    }
+
+//}
+
+    private void txtSreach(String str) {
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
+                        .build();
+
+        productAdapter = new ProductAdapter(options);
+        productAdapter.startListening();
+        recyclerViewListProduct.setAdapter(productAdapter);
+    }
+
     private void setUserInformation() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please Wait..");
@@ -123,7 +137,7 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-        getRecyclerViewListProduct(lsp);
+        getRecyclerViewListProduct(loaiSanPham);
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -145,13 +159,15 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecyclerViewListProduct_type() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("");
         recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/LoaiSanPham");
         FirebaseRecyclerOptions<Product_Type> options =
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham"), Product_Type.class)
+                        .setQuery(myRef, Product_Type.class)
                         .build();
 
 
@@ -159,26 +175,29 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
 
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                DatabaseReference myRef = database.getReference("duan/LoaiSanPham");
+
                 myRef.child(type.getMaLoai()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
-                            lsp = type.getMaLoai();
+                            loaiSanPham = type.getMaLoai();
+
                         } else {
                             Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
-                            lsp = type.getMaLoai();
-                            getRecyclerViewListProduct(lsp);
+                            loaiSanPham = type.getMaLoai();
+                            getRecyclerViewListProduct(loaiSanPham);
                             productAdapter.notifyDataSetChanged();
                             productAdapter.startListening();
-
                         }
                     }
                 });
+
             }
         });
         recyclerViewListProduct_type.setAdapter(product_typeAdapter);
-
     }
 
     @Override

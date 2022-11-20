@@ -85,11 +85,10 @@
                 android:orientation="horizontal">
 
                 <SearchView
-
-                    android:layout_width="0dp"
+                    android:id="@+id/edSreach"
+                    android:layout_width="wrap_content"
                     android:layout_height="35dp"
                     android:layout_marginStart="18dp"
-                    android:id="@+id/edSreach"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="18dp"
                     android:layout_weight="15"
