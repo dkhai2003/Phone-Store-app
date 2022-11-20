@@ -2,6 +2,7 @@ package com.example.duan1.fragment;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -144,7 +145,13 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct_type() {
         createDialog();
+        Runnable progressRunnable = new Runnable() {
 
+            @Override
+            public void run() {
+                progressDialog.dismiss();
+            }
+        };
         recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
@@ -171,7 +178,8 @@ public class HomeFragment extends Fragment {
                             getRecyclerViewListProduct(loaiSanPham);
                             productAdapter.notifyDataSetChanged();
                             productAdapter.startListening();
-                            progressDialog.dismiss();
+                            Handler pdCanceller = new Handler();
+                            pdCanceller.postDelayed(progressRunnable, 1000);
                         }
                     }
                 });
