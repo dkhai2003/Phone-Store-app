@@ -74,8 +74,14 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
+
+
+
         return mView;
     }
+
+
 
 
     private void unitUi() {
@@ -187,6 +193,7 @@ public class HomeFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please Wait..");
         progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
     }
 
     @Override
@@ -202,4 +209,7 @@ public class HomeFragment extends Fragment {
         productAdapter.stopListening();
         product_typeAdapter.stopListening();
     }
+
+
+
 }

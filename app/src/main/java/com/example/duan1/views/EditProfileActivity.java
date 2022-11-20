@@ -143,7 +143,7 @@ public class EditProfileActivity extends AppCompatActivity {
         btnCancelUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                progressDialog.dismiss();
             }
         });
         btnSaveUpdate.setOnClickListener(new View.OnClickListener() {
