@@ -1,5 +1,8 @@
 package com.example.duan1.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Product_Type {
     private String hinhLoai, tenLoai, maLoai;
     private Product product;
@@ -10,6 +13,11 @@ public class Product_Type {
         this.tenLoai = tenLoai;
         this.maLoai = maLoai;
         this.product = product;
+    }
+    public Map<String, Object> toMap(){
+        HashMap<String, Object> result = new HashMap<>();
+        result.get("maLoai");
+        return result;
     }
 
     public String getMaLoai() {
@@ -46,4 +54,6 @@ public class Product_Type {
     public void setProduct(Product product) {
         this.product = product;
     }
+
+
 }
