@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -61,7 +60,6 @@ public class HomeFragment extends Fragment {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
         setUserInformation();
-
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -115,11 +113,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void setUserInformation() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        createDialog();
         progressDialog.show();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
         } else {
@@ -150,17 +146,14 @@ public class HomeFragment extends Fragment {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham"), Product.class)
                         .build();
 
-
         productAdapter = new ProductAdapter(options);
         recyclerViewListProduct.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
-
-
     }
 
     private void getRecyclerViewListProduct_type() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("");
+        createDialog();
+
         recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
@@ -174,23 +167,20 @@ public class HomeFragment extends Fragment {
         product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
-
-//                FirebaseDatabase database = FirebaseDatabase.getInstance();
-//                DatabaseReference myRef = database.getReference("duan/LoaiSanPham");
-
+                progressDialog.show();
                 myRef.child(type.getMaLoai()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
                             loaiSanPham = type.getMaLoai();
-
+                            progressDialog.dismiss();
                         } else {
-                            Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
                             loaiSanPham = type.getMaLoai();
                             getRecyclerViewListProduct(loaiSanPham);
                             productAdapter.notifyDataSetChanged();
                             productAdapter.startListening();
+                            progressDialog.dismiss();
                         }
                     }
                 });
@@ -198,6 +188,12 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerViewListProduct_type.setAdapter(product_typeAdapter);
+    }
+
+    private void createDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
     }
 
     @Override

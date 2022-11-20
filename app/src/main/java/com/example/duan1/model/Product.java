@@ -2,7 +2,7 @@ package com.example.duan1.model;
 
 public class Product {
     private int giaSP;
-    private String hinhSP,tenSP;
+    private String hinhSP, tenSP;
 
     public Product(int giaSP, String hinhSP, String tenSP) {
         this.giaSP = giaSP;
@@ -30,6 +30,11 @@ public class Product {
     }
 
     public String getTenSP() {
+//        if (tenSP.length() > 5) {
+//            this.tenSP = tenSP.substring(0, 7) + "...";
+//        } else {
+//            this.tenSP = tenSP;
+//        }
         return tenSP;
     }
 
