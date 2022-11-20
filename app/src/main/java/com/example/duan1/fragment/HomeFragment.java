@@ -83,7 +83,8 @@ public class HomeFragment extends Fragment {
         ivAvatarHome = (ImageView) mView.findViewById(R.id.ivAvatarHome);
         tvNameHome = (TextView) mView.findViewById(R.id.tvNameHome);
         edSearch = mView.findViewById(R.id.edSreach);
-
+        recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
+        recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
 
     }
 
@@ -100,6 +101,9 @@ public class HomeFragment extends Fragment {
 //        }
 //    }
     private void setUserInformation() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog.show();
         if (user == null) {
@@ -114,11 +118,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        getRecyclerViewListProduct();
     }
 
     private void getRecyclerViewListProduct() {
-
         getRecyclerViewListProduct_type();
         getRecyclerViewListProduct(lsp);
     }
@@ -144,6 +147,7 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct_type = mView.findViewById(R.id.recyclerViewListProduct_type);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         recyclerViewListProduct_type.setLayoutManager(linearLayoutManager);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/LoaiSanPham");
         FirebaseRecyclerOptions<Product_Type> options =
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham"), Product_Type.class)
@@ -153,18 +157,13 @@ public class HomeFragment extends Fragment {
         product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("duan/LoaiSanPham");
 
                 myRef.child(type.getMaLoai()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DataSnapshot> task) {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
-//                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
                             lsp = type.getMaLoai();
-
-
                         } else {
                             Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
                             lsp = type.getMaLoai();
@@ -177,30 +176,17 @@ public class HomeFragment extends Fragment {
 
     }
 
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        productAdapter.startListening();
-//        product_typeAdapter.startListening();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        productAdapter.stopListening();
-//        product_typeAdapter.stopListening();
-//    }
-//    @Override
-//    public void onStart() {
-//        super.onStart();
-//        productAdapter.startListening();
-//        product_typeAdapter.startListening();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        productAdapter.stopListening();
-//        product_typeAdapter.stopListening();
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        productAdapter.startListening();
+        product_typeAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        productAdapter.stopListening();
+        product_typeAdapter.stopListening();
+    }
 }
