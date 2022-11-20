@@ -137,6 +137,7 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
 
+
     }
 
     private void getRecyclerViewListProduct_type() {
@@ -161,13 +162,17 @@ public class HomeFragment extends Fragment {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
 //                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
-                            lsp = type.getMaLoai();
+
 
 
                         }
                         else {
                             Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
                             lsp = type.getMaLoai();
+                            getRecyclerViewListProduct(lsp);
+                            productAdapter.notifyDataSetChanged();
+                            productAdapter.startListening();
+
                         }
                     }
                 });
