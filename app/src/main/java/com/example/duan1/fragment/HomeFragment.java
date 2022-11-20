@@ -91,6 +91,7 @@ public class HomeFragment extends Fragment {
 
     }
 
+    // ham update sảech
     private void txtSreach(String str,String lsp){
             FirebaseRecyclerOptions<Product> options =
                     new FirebaseRecyclerOptions.Builder<Product>()
@@ -112,6 +113,7 @@ public class HomeFragment extends Fragment {
         }
     }
     // asddas
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
