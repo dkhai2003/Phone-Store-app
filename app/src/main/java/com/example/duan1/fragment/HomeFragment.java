@@ -63,13 +63,13 @@ public class HomeFragment extends Fragment {
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                txtSreach(query);
+                txtSreach(query, loaiSanPham);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                txtSreach(query);
+                txtSreach(query, loaiSanPham);
                 return false;
             }
         });
@@ -85,12 +85,17 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
     }
 
-
-    private void txtSreach(String str) {
+    private void txtSreach(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
                         .build();
+
+//    private void txtSreach(String str) {
+//        FirebaseRecyclerOptions<Product> options =
+//                new FirebaseRecyclerOptions.Builder<Product>()
+//                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
+//                        .build();
 
         productAdapter = new ProductAdapter(options);
         productAdapter.startListening();
@@ -109,6 +114,7 @@ public class HomeFragment extends Fragment {
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(ivAvatarHome);
         }
     }
+
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
