@@ -18,6 +18,7 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.16" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_ct_sp.xml" value="0.1527651858567543" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_details_screen.xml" value="0.2" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_edit_profile.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_favorite.xml" value="0.19495510902094912" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_finished_payment.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.20735356990166737" />
@@ -29,9 +30,11 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user_tt.xml" value="0.20735356990166737" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_change_pass.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/favorites.xml" value="0.20735356990166737" />
-        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_home.xml" value="0.22780797101449277" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_home.xml" value="0.2" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_user.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_all2.xml" value="0.2997007268063275" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_category_product_custom.xml" value="0.75" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_product_custom.xml" value="0.25" />

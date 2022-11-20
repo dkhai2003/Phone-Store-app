@@ -34,7 +34,11 @@ import com.example.duan1.fragment.UserFragment;
 import com.example.duan1.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -51,7 +55,7 @@ public class EditProfileActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private EditText edUsername, edEmail, edPhoneNumber, edSex, edAddress, edJob, edAge;
     private ImageView ivAvatar, updateAvatar;
-    private Button btnUpdate, btnVeri;
+    private Button btnUpdate, btnVeri, btnNewPass;
     private Uri uriImage;
     private TextView tvStatus;
     private ProgressDialog progressDialog;
@@ -111,9 +115,6 @@ public class EditProfileActivity extends AppCompatActivity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                progressDialog = new ProgressDialog(EditProfileActivity.this);
-                progressDialog.setTitle("Please Wait..");
-                progressDialog.setMessage("Connecting to the server ... ");
                 onClickUpdateProfile();
             }
         });
@@ -123,6 +124,93 @@ public class EditProfileActivity extends AppCompatActivity {
                 onClickSendVeri();
             }
         });
+        btnNewPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickUpdatePassword();
+            }
+        });
+    }
+
+    private void onClickUpdatePassword() {
+        View viewDialogUpdate = getLayoutInflater().inflate(R.layout.bottom_sheet_change_pass, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(EditProfileActivity.this);
+        EditText tvOldPass = viewDialogUpdate.findViewById(R.id.tvOldPass);
+        EditText tvNewPass = viewDialogUpdate.findViewById(R.id.tvNewPass);
+        EditText tvReNewPass = viewDialogUpdate.findViewById(R.id.tvReNewPass);
+        Button btnCancelUpdate = viewDialogUpdate.findViewById(R.id.btnCancelUpdate);
+        Button btnSaveUpdate = viewDialogUpdate.findViewById(R.id.btnSaveUpdate);
+        btnCancelUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        btnSaveUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createProgressDialog();
+                progressDialog.show();
+                String oldPassword = tvOldPass.getText().toString();
+                String newPassword = tvNewPass.getText().toString().trim();
+                String reNewPassword = tvReNewPass.getText().toString().trim();
+                if (oldPassword.length() < 6) {
+                    Toast.makeText(EditProfileActivity.this, "Current Password Error !", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+                } else {
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    AuthCredential authCredential = EmailAuthProvider.getCredential(user.getEmail(), oldPassword);
+                    if (checkLength(newPassword)) {
+                        if (newPassword.equals(reNewPassword)) {
+                            user.reauthenticate(authCredential)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void unused) {
+                                            user.updatePassword(newPassword)
+                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            progressDialog.dismiss();
+                                                            Toast.makeText(EditProfileActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
+
+                                                        }
+                                                    });
+                                        }
+                                    }).addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(EditProfileActivity.this, "Update Failed", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        } else {
+                            progressDialog.dismiss();
+                            Toast.makeText(EditProfileActivity.this, "Re-entered password is incorrect", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(EditProfileActivity.this, "Length must be more than 6", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                    }
+                }
+            }
+        });
+        bottomSheetDialog.setContentView(viewDialogUpdate);
+        bottomSheetDialog.show();
+    }
+
+    private Boolean checkLength(String newPassword) {
+        if (newPassword.length() >= 6) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void onClickSendVeri() {
@@ -203,12 +291,11 @@ public class EditProfileActivity extends AppCompatActivity {
         edJob = (EditText) findViewById(R.id.edJob);
         edAddress = (EditText) findViewById(R.id.edAddress);
         edAge = (EditText) findViewById(R.id.edAge);
+        btnNewPass = (Button) findViewById(R.id.btnNewPass);
     }
 
     private void getInformationUserFromFirebase() {
-        progressDialog = new ProgressDialog(EditProfileActivity.this);
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
+        createProgressDialog();
         progressDialog.show();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -261,6 +348,7 @@ public class EditProfileActivity extends AppCompatActivity {
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
         DatabaseReference myRef = database.getReference("duan/User/");
+        createProgressDialog();
         progressDialog.show();
         if (user == null) {
             return;
@@ -344,4 +432,9 @@ public class EditProfileActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void createProgressDialog() {
+        progressDialog = new ProgressDialog(EditProfileActivity.this);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+    }
 }

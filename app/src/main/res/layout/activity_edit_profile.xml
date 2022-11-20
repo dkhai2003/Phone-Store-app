@@ -55,6 +55,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:hint="Email" />
+
                 <EditText
                     android:id="@+id/edUsername"
                     android:layout_width="match_parent"
@@ -124,6 +125,13 @@
 
 
                 </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnNewPass"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Change new Password" />
 
                 <Button
                     android:id="@+id/btnUpdate"
