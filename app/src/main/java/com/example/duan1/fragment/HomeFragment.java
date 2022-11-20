@@ -86,21 +86,7 @@ public class HomeFragment extends Fragment {
 
     }
 
-    //    public void setUserInformation() {
-//    private void txtSreach(String str){
-//            FirebaseRecyclerOptions<Product> options =
-//                    new FirebaseRecyclerOptions.Builder<Product>()
-//                            .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
-//                            .build();
-//
-//            productAdapter = new ProductAdapter(options);
-//            productAdapter.startListening();
-//            recyclerViewListProduct.setAdapter(productAdapter);
-//        }
-//    }
-
-//}
-
+    
     private void txtSreach(String str) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
