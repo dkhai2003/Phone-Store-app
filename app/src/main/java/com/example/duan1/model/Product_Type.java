@@ -1,13 +1,23 @@
 package com.example.duan1.model;
 
 public class Product_Type {
-    private String hinhLoai, tenLoai;
+    private String hinhLoai, tenLoai, maLoai;
     private Product product;
 
-    public Product_Type(String hinhLoai, String tenLoai, Product product) {
+
+    public Product_Type(String hinhLoai, String tenLoai, String maLoai, Product product) {
         this.hinhLoai = hinhLoai;
         this.tenLoai = tenLoai;
+        this.maLoai = maLoai;
         this.product = product;
+    }
+
+    public String getMaLoai() {
+        return maLoai;
+    }
+
+    public void setMaLoai(String maLoai) {
+        this.maLoai = maLoai;
     }
 
     public Product_Type() {

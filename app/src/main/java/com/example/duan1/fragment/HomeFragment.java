@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,10 +26,13 @@ import com.example.duan1.model.Product_Type;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
 public class HomeFragment extends Fragment {
+    private SearchView edSearch;
+
     private View mView;
     private RecyclerView.Adapter adapter;
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
@@ -50,15 +55,47 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
+        setUserInformation();
+
+        edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+//                txtSreach(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String query) {
+//                txtSreach(query);
+                return false;
+            }
+        });
         return mView;
     }
+
+
 
     private void unitUi() {
         ivAvatarHome = (ImageView) mView.findViewById(R.id.ivAvatarHome);
         tvNameHome = (TextView) mView.findViewById(R.id.tvNameHome);
+        edSearch = mView.findViewById(R.id.edSreach);
+
+
     }
 
-    public void setUserInformation() {
+//    public void setUserInformation() {
+//    private void txtSreach(String str){
+//            FirebaseRecyclerOptions<Product> options =
+//                    new FirebaseRecyclerOptions.Builder<Product>()
+//                            .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
+//                            .build();
+//
+//            productAdapter = new ProductAdapter(options);
+//            productAdapter.startListening();
+//            recyclerViewListProduct.setAdapter(productAdapter);
+//        }
+//    }
+    private void setUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         progressDialog.show();
         if (user == null) {
@@ -73,14 +110,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
-//        getRecyclerViewListProduct();
-//        getRecyclerViewListProduct_type();
-        setUserInformation();
-    }
 
+    }
     private void getRecyclerViewListProduct() {
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -107,11 +138,31 @@ public class HomeFragment extends Fragment {
                         .build();
 
 
-        product_typeAdapter = new Product_TypeAdapter(options);
+        product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
+            @Override
+            public void onClickGetMaLoai(Product_Type type) {
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("duan/LoaiSanPham");
+            }
+        });
         recyclerViewListProduct_type.setAdapter(product_typeAdapter);
+
 
     }
 
+//    @Override
+//    public void onStart() {
+//        super.onStart();
+//        productAdapter.startListening();
+//        product_typeAdapter.startListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        productAdapter.stopListening();
+//        product_typeAdapter.stopListening();
+//    }
 //    @Override
 //    public void onStart() {
 //        super.onStart();

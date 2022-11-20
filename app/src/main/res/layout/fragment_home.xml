@@ -84,11 +84,12 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
+                <SearchView
+
                     android:layout_width="0dp"
                     android:layout_height="35dp"
                     android:layout_marginStart="18dp"
-
+                    android:id="@+id/edSreach"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="18dp"
                     android:layout_weight="15"
@@ -96,8 +97,6 @@
                     android:drawableStart="@drawable/search"
                     android:drawablePadding="10dp"
                     android:ems="10"
-                    android:hint="Search here..."
-                    android:inputType="textPersonName"
                     android:paddingStart="10dp" />
 
                 <ImageView
