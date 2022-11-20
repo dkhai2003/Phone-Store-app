@@ -1,6 +1,7 @@
 package com.example.duan1.fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,10 +25,17 @@ import com.example.duan1.adapter.Product_TypeAdapter;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class HomeFragment extends Fragment {
@@ -39,6 +48,7 @@ public class HomeFragment extends Fragment {
     private ImageView ivAvatarHome;
     ProductAdapter productAdapter;
     Product_TypeAdapter product_typeAdapter;
+    String lsp = "lsp1";
 
     public static HomeFragment newInstance() {
         Bundle args = new Bundle();
@@ -106,23 +116,26 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getRecyclerViewListProduct();
+
         getRecyclerViewListProduct_type();
+        getRecyclerViewListProduct(lsp);
     }
 
-    private void getRecyclerViewListProduct() {
+    private void getRecyclerViewListProduct(String lsp) {
+
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(),2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
 
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham"), Product.class)
                         .build();
 
 
         productAdapter = new ProductAdapter(options);
         recyclerViewListProduct.setAdapter(productAdapter);
+        productAdapter.notifyDataSetChanged();
 
     }
 
@@ -141,6 +154,26 @@ public class HomeFragment extends Fragment {
             public void onClickGetMaLoai(Product_Type type) {
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 DatabaseReference myRef = database.getReference("duan/LoaiSanPham");
+
+                myRef.child(type.getMaLoai()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        if (!task.isSuccessful()) {
+                            Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
+//                            Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                            lsp = type.getMaLoai();
+
+
+                        }
+                        else {
+                            Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
+                            lsp = type.getMaLoai();
+                        }
+                    }
+                });
+
+
+
             }
         });
         recyclerViewListProduct_type.setAdapter(product_typeAdapter);
