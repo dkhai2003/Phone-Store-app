@@ -141,6 +141,7 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
 
+
     }
 
     private void getRecyclerViewListProduct_type() {
@@ -167,6 +168,10 @@ public class HomeFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), type.getMaLoai(), Toast.LENGTH_SHORT).show();
                             lsp = type.getMaLoai();
+                            getRecyclerViewListProduct(lsp);
+                            productAdapter.notifyDataSetChanged();
+                            productAdapter.startListening();
+
                         }
                     }
                 });
