@@ -67,13 +67,13 @@ public class HomeFragment extends Fragment {
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                txtSreach(query);
+                txtSreach(query,lsp);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                txtSreach(query);
+                txtSreach(query,lsp);
                 return false;
             }
         });
@@ -91,10 +91,10 @@ public class HomeFragment extends Fragment {
 
     }
 
-    private void txtSreach(String str){
+    private void txtSreach(String str,String lsp){
             FirebaseRecyclerOptions<Product> options =
                     new FirebaseRecyclerOptions.Builder<Product>()
-                            .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child("lsp1").child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
+                            .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
                             .build();
 
             productAdapter = new ProductAdapter(options);
@@ -172,6 +172,7 @@ public class HomeFragment extends Fragment {
                             getRecyclerViewListProduct(lsp);
                             productAdapter.notifyDataSetChanged();
                             productAdapter.startListening();
+
 
                         }
                     }
