@@ -75,6 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:background="@drawable/button_background_red50rd"
             android:text="Cancel" />
 
         <Button
@@ -83,6 +84,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:layout_weight="1"
+            android:background="@drawable/button_background_blue50rd"
             android:text="Save" />
     </LinearLayout>
 </LinearLayout>

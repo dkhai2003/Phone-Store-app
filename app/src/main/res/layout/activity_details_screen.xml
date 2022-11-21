@@ -10,7 +10,8 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -20,8 +21,9 @@
 
             <ImageView
                 android:id="@+id/imgDetail"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="300dp"
+                android:layout_height="300dp"
+                android:layout_gravity="center"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="2dp"
                 android:layout_marginEnd="16dp"
@@ -44,6 +46,7 @@
                 android:paddingRight="32dp">
 
                 <ImageView
+                    android:id="@+id/img1"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
                     android:layout_margin="4dp"
@@ -52,6 +55,7 @@
                     android:src="@drawable/device" />
 
                 <ImageView
+                    android:id="@+id/img2"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
                     android:layout_margin="4dp"
@@ -60,15 +64,16 @@
                     android:src="@drawable/device" />
 
                 <ImageView
+                    android:id="@+id/img3"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
                     android:layout_margin="4dp"
-
                     android:layout_weight="1"
                     android:background="@drawable/background_details_item"
                     android:src="@drawable/device" />
 
                 <ImageView
+                    android:id="@+id/img4"
                     android:layout_width="60dp"
                     android:layout_height="82dp"
                     android:layout_margin="4dp"
@@ -124,16 +129,20 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="10dp"
                     android:src="@drawable/sao0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginLeft="5dp"
-
+                    android:layout_marginLeft="10dp"
                     android:text="Review(96)" />
 
+                <ImageView
+                    android:id="@+id/iv_fav"
+                    android:paddingStart="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/favorite_false"/>
 
             </LinearLayout>
 
@@ -202,6 +211,7 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/tvDescribe"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -211,7 +221,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -224,25 +233,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
-            <TextView
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
 
-                android:layout_width="160dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginEnd="32dp"
-                android:background="@drawable/button_custom"
-                android:drawableStart="@drawable/ic_baseline_shopping_cart_24"
-                android:fontFamily="@font/interbold"
-                android:gravity="center"
-                android:padding="15dp"
-                android:text="Add To Cart"
-                android:layout_marginBottom="32dp"
-                android:textColor="#FFFFFF"
-                android:textSize="15dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView6" />
+                <Button
+                    android:id="@+id/btnAddToCard"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="12dp"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_custom_blue10rd"
+                    android:drawableStart="@drawable/ic_baseline_shopping_cart_24"
+                    android:fontFamily="@font/interbold"
+                    android:gravity="center"
+                    android:padding="15dp"
+                    android:text="Add To Cart"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15dp" />
+
+            </LinearLayout>
         </LinearLayout>
+
+
     </ScrollView>
 
 </LinearLayout>

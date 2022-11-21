@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="32dp"
-        android:background="@drawable/button_custom"
+        android:background="@drawable/button_custom_blue10rd"
         android:fontFamily="@font/montserratbold"
         android:textColor="@color/white"
         android:padding="8dp"

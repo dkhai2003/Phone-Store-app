@@ -1,5 +1,6 @@
 package com.example.duan1.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -14,14 +16,16 @@ import com.example.duan1.R;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
-public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapter.myViewHolder> {
+public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdapter.myViewHolder> {
 
 
-    private IClickProduct iClickProduct;
+    private final IClickProduct iClickProduct;
 
-    public interface IClickProduct{
-        void onClickSetDataInCart(Product product);
+    public interface IClickProduct {
+        void onClickDetailsScreen(Product product);
     }
 
 
@@ -33,36 +37,43 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapt
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
         holder.name.setText(model.getTenSP());
-        holder.price.setText(model.getGiaSP()+"$");
+        holder.price.setText(model.getGiaSP() + "$");
 
 
         Glide.with(holder.img.getContext())
                 .load(model.getHinhSP())
                 .into(holder.img);
 
-        holder.imgAddToCart.setOnClickListener(new View.OnClickListener() {
+        holder.imgDetails.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iClickProduct.onClickSetDataInCart(model);
+                iClickProduct.onClickDetailsScreen(model);
+            }
+        });
+        holder.card_view_product.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                iClickProduct.onClickDetailsScreen(model);
+                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().getParent();
+                Log.d("CheckModel", myRef + "");
             }
         });
     }
 
 
-
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_custom,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_custom, parent, false);
 
 
-        return new ProductAdapter.myViewHolder(view);
+        return new myViewHolder(view);
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder{
-        ImageView img,imgAddToCart;
+    static class myViewHolder extends RecyclerView.ViewHolder {
+        ImageView img, imgDetails;
         TextView name, price;
-
+        CardView card_view_product;
 
 
         public myViewHolder(@NonNull View itemView) {
@@ -71,8 +82,8 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapt
             img = itemView.findViewById(R.id.imgSanPham);
             name = itemView.findViewById(R.id.tvTenSanPham);
             price = itemView.findViewById(R.id.tvGiaSanPham);
-            imgAddToCart = itemView.findViewById(R.id.imgAddToCart);
-
+            imgDetails = itemView.findViewById(R.id.imgDetails);
+            card_view_product = itemView.findViewById(R.id.card_view_product);
         }
     }
 }

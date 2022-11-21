@@ -52,6 +52,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        setUpViewPager();
+    }
+
     private void setUpViewPager() {
         ViewPagerAdapter adaper = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         mViewPager.setAdapter(adaper);

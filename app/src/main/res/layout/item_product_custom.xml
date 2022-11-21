@@ -68,7 +68,7 @@
             </LinearLayout>
             <ImageView
                 android:layout_gravity="center"
-                android:id="@+id/imgAddToCart"
+                android:id="@+id/imgDetails"
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_marginEnd="6dp"

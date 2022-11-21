@@ -1,6 +1,5 @@
 package com.example.duan1.fragment;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,13 +8,10 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,7 +33,6 @@ import com.example.duan1.views.DetailsScreenActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -57,8 +52,6 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
     private ViewPager2 mViewPager2;
     private CircleIndicator3 mCircleIndicator3;
-    private TextView tvNameHome;
-    private ImageView ivAvatarHome;
     private ImageView btnSortListProduct;
 
     private ProductAdapter productAdapter;
@@ -103,8 +96,6 @@ public class HomeFragment extends Fragment {
                 showdialog();
             }
         });
-
-
 
 
         return mView;
@@ -155,7 +146,8 @@ public class HomeFragment extends Fragment {
             }
         }
     };
-    private void showdialog(){
+
+    private void showdialog() {
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
         b.setTitle("Sort by");
         String[] types = {"Price low to high", "Price high to low"};
@@ -165,7 +157,7 @@ public class HomeFragment extends Fragment {
             public void onClick(DialogInterface dialog, int which) {
 
                 dialog.dismiss();
-                switch(which){
+                switch (which) {
                     case 0:
                         sortLowToHigh(loaiSanPham);
                         productAdapter.startListening();
@@ -181,6 +173,7 @@ public class HomeFragment extends Fragment {
 
         b.show();
     }
+
     private void unitUi() {
         edSearch = mView.findViewById(R.id.edSreach);
         recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
@@ -198,7 +191,7 @@ public class HomeFragment extends Fragment {
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
             @Override
-            public void onClickSetDataInCart(Product product) {
+            public void onClickDetailsScreen(Product product) {
                 onClickGoToDetail(product);
             }
         });
@@ -238,10 +231,9 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef, Product.class)
                         .build();
-
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
             @Override
-            public void onClickSetDataInCart(Product product) {
+            public void onClickDetailsScreen(Product product) {
                 onClickGoToDetail(product);
             }
         });
@@ -329,7 +321,7 @@ public class HomeFragment extends Fragment {
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
             @Override
-            public void onClickSetDataInCart(Product product) {
+            public void onClickDetailsScreen(Product product) {
 
             }
         });
@@ -352,7 +344,7 @@ public class HomeFragment extends Fragment {
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
             @Override
-            public void onClickSetDataInCart(Product product) {
+            public void onClickDetailsScreen(Product product) {
                 onClickGoToDetail(product);
             }
         });
@@ -360,15 +352,12 @@ public class HomeFragment extends Fragment {
         productAdapter.notifyDataSetChanged();
     }
 
-
-    public void onClickGoToDetail(Product product){
+    public void onClickGoToDetail(Product product) {
         Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putSerializable("SanPham",product);
+        bundle.putSerializable("SanPham", product);
+        bundle.putString("lsp", loaiSanPham);
         intent.putExtras(bundle);
         startActivity(intent);
-
     }
-
-
 }

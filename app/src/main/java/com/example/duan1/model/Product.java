@@ -5,12 +5,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
     private int giaSP;
     private String hinhSP, tenSP;
-
-    public Product(int giaSP, String hinhSP, String tenSP) {
-        this.giaSP = giaSP;
-        this.hinhSP = hinhSP;
-        this.tenSP = tenSP;
-    }
+    private int fav = 0;
 
     public Product() {
     }
@@ -32,15 +27,31 @@ public class Product implements Serializable {
     }
 
     public String getTenSP() {
-//        if (tenSP.length() > 5) {
-//            this.tenSP = tenSP.substring(0, 7) + "...";
-//        } else {
-//            this.tenSP = tenSP;
-//        }
         return tenSP;
     }
 
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }
+
+    public int getFav() {
+        return fav;
+    }
+
+    public void setFav(int fav) {
+        this.fav = fav;
+    }
+
+    public Product(int giaSP, String hinhSP, String tenSP, int fav) {
+        this.giaSP = giaSP;
+        this.hinhSP = hinhSP;
+        this.tenSP = tenSP;
+        this.fav = fav;
+    }
 }
+
+//        if (tenSP.length() > 5) {
+//            this.tenSP = tenSP.substring(0, 7) + "...";
+//        } else {
+//            this.tenSP = tenSP;
+//        }
