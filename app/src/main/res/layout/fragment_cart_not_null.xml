@@ -34,7 +34,7 @@
                     android:layout_marginTop="32dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/search" />
+                    app:srcCompat="@drawable/backicons" />
 
                 <TextView
                     android:id="@+id/textView3"
@@ -63,6 +63,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/imageView5" />
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerviewListCart"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="8dp"

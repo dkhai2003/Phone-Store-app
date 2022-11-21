@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.Product;
+import com.example.duan1.model.Product_Type;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -99,4 +100,10 @@ public class DetailsScreenActivity extends AppCompatActivity {
             }
         });
     }
+
+
+    public void getSanPham(Product product, Product_Type type){
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/LoaiSanPham").child(type.getMaLoai()).child("SanPham");
+    }
+
 }
