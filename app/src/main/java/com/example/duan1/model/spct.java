@@ -1,6 +1,8 @@
 package com.example.duan1.model;
 
-public class spct {
+import java.io.Serializable;
+
+public class spct implements Serializable {
     String hinh1;
     String hinh2;
     String hinh3;
