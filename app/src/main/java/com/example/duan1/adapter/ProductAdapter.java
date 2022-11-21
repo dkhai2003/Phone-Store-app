@@ -1,6 +1,5 @@
 package com.example.duan1.adapter;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,8 +15,6 @@ import com.example.duan1.R;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdapter.myViewHolder> {
 
@@ -54,8 +51,6 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdap
             @Override
             public void onClick(View view) {
                 iClickProduct.onClickDetailsScreen(model);
-                DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().getParent();
-                Log.d("CheckModel", myRef + "");
             }
         });
     }
