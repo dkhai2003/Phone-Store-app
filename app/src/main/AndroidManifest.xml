@@ -63,9 +63,7 @@
 
         <activity
             android:name=".views.HomeScreenActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
     </application>
 
 </manifest>

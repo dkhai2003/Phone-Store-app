@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.MenuItem;
@@ -53,11 +54,10 @@ import java.io.IOException;
 public class EditProfileActivity extends AppCompatActivity {
     private static final int MY_REQUEST_CODE = 10;
     private Toolbar toolbar;
-    private EditText edUsername, edEmail, edPhoneNumber, edSex, edAddress, edJob, edAge;
-    private ImageView ivAvatar, updateAvatar;
-    private Button btnUpdate, btnVeri, btnNewPass;
+    private ImageView ivAvatar, updateAvatar, btnVeri, btnNewPass;
+    private Button btnSaveProfile;
     private Uri uriImage;
-    private TextView tvStatus;
+    private TextView edName, edPhone, edAddress, edGender, edBirthDay, edEmail, tvEmail, tvName, name, phone, address, gender, birthday, email;
     private ProgressDialog progressDialog;
     private final ActivityResultLauncher<Intent> mActivityResultLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(), new ActivityResultCallback<ActivityResult>() {
@@ -85,6 +85,29 @@ public class EditProfileActivity extends AppCompatActivity {
             }
     );
 
+    //    ==>
+    private void unitUi() {
+        toolbar = findViewById(R.id.toolbar);
+        edName = findViewById(R.id.edName);
+        tvName = findViewById(R.id.tvName);
+        tvEmail = findViewById(R.id.tvEmail);
+        edEmail = findViewById(R.id.edEmail);
+        edPhone = findViewById(R.id.edPhone);
+        ivAvatar = findViewById(R.id.ivAvatar);
+        updateAvatar = findViewById(R.id.updateAvatar);
+        edGender = findViewById(R.id.edGender);
+        edAddress = findViewById(R.id.edAddress);
+        edBirthDay = findViewById(R.id.edBirthDay);
+        btnVeri = findViewById(R.id.btnVeri);
+        btnNewPass = findViewById(R.id.btnNewPass);
+        btnSaveProfile = findViewById(R.id.btnSaveProfile);
+        name = findViewById(R.id.name);
+        phone = findViewById(R.id.phone);
+        address = findViewById(R.id.address);
+        gender = findViewById(R.id.gender);
+        birthday = findViewById(R.id.birthday);
+        email = findViewById(R.id.email);
+    }
 
     private void setUriImage(Uri uri) {
         uriImage = uri;
@@ -112,7 +135,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 onClickRequestPermisstion();
             }
         });
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        btnSaveProfile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onClickUpdateProfile();
@@ -130,6 +153,68 @@ public class EditProfileActivity extends AppCompatActivity {
                 onClickUpdatePassword();
             }
         });
+        edName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edName, name);
+            }
+        });
+        edPhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edPhone, phone);
+            }
+        });
+        edAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edAddress, address);
+            }
+        });
+        edGender.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edGender, gender);
+            }
+        });
+        edBirthDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edBirthDay, birthday);
+            }
+        });
+        edEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickSetContext(edEmail, email);
+            }
+        });
+    }
+
+    private void onClickSetContext(TextView context, TextView title_context) {
+        View viewDialogContext = getLayoutInflater().inflate(R.layout.bottom_sheet_edit_profile, null);
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(EditProfileActivity.this);
+        TextView dialog_title = viewDialogContext.findViewById(R.id.dialog_title);
+        dialog_title.setText(title_context.getText().toString());
+        EditText edContext = viewDialogContext.findViewById(R.id.edContext);
+        edContext.setHint("Enter your change ...");
+        Button btnSaveUpdate = viewDialogContext.findViewById(R.id.btnSaveUpdate);
+        Button btnCancelUpdate = viewDialogContext.findViewById(R.id.btnCancelUpdate);
+        btnSaveUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context.setText(edContext.getText().toString().trim());
+                bottomSheetDialog.dismiss();
+            }
+        });
+        btnCancelUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bottomSheetDialog.dismiss();
+            }
+        });
+        bottomSheetDialog.setContentView(viewDialogContext);
+        bottomSheetDialog.show();
     }
 
     private void onClickUpdatePassword() {
@@ -276,23 +361,6 @@ public class EditProfileActivity extends AppCompatActivity {
         ivAvatar.setImageBitmap(bitMapImageViewAvatar);
     }
 
-    //==>
-    private void unitUi() {
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        edUsername = (EditText) findViewById(R.id.edUsername);
-        edEmail = (EditText) findViewById(R.id.edEmail);
-        edPhoneNumber = (EditText) findViewById(R.id.edPhoneNumber);
-        ivAvatar = (ImageView) findViewById(R.id.ivAvatar);
-        updateAvatar = (ImageView) findViewById(R.id.updateAvatar);
-        btnUpdate = (Button) findViewById(R.id.btnUpdate);
-        tvStatus = (TextView) findViewById(R.id.tvStatus);
-        btnVeri = (Button) findViewById(R.id.btnVeri);
-        edSex = (EditText) findViewById(R.id.edSex);
-        edJob = (EditText) findViewById(R.id.edJob);
-        edAddress = (EditText) findViewById(R.id.edAddress);
-        edAge = (EditText) findViewById(R.id.edAge);
-        btnNewPass = (Button) findViewById(R.id.btnNewPass);
-    }
 
     private void getInformationUserFromFirebase() {
         createProgressDialog();
@@ -313,20 +381,23 @@ public class EditProfileActivity extends AppCompatActivity {
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     User CurrentUser = snapshot.getValue(User.class);
                     if (CurrentUser.getUserName() == null) {
-                        edUsername.setText(userDisplayName);
+                        edName.setText(userDisplayName);
+                        tvName.setText(userDisplayName);
                     } else {
-                        edUsername.setText(CurrentUser.getUserName());
+                        edName.setText(CurrentUser.getUserName());
+                        tvName.setText(CurrentUser.getUserName());
                     }
                     if (CurrentUser.getEmail() == null) {
                         edEmail.setText(userEmail);
+                        tvEmail.setText(userEmail);
                     } else {
                         edEmail.setText(CurrentUser.getEmail());
+                        tvEmail.setText(CurrentUser.getEmail());
                     }
-                    edPhoneNumber.setText(CurrentUser.getPhoneNumber());
-                    edSex.setText(CurrentUser.getSex());
-                    edAge.setText(CurrentUser.getAge());
+                    edPhone.setText(CurrentUser.getPhoneNumber());
+                    edGender.setText(CurrentUser.getGender());
+                    edBirthDay.setText(CurrentUser.getBirthday());
                     edAddress.setText(CurrentUser.getAddress());
-                    edJob.setText(CurrentUser.getJob());
                     checkVerifiedEmail();
                     progressDialog.dismiss();
                 }
@@ -354,7 +425,7 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         } else {
             if (uriImage == null) {
-                String updateName = edUsername.getText().toString().trim();
+                String updateName = edName.getText().toString().trim();
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(updateName)
                         .build();
@@ -363,7 +434,6 @@ public class EditProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isComplete()) {
-                                    UserFragment a = new UserFragment();
                                     Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                 } else {
@@ -373,7 +443,8 @@ public class EditProfileActivity extends AppCompatActivity {
                             }
                         });
             } else {
-                String updateName = edUsername.getText().toString().trim();
+                progressDialog.show();
+                String updateName = edName.getText().toString().trim();
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(updateName)
                         .setPhotoUri(uriImage)
@@ -383,41 +454,48 @@ public class EditProfileActivity extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isComplete()) {
-                                    UserFragment a = new UserFragment();
-                                    Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(EditProfileActivity.this, "Update Successful 1", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
             }
+            progressDialog.show();
+            Runnable progressRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    progressDialog.dismiss();
+                }
+            };
+
             String updateEmail = edEmail.getText().toString().trim();
-            String updateName = edUsername.getText().toString().trim();
-            String updatePhoneNumber = edPhoneNumber.getText().toString().trim();
+            String updateName = edName.getText().toString().trim();
+            String updatePhoneNumber = edPhone.getText().toString().trim();
             String updateAddress = edAddress.getText().toString().trim();
-            String updateJob = edJob.getText().toString().trim();
-            String updateSex = edSex.getText().toString().trim();
-            String updateAge = edAge.getText().toString().trim();
+            String updateGenDer = edGender.getText().toString().trim();
+            String updateBirthDay = edBirthDay.getText().toString().trim();
             Boolean verifyEmail = checkVerifiedEmail();
             checkVerifiedEmail();
-            User updateUser = new User(updateEmail, updateName, updatePhoneNumber, updateAddress, updateSex, updateJob, updateAge, verifyEmail);
+            User updateUser = new User(updateEmail, updateName, updatePhoneNumber, updateAddress, updateGenDer, updateBirthDay, verifyEmail);
             myRef.child(pathUserId)
                     .setValue(updateUser, new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
+                            progressDialog.dismiss();
                         }
                     });
-
-            progressDialog.dismiss();
+            Handler pdCanceller = new Handler();
+            pdCanceller.postDelayed(progressRunnable, 1000);
         }
     }
 
     private Boolean checkVerifiedEmail() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user.isEmailVerified()) {
-            tvStatus.setText("Status: Yes");
             return true;
         } else {
-            tvStatus.setText("Status: No");
             return false;
         }
     }

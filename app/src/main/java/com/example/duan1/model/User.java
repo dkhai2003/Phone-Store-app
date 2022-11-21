@@ -4,10 +4,9 @@ public class User {
     private String userName;
     private String phoneNumber;
     private String address;
-    private String sex;
+    private String gender;
     private String email;
-    private String job;
-    private String age;
+    private String birthday;
     private Boolean verifyEmail;
     private String userId;
 
@@ -54,28 +53,21 @@ public class User {
         this.address = address;
     }
 
-    public String getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(String sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getJob() {
-        return job;
+
+    public String getBirthday() {
+        return birthday;
     }
 
-    public void setJob(String job) {
-        this.job = job;
-    }
-
-    public String getAge() {
-        return age;
-    }
-
-    public void setAge(String age) {
-        this.age = age;
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
     }
 
     public Boolean getVerifyEmail() {
@@ -86,13 +78,12 @@ public class User {
         this.verifyEmail = verifyEmail;
     }
 
-    public User(String email, String userName, String phoneNumber, String address, String sex, String job, String age, Boolean verifyEmail) {
+    public User(String email, String userName, String phoneNumber, String address, String gender, String birthday, Boolean verifyEmail) {
         this.userName = userName;
         this.phoneNumber = phoneNumber;
         this.address = address;
-        this.sex = sex;
-        this.job = job;
-        this.age = age;
+        this.gender = gender;
+        this.birthday = birthday;
         this.verifyEmail = verifyEmail;
         this.email = email;
     }

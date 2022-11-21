@@ -25,59 +25,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/mViewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
 
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/ivAvatarHome"
-                    android:layout_width="96dp"
-                    android:layout_height="96dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="5dp"
-                    android:src="@drawable/none_avatar"
-                    app:civ_border_color="#FF000000"
-                    app:civ_border_width="2dp"
-                    app:layout_constraintEnd_toStartOf="@+id/textView"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingStart="20dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:text="Welcome Back!"
-                        android:textColor="#9F9696"
-                        android:textSize="11dp"
-                        android:textStyle="bold" />
-
-                    <TextView
-                        android:id="@+id/tvNameHome"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingStart="10dp"
-                        android:text="Wade Warren"
-                        android:textColor="#555353"
-                        android:textSize="24dp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/imageView2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginEnd="5dp"
-                    app:srcCompat="@drawable/ic_menu" />
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/mCircleIndicator3"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:ci_drawable="@drawable/item_indicator" />
             </LinearLayout>
 
             <LinearLayout
@@ -85,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="18dp"
+                android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
 
                 <SearchView
@@ -112,8 +71,6 @@
             android:id="@+id/recyclerViewListProduct_type"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="16dp"
             app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
