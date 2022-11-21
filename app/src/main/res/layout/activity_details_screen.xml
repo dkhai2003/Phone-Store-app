@@ -19,7 +19,7 @@
 
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imgDetail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -81,7 +81,7 @@
 
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/tvNameDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
@@ -138,7 +138,7 @@
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView5"
+                android:id="@+id/tvPriceDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -211,7 +211,7 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
@@ -225,6 +225,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
 
             <TextView
+
                 android:layout_width="160dp"
                 android:layout_height="50dp"
                 android:layout_marginStart="16dp"
@@ -236,7 +237,7 @@
                 android:gravity="center"
                 android:padding="15dp"
                 android:text="Add To Cart"
-
+                android:layout_marginBottom="32dp"
                 android:textColor="#FFFFFF"
                 android:textSize="15dp"
                 app:layout_constraintEnd_toEndOf="parent"

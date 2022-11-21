@@ -133,6 +133,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void onClickUpdatePassword() {
+
         View viewDialogUpdate = getLayoutInflater().inflate(R.layout.bottom_sheet_change_pass, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(EditProfileActivity.this);
         EditText tvOldPass = viewDialogUpdate.findViewById(R.id.tvOldPass);

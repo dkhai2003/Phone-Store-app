@@ -18,14 +18,16 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapter.myViewHolder> {
 
 
-    /**
-     * Initialize a {@link RecyclerView.Adapter} that listens to a Firebase query. See
-     * {@link FirebaseRecyclerOptions} for configuration options.
-     *
-     * @param options
-     */
-    public ProductAdapter(@NonNull FirebaseRecyclerOptions<Product> options) {
+    private IClickProduct iClickProduct;
+
+    public interface IClickProduct{
+        void onClickSetDataInCart(Product product);
+    }
+
+
+    public ProductAdapter(@NonNull FirebaseRecyclerOptions<Product> options, IClickProduct iClickProduct) {
         super(options);
+        this.iClickProduct = iClickProduct;
     }
 
     @Override
@@ -37,7 +39,16 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapt
         Glide.with(holder.img.getContext())
                 .load(model.getHinhSP())
                 .into(holder.img);
+
+        holder.imgAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iClickProduct.onClickSetDataInCart(model);
+            }
+        });
     }
+
+
 
     @NonNull
     @Override
@@ -49,8 +60,9 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapt
     }
 
     class myViewHolder extends RecyclerView.ViewHolder{
-        ImageView img;
+        ImageView img,imgAddToCart;
         TextView name, price;
+
 
 
         public myViewHolder(@NonNull View itemView) {
@@ -59,6 +71,7 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product,ProductAdapt
             img = itemView.findViewById(R.id.imgSanPham);
             name = itemView.findViewById(R.id.tvTenSanPham);
             price = itemView.findViewById(R.id.tvGiaSanPham);
+            imgAddToCart = itemView.findViewById(R.id.imgAddToCart);
 
         }
     }
