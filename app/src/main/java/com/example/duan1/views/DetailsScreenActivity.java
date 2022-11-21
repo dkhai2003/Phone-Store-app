@@ -5,6 +5,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -17,17 +18,15 @@ import com.example.duan1.model.Product;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView imgDetail, iv_fav;
     private TextView tvNameDetail, tvPriceDetail;
+    int a = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +74,23 @@ public class DetailsScreenActivity extends AppCompatActivity {
         iv_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                iv_fav.setImageResource(R.drawable.favorite_true);
+                updateFavToFirebase(product);
+            }
+        });
+    }
+
+    private void updateFavToFirebase(Product product) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+        myRef.child("favorites/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(DetailsScreenActivity.this, "Adu Vjp" +unused, Toast.LENGTH_SHORT).show();
             }
         });
     }
