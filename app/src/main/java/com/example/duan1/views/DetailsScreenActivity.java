@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.Product;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -90,7 +91,12 @@ public class DetailsScreenActivity extends AppCompatActivity {
         myRef.child("favorites/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(DetailsScreenActivity.this, "Adu Vjp" +unused, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Successfully" + unused, Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Failure" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
