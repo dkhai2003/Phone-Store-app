@@ -25,6 +25,8 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Pr
 
     public interface IclickListener{
         void onClickGetMaLoai(Product_Type type);
+
+
     }
 
 

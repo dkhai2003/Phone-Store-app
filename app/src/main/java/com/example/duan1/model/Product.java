@@ -1,6 +1,8 @@
 package com.example.duan1.model;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     private int giaSP;
     private String hinhSP, tenSP;
 

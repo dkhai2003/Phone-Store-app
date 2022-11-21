@@ -1,17 +1,25 @@
 package com.example.duan1.fragment;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -25,14 +33,17 @@ import com.example.duan1.adapter.Product_TypeAdapter;
 import com.example.duan1.model.PhotoSlide;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
+import com.example.duan1.views.DetailsScreenActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +57,10 @@ public class HomeFragment extends Fragment {
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
     private ViewPager2 mViewPager2;
     private CircleIndicator3 mCircleIndicator3;
+    private TextView tvNameHome;
+    private ImageView ivAvatarHome;
+    private ImageView btnSortListProduct;
+
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
     private String loaiSanPham = "lsp1";
@@ -81,6 +96,17 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
+
+        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showdialog();
+            }
+        });
+
+
+
+
         return mView;
     }
 
@@ -129,13 +155,39 @@ public class HomeFragment extends Fragment {
             }
         }
     };
+    private void showdialog(){
+        AlertDialog.Builder b = new AlertDialog.Builder(getContext());
+        b.setTitle("Sort by");
+        String[] types = {"Price low to high", "Price high to low"};
+        b.setItems(types, new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+                switch(which){
+                    case 0:
+                        sortLowToHigh(loaiSanPham);
+                        productAdapter.startListening();
+                        break;
+                    case 1:
+                        sortHighToLow(loaiSanPham);
+                        productAdapter.startListening();
+                        break;
+                }
+            }
+
+        });
+
+        b.show();
+    }
     private void unitUi() {
         edSearch = mView.findViewById(R.id.edSreach);
         recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
         mCircleIndicator3 = (CircleIndicator3) mView.findViewById(R.id.mCircleIndicator3);
+        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
     }
 
     private void txtSreach(String str, String lsp) {
@@ -144,7 +196,12 @@ public class HomeFragment extends Fragment {
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
                         .build();
 
-        productAdapter = new ProductAdapter(options);
+        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+            @Override
+            public void onClickSetDataInCart(Product product) {
+                onClickGoToDetail(product);
+            }
+        });
         productAdapter.startListening();
         recyclerViewListProduct.setAdapter(productAdapter);
     }
@@ -169,20 +226,25 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-        getRecyclerViewListProduct(loaiSanPham);
+        getRecyclerViewListProduct("lsp1");
     }
 
     private void getRecyclerViewListProduct(String lsp) {
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
-
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham"), Product.class)
+                        .setQuery(myRef, Product.class)
                         .build();
 
-        productAdapter = new ProductAdapter(options);
+        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+            @Override
+            public void onClickSetDataInCart(Product product) {
+                onClickGoToDetail(product);
+            }
+        });
         recyclerViewListProduct.setAdapter(productAdapter);
         productAdapter.notifyDataSetChanged();
     }
@@ -237,6 +299,7 @@ public class HomeFragment extends Fragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please Wait..");
         progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
     }
 
     @Override
@@ -252,4 +315,60 @@ public class HomeFragment extends Fragment {
         productAdapter.stopListening();
         product_typeAdapter.stopListening();
     }
+
+    private void sortLowToHigh(String lsp) {
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerViewListProduct.setLayoutManager(gridLayoutManager);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
+        Query query = myRef.orderByChild("giaSP");
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(query, Product.class)
+                        .build();
+
+        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+            @Override
+            public void onClickSetDataInCart(Product product) {
+
+            }
+        });
+        recyclerViewListProduct.setAdapter(productAdapter);
+        productAdapter.notifyDataSetChanged();
+    }
+
+    private void sortHighToLow(String lsp) {
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
+        recyclerViewListProduct.setLayoutManager(gridLayoutManager);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
+        Query query = myRef.orderByChild("giaSP");
+
+
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(query, Product.class)
+                        .build();
+
+        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+            @Override
+            public void onClickSetDataInCart(Product product) {
+                onClickGoToDetail(product);
+            }
+        });
+        recyclerViewListProduct.setAdapter(productAdapter);
+        productAdapter.notifyDataSetChanged();
+    }
+
+
+    public void onClickGoToDetail(Product product){
+        Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SanPham",product);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+    }
+
+
 }

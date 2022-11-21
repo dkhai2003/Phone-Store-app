@@ -44,6 +44,7 @@ public class HelloActivity extends AppCompatActivity {
         finish();
     }
 
+
     private void unitUi() {
         btnGetStarted = findViewById(R.id.btnGetStarted);
     }

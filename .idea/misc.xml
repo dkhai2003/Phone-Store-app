@@ -26,7 +26,6 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.16" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_ct_sp.xml" value="0.1527651858567543" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_details_screen.xml" value="0.2" />
-        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_edit_profile.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_favorite.xml" value="0.19495510902094912" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_finished_payment.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.20735356990166737" />
@@ -39,7 +38,6 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_test.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user_tt.xml" value="0.20735356990166737" />
-        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_change_pass.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.264" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/bottom_sheet_edit_profile.xml" value="0.20649850363403163" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/favorites.xml" value="0.20735356990166737" />
@@ -55,11 +53,18 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/toolbar_custom.xml" value="0.15049864007252947" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/viewholder_category.xml" value="0.2997007268063275" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/test/drawable/ic_baseline_check_24.xml" value="0.2545" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/background_user_item.xml" value="0.3525" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/ic_baseline_fmd_good_24.xml" value="0.204" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.268" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/background_details_item.xml" value="0.3525" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/background_helloscreen.xml" value="0.3525" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/bottom_sheet_background_custom.xml" value="0.3525" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/button_custom.xml" value="0.1" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/check_out_background.xml" value="0.204" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/ic_launcher_background.xml" value="0.268" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_check_out.xml" value="0.1" />
-        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_details_screen.xml" value="0.1" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_details_screen.xml" value="0.40897097625329815" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_edit_profile.xml" value="0.3009833262077811" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_finished_payment.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_home_screen.xml" value="0.25" />
@@ -68,12 +73,24 @@
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_order_history.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_user.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/bottom_sheet_dialog.xml" value="0.1" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/cart_layout.xml" value="0.25" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/dialog_sort_list_product.xml" value="0.16032492518170158" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/fragment_cart.xml" value="0.3009833262077811" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/fragment_favorites.xml" value="0.15348439504061565" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/fragment_frofile_edit.xml" value="0.3009833262077811" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/fragment_home.xml" value="0.22" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/fragment_user.xml" value="0.2" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_category_product_custom.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_newitems.xml" value="0.33" />
-        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_product_custom.xml" value="0.15519452757588714" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_product_custom.xml" value="0.33" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_selected.xml" value="0.1" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/item_sort_data.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/toolbar_custom.xml" value="0.30055579307396324" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/menu/menu_bnv.xml" value="0.3009833262077811" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/menu/menu_sort_data.xml" value="0.1" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.268" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.268" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/test/drawable/ic_baseline_filter_alt_24.xml" value="0.195" />
       </map>
     </option>
   </component>
