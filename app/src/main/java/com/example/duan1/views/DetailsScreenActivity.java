@@ -35,6 +35,49 @@ public class DetailsScreenActivity extends AppCompatActivity {
         actionBar.setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setValue();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            return;
+        }
+
+        Product product = (Product) bundle.get("SanPham");
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img1.getContext())
+                        .load(product.getSpct().getHinh1())
+                        .into(imgDetail);
+            }
+        });
+
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img2.getContext())
+                        .load(product.getSpct().getHinh2())
+                        .into(imgDetail);
+
+            }
+        });
+        img3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img3.getContext())
+                        .load(product.getSpct().getHinh3())
+                        .into(imgDetail);
+
+            }
+        });
+        img4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img4.getContext())
+                        .load(product.getSpct().getHinh4())
+                        .into(imgDetail);
+
+            }
+        });
+
     }
 
     private void getStatusFav(int status) {
@@ -66,7 +109,14 @@ public class DetailsScreenActivity extends AppCompatActivity {
         img3=findViewById(R.id.img3);
         img4=findViewById(R.id.img4);
 
+
     }
+
+    public void setDetail(){
+
+
+    }
+
 
     private void setValue() {
         Bundle bundle = getIntent().getExtras();
@@ -88,7 +138,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 .into(img2);
         Glide.with(img3.getContext())
                 .load(product.getSpct().getHinh3())
-                ;
+                .into(img3);
         Glide.with(img4.getContext())
                 .load(product.getSpct().getHinh4())
                 .into(img4);
