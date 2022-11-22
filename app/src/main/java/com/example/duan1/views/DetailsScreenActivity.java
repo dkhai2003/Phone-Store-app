@@ -1,11 +1,11 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -16,6 +16,11 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -24,6 +29,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private ImageView imgDetail, iv_fav;
     private TextView tvNameDetail, tvPriceDetail;
+    int a = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +41,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
         actionBar.setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setValue();
-    }
-
-    private void getStatusFav(int status) {
-        if (status == 1) {
-            iv_fav.setImageResource(R.drawable.favorite_true);
-        } else {
-            iv_fav.setImageResource(R.drawable.favorite_false);
-        }
     }
 
 
@@ -70,33 +68,37 @@ public class DetailsScreenActivity extends AppCompatActivity {
         }
 
         Product product = (Product) bundle.get("SanPham");
-        String lsp = (String) bundle.get("lsp");
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
                 .into(imgDetail);
 
         tvNameDetail.setText(product.getTenSP());
         tvPriceDetail.setText(product.getGiaSP() + "");
-        getStatusFav(product.getFav());
         iv_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (product.getFav() != 0) {
-                    product.setFav(0);
-                    getStatusFav(product.getFav());
-//                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
-                    DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().getParent();
-//                    myRef.setValue(product.getFav()).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                        @Override
-//                        public void onSuccess(Void unused) {
-//                            Toast.makeText(DetailsScreenActivity.this, "ok", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-                    Log.d("MyREF", myRef + "");
-                } else {
-                    product.setFav(1);
-                    getStatusFav(product.getFav());
-                }
+                iv_fav.setImageResource(R.drawable.favorite_true);
+                updateFavToFirebase(product);
+            }
+        });
+    }
+
+    private void updateFavToFirebase(Product product) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+        myRef.child("favorites/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void unused) {
+                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Successfully" + unused, Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Failure" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

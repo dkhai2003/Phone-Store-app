@@ -5,9 +5,16 @@ import java.io.Serializable;
 public class Product implements Serializable {
     private int giaSP;
     private String hinhSP, tenSP;
-    private int fav = 0;
+    private String maSP;
 
     public Product() {
+    }
+
+    public Product(int giaSP, String hinhSP, String tenSP, String maSP) {
+        this.giaSP = giaSP;
+        this.hinhSP = hinhSP;
+        this.tenSP = tenSP;
+        this.maSP = maSP;
     }
 
     public int getGiaSP() {
@@ -34,19 +41,12 @@ public class Product implements Serializable {
         this.tenSP = tenSP;
     }
 
-    public int getFav() {
-        return fav;
+    public String getMaSP() {
+        return maSP;
     }
 
-    public void setFav(int fav) {
-        this.fav = fav;
-    }
-
-    public Product(int giaSP, String hinhSP, String tenSP, int fav) {
-        this.giaSP = giaSP;
-        this.hinhSP = hinhSP;
-        this.tenSP = tenSP;
-        this.fav = fav;
+    public void setMaSP(String maSP) {
+        this.maSP = maSP;
     }
 }
 

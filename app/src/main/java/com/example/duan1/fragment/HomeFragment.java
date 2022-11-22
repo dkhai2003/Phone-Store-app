@@ -356,7 +356,6 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("SanPham", product);
-        bundle.putString("lsp", loaiSanPham);
         intent.putExtras(bundle);
         startActivity(intent);
     }

@@ -139,10 +139,10 @@
 
                 <ImageView
                     android:id="@+id/iv_fav"
-                    android:paddingStart="10dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/favorite_false"/>
+                    android:paddingStart="10dp"
+                    android:src="@drawable/favorite_false" />
 
             </LinearLayout>
 
