@@ -27,7 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private ImageView imgDetail, iv_fav;
+    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
     private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
 
@@ -41,6 +41,49 @@ public class DetailsScreenActivity extends AppCompatActivity {
         actionBar.setTitle("Details");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setValue();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle == null) {
+            return;
+        }
+
+        Product product = (Product) bundle.get("SanPham");
+        img1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img1.getContext())
+                        .load(product.getSpct().getHinh1())
+                        .into(imgDetail);
+            }
+        });
+
+        img2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img2.getContext())
+                        .load(product.getSpct().getHinh2())
+                        .into(imgDetail);
+
+            }
+        });
+        img3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img3.getContext())
+                        .load(product.getSpct().getHinh3())
+                        .into(imgDetail);
+
+            }
+        });
+        img4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Glide.with(img4.getContext())
+                        .load(product.getSpct().getHinh4())
+                        .into(imgDetail);
+
+            }
+        });
+
     }
 
 
@@ -59,7 +102,19 @@ public class DetailsScreenActivity extends AppCompatActivity {
         tvNameDetail = findViewById(R.id.tvNameDetail);
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
         iv_fav = findViewById(R.id.iv_fav);
+        img1=findViewById(R.id.img1);
+        img2=findViewById(R.id.img2);
+        img3=findViewById(R.id.img3);
+        img4=findViewById(R.id.img4);
+
+
     }
+
+    public void setDetail(){
+
+
+    }
+
 
     private void setValue() {
         Bundle bundle = getIntent().getExtras();
@@ -68,9 +123,26 @@ public class DetailsScreenActivity extends AppCompatActivity {
         }
 
         Product product = (Product) bundle.get("SanPham");
+
+
+        String lsp = (String) bundle.get("lsp");
+
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
                 .into(imgDetail);
+        Glide.with(img1.getContext())
+                .load(product.getSpct().getHinh1())
+                .into(img1);
+        Glide.with(img2.getContext())
+                .load(product.getSpct().getHinh2())
+                .into(img2);
+        Glide.with(img3.getContext())
+                .load(product.getSpct().getHinh3())
+                .into(img3);
+        Glide.with(img4.getContext())
+                .load(product.getSpct().getHinh4())
+                .into(img4);
+
 
         tvNameDetail.setText(product.getTenSP());
         tvPriceDetail.setText(product.getGiaSP() + "");

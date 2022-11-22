@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
 
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
-    private String loaiSanPham = "lsp1";
+    private String loaiSanPham = "lsp2";
     private ProgressDialog progressDialog;
     private List<PhotoSlide> mListPhoto;
     private final Handler mHandler = new Handler(Looper.myLooper());

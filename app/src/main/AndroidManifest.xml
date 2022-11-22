@@ -21,7 +21,7 @@
             android:name=".views.EditProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".views.HelloActivity"
+            android:name=".views.HomeScreenActivity"
             android:exported="true"
             android:theme="@style/Theme.MaterialComponents.DayNight.NoActionBar">
             <intent-filter>
@@ -62,7 +62,7 @@
             android:value="" />
 
         <activity
-            android:name=".views.HomeScreenActivity"
+            android:name=".views.HelloActivity"
             android:exported="false" />
     </application>
 
