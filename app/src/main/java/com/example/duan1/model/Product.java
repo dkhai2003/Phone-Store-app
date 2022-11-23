@@ -6,6 +6,25 @@ public class Product implements Serializable {
     private int giaSP;
     private String hinhSP, tenSP;
     private String maSP;
+    private int fav = 0;
+    private spct spct;
+
+    public com.example.duan1.model.spct getSpct() {
+        return spct;
+    }
+
+    public void setSpct(com.example.duan1.model.spct spct) {
+        this.spct = spct;
+    }
+
+    public Product(int giaSP, String hinhSP, String tenSP, int fav, com.example.duan1.model.spct spct) {
+        this.giaSP = giaSP;
+        this.hinhSP = hinhSP;
+        this.tenSP = tenSP;
+        this.fav = fav;
+        this.spct = spct;
+    }
+
 
     public Product() {
     }

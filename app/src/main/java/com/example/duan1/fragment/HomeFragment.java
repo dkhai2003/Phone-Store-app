@@ -217,13 +217,17 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
-        productAdapter.startListening();
         product_typeAdapter.startListening();
+        productAdapter.startListening();
+
     }
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
+
         getRecyclerViewListProduct("lsp2");
+        getRecyclerViewListProduct(loaiSanPham);
+
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -262,8 +266,6 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
                         .setQuery(myRef, Product_Type.class)
                         .build();
-
-
         product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
@@ -298,6 +300,12 @@ public class HomeFragment extends Fragment {
         progressDialog.setIcon(R.drawable.none_avatar);
     }
 
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
 
 
 
