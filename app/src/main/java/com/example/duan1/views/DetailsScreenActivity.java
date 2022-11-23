@@ -37,7 +37,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Details");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         setValue();
     }
 
@@ -45,7 +46,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getFragmentManager().popBackStack();
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -64,7 +65,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
         if (bundle == null) {
             return;
         }
-
         Product product = (Product) bundle.get("SanPham");
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
@@ -91,7 +91,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         myRef.child("favorites/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
-                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Successfully" + unused, Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsScreenActivity.this, "Add Favorites Successfully", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

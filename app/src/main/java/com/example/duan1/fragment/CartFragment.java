@@ -11,14 +11,15 @@ import com.example.duan1.R;
 
 
 public class CartFragment extends Fragment {
+    public static final String TAG = CartFragment.class.getName();
+
     public static CartFragment newInstance() {
-        
         Bundle args = new Bundle();
-        
         CartFragment fragment = new CartFragment();
         fragment.setArguments(args);
         return fragment;
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
