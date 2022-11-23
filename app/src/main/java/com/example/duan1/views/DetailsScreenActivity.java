@@ -199,7 +199,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId).child("SanPham").child(product.getMaSP());
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId).child("Cart").child(product.getMaSP());
         myRef.setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {

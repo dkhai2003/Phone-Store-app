@@ -24,7 +24,7 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
         void onClickDeleteCart(Product product);
     }
 
-    public CartAdapter(@NonNull FirebaseRecyclerOptions<Product> options, IClickCart iClickCart) {
+    public CartAdapter(@NonNull FirebaseRecyclerOptions<Product> options,IClickCart iClickCart) {
         super(options);
         this.iClickCart = iClickCart;
     }

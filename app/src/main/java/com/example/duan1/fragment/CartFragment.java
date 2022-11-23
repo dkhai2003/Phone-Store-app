@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 
-public class CartFragment extends Fragment {
+public class CartFragment extends Fragment  {
 
     public static final String TAG = CartFragment.class.getName();
 
@@ -80,39 +82,45 @@ public class CartFragment extends Fragment {
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         recyclerViewCart.setLayoutManager(linearLayoutManager);
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("SanPham");
-
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart");
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef, Product.class)
                         .build();
+//        cartAdapter = new CartAdapter(options);
 
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return false;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//
+//
+//
+//            }
+//
+//        });
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {
                 FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("SanPham").child(product.getMaSP()).removeValue();
             }
         });
+
         recyclerViewCart.setAdapter(cartAdapter);
+//        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
 
 
 
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-            }
-        });
-
-        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
 
 
     }
+
+
+
 
 
 
@@ -121,6 +129,36 @@ public class CartFragment extends Fragment {
         super.onStart();
         cartAdapter.startListening();
     }
+
+
+
+//    @NonNull
+//    @Override
+//    public CreationExtras getDefaultViewModelCreationExtras() {
+//        return super.getDefaultViewModelCreationExtras();
+//    }
+//
+//    @Override
+//    public void onClickDeleteCart(Product product) {
+//        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+//            @Override
+//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
+//                return true;
+//            }
+//
+//            @Override
+//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                String userEmail = user.getEmail();
+//                String[] subEmail = userEmail.split("@");
+//                String pathUserId = "User" + subEmail[0];
+//                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("SanPham").child(product.getMaSP()).removeValue();
+//            }
+//        });
+
+
+
+
 
 
 
