@@ -39,7 +39,12 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onResume();
         setUpView();
     }
-
+    
+    @Override
+    protected void onStop() {
+        super.onStop();
+        setUpView();
+    }
 
     private void setUpView() {
 //        mbnv.setSelectedItemId(R.id.item_home);

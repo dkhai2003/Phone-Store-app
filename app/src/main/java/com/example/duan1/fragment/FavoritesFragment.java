@@ -156,4 +156,15 @@ public class FavoritesFragment extends Fragment {
         progressDialog.setIcon(R.drawable.none_avatar);
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+    }
 }
