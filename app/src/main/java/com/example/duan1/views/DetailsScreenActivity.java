@@ -123,7 +123,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
     public void setDetail(){
 
-
     }
 
 
