@@ -3,9 +3,11 @@ package com.example.duan1.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +17,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -38,7 +39,6 @@ public class FavoritesFragment extends Fragment {
     private View mView;
     private FavoritesItemAdapter favoritesItemAdapter;
     private TextView count_Fav;
-    long mcount_fav = 0;
     private ProgressDialog progressDialog;
     public static final String TAG = FavoritesFragment.class.getName();
 
@@ -49,27 +49,74 @@ public class FavoritesFragment extends Fragment {
         return fragment;
     }
 
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_favorites_not_null, container, false);
+        mView = inflater.inflate(R.layout.fragment_favorites_null, container, false);
+
+        return mView;
+    }
+
+    private void setViewLayout(int id) {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(id, null);
         count_Fav = mView.findViewById(R.id.count_fav);
         recyclerViewFav = mView.findViewById(R.id.recyclerViewFav);
-        return mView;
+        ViewGroup rootView = (ViewGroup) getView();
+        rootView.removeAllViews();
+        rootView.addView(mView);
     }
 
     @Override
     public void onResume() {
         super.onResume();
+        getListItemProduct();
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        createDialog();
+        progressDialog.show();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        getRecyclerViewListProduct();
-        favoritesItemAdapter.startListening();
-        favoritesItemAdapter.stopListening();
+        getListItemProduct();
+    }
+
+    private void getListItemProduct() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user == null) {
+            return;
+        } else {
+            String uEmail = user.getEmail();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("User").child(pathUserId).child("favorites");
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Toast.makeText(getContext(), "" + dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
+                    if (dataSnapshot.getChildrenCount() != 0) {
+                        setViewLayout(R.layout.fragment_favorites_not_null);
+                        getRecyclerViewListProduct();
+                        favoritesItemAdapter.startListening();
+                        progressDialog.dismiss();
+                    }else{
+                        setViewLayout(R.layout.fragment_favorites_null);
+                        progressDialog.dismiss();
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    Log.d("DatabaseError", databaseError.getDetails());
+                }
+            });
+        }
     }
 
     private void getRecyclerViewListProduct() {
@@ -80,7 +127,6 @@ public class FavoritesFragment extends Fragment {
             String uEmail = user.getEmail();
             String[] subEmail = uEmail.split("@");
             String pathUserId = "User" + subEmail[0];
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewFav.setLayoutManager(linearLayoutManager);
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("User").child(pathUserId).child("favorites");
@@ -106,6 +152,7 @@ public class FavoritesFragment extends Fragment {
                     alertBuilder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
+                            progressDialog.show();
                             Toast.makeText(getContext(), "Remove" + product.getMaSP(), Toast.LENGTH_SHORT).show();
                             DatabaseReference removeValue = myRef.child(product.getMaSP());
                             removeValue.removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -115,12 +162,15 @@ public class FavoritesFragment extends Fragment {
                                     myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            mcount_fav = dataSnapshot.getChildrenCount();
-                                            count_Fav.setText(mcount_fav + " items");
+                                            count_Fav.setText(dataSnapshot.getChildrenCount() + " items");
+                                            getListItemProduct();
+                                            progressDialog.dismiss();
                                         }
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
+                                            Log.d("DatabaseError", databaseError.getDetails());
+                                            progressDialog.dismiss();
                                         }
                                     });
                                 }
@@ -135,15 +185,14 @@ public class FavoritesFragment extends Fragment {
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    mcount_fav = dataSnapshot.getChildrenCount();
-                    count_Fav.setText(mcount_fav + " items");
+                    count_Fav.setText(dataSnapshot.getChildrenCount() + " items");
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    Log.d("DatabaseError", databaseError.getDetails());
                 }
             });
-
             recyclerViewFav.setAdapter(favoritesItemAdapter);
             favoritesItemAdapter.notifyDataSetChanged();
         }
@@ -154,17 +203,5 @@ public class FavoritesFragment extends Fragment {
         progressDialog.setTitle("Please Wait..");
         progressDialog.setMessage("Connecting to the server ... ");
         progressDialog.setIcon(R.drawable.none_avatar);
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
     }
 }

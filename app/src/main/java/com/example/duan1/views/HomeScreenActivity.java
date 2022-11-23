@@ -14,6 +14,7 @@ import com.example.duan1.fragment.FavoritesFragment;
 import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private BottomNavigationView mbnv;
@@ -39,7 +40,7 @@ public class HomeScreenActivity extends AppCompatActivity {
         super.onResume();
         setUpView();
     }
-    
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -47,8 +48,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-//        mbnv.setSelectedItemId(R.id.item_home);
-        mbnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        mbnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -89,10 +89,11 @@ public class HomeScreenActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction()
                                 .replace(R.id.frameHome, HomeFragment.newInstance(), null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack("name") // name can be null
+                                .addToBackStack(HomeFragment.TAG) // name can be null
                                 .commit();
                         break;
                 }
+
                 return true;
 
             }
