@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#5956E9"
@@ -65,7 +64,6 @@
             android:paddingEnd="32dp">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/input1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -82,6 +80,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inpPass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -100,6 +99,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/inpRePass"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -126,9 +126,8 @@
             android:layout_marginStart="52dp"
             android:layout_marginTop="32dp"
             android:layout_marginEnd="52dp"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_custom_blue10rd"
             android:fontFamily="@font/montserratbold"
-            android:onClick="onClickSignUpUser"
             android:text="Register"
             android:textAllCaps="false"
             android:textColor="@color/white"
@@ -152,10 +151,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
-                android:onClick="setTvLogin"
                 android:text="@string/login"
-                android:textColor="@color/purple_700"
-                tools:ignore="OnClick" />
+                android:textColor="@color/purple_700" />
         </LinearLayout>
 
     </LinearLayout>

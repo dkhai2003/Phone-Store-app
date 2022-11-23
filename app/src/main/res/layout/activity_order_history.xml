@@ -50,7 +50,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="52dp"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_custom_blue10rd"
             android:padding="18dp"
             android:gravity="center"
             android:text="Start ordering"

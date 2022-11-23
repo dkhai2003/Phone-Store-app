@@ -20,7 +20,7 @@ public class CheckOutActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
-        anhXa();
+        unitUi();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Check Out");
@@ -47,7 +47,7 @@ public class CheckOutActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
-    private void anhXa() {
+    private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
     }

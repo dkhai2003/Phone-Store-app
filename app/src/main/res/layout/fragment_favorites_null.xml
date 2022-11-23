@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F5F5F8"
-    android:orientation="vertical"
-    tools:context=".views.FinishedPaymentActivity">
-
-    <include layout="@layout/toolbar_custom" />
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,15 +12,15 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="400dp"
             android:orientation="horizontal">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingLeft="40dp"
                 android:layout_marginBottom="20dp"
+                android:paddingLeft="40dp"
                 android:src="@drawable/sally_tree" />
 
             <ImageView
@@ -64,7 +60,7 @@
             android:layout_marginTop="32dp"
             android:layout_marginEnd="52dp"
             android:layout_marginBottom="32dp"
-            android:background="@drawable/button_custom"
+            android:background="@drawable/button_custom_blue10rd"
             android:gravity="center"
             android:padding="18dp"
             android:text="Start ordering"

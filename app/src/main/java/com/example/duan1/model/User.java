@@ -6,59 +6,103 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User {
-    private String maUser;
-    private String matKhau;
-    private String tenDangNhap;
+    private String userName;
+    private String phoneNumber;
+    private String address;
+    private String gender;
+    private String email;
+    private String birthday;
+    private Boolean verifyEmail;
+    private String userId;
 
-    public User(String maUser, String matKhau, String tenDangNhap) {
-        this.maUser = maUser;
-        this.matKhau = matKhau;
-        this.tenDangNhap = tenDangNhap;
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public User() {
     }
 
-    public String getMaUser() {
-        return maUser;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setMaUser(String maUser) {
-        this.maUser = maUser;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
-    public String getMatKhau() {
-        return matKhau;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setMatKhau(String matKhau) {
-        this.matKhau = matKhau;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
-    public String getTenDangNhap() {
-        return tenDangNhap;
+    public String getAddress() {
+        return address;
     }
 
-    public void setTenDangNhap(String tenDangNhap) {
-        this.tenDangNhap = tenDangNhap;
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(String birthday) {
+        this.birthday = birthday;
+    }
+
+    public Boolean getVerifyEmail() {
+        return verifyEmail;
+    }
+
+    public void setVerifyEmail(Boolean verifyEmail) {
+        this.verifyEmail = verifyEmail;
+    }
+
+    public User(String email, String userName, String phoneNumber, String address, String gender, String birthday, Boolean verifyEmail) {
+        this.userName = userName;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+        this.gender = gender;
+        this.birthday = birthday;
+        this.verifyEmail = verifyEmail;
+        this.email = email;
     }
 
     @Exclude
     public Map<String, Object> toMap() {
-        HashMap<String, Object> result = new HashMap<>();
-        result.put("maUser", maUser);
-        result.put("matKhau", matKhau);
-        result.put("tenDangNhap", tenDangNhap);
-
+        Map<String, Object> result = new HashMap<>();
+        result.put("email", getEmail());
+        result.put("gender", getGender());
+        result.put("phoneNumber", getPhoneNumber());
+        result.put("userName", getUserName());
+        result.put("address", getAddress());
+        result.put("birthday", getBirthday());
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "maUser='" + maUser + '\'' +
-                ", matKhau='" + matKhau + '\'' +
-                ", tenDangNhap='" + tenDangNhap + '\'' +
-                '}';
-    }
 }
