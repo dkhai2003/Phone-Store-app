@@ -5,9 +5,7 @@ import java.io.Serializable;
 public class Product implements Serializable {
     private int giaSP;
     private String hinhSP, tenSP;
-
     private String maSP;
-
     private int fav = 0;
     private spct spct;
 

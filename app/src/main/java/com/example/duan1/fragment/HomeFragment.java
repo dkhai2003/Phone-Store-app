@@ -219,7 +219,7 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-        getRecyclerViewListProduct("lsp1");
+        getRecyclerViewListProduct(loaiSanPham);
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -258,8 +258,6 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
                         .setQuery(myRef, Product_Type.class)
                         .build();
-
-
         product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
             @Override
             public void onClickGetMaLoai(Product_Type type) {

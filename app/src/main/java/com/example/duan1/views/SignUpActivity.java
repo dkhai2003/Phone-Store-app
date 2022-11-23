@@ -175,5 +175,5 @@ public class SignUpActivity extends AppCompatActivity {
         Intent i = new Intent(SignUpActivity.this, LoginActivity.class);
         startActivity(i);
         finish();
-    }    // ==>
+    }
 }

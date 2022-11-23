@@ -1,8 +1,10 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -16,11 +18,14 @@ import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -30,6 +35,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
     private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
+    private Button btnAddToCart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +45,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Details");
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         setValue();
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
@@ -90,7 +96,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -106,7 +112,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
         img4=findViewById(R.id.img4);
-
+        btnAddToCart = findViewById(R.id.btnAddToCard);
 
     }
 
@@ -121,11 +127,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
         if (bundle == null) {
             return;
         }
-
         Product product = (Product) bundle.get("SanPham");
 
-
-        String lsp = (String) bundle.get("lsp");
 
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
@@ -153,6 +156,12 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 updateFavToFirebase(product);
             }
         });
+        btnAddToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updateCartToFireBase(product);
+            }
+        });
     }
 
     private void updateFavToFirebase(Product product) {
@@ -176,8 +185,58 @@ public class DetailsScreenActivity extends AppCompatActivity {
     }
 
 
-    public void getSanPham(Product product, Product_Type type){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/LoaiSanPham").child(type.getMaLoai()).child("SanPham");
+    private void updateCartToFireBase(Product product) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId).child("SanPham").child(product.getMaSP());
+        myRef.setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
+
     }
+
+//        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DataSnapshot> task) {
+//                Toast.makeText(DetailsScreenActivity.this, task+"", Toast.LENGTH_SHORT).show();
+//                Log.d("====>>>TAG", "onComplete: "+task);
+//                Log.d("====>>>TAG", "onComplete: "+myRef);
+//
+//            }
+//        });
+
+
+//        myRef.child("SanPham/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
+//            @Override
+//            public void onSuccess(Void unused) {
+//                Toast.makeText(DetailsScreenActivity.this, "Add to cart success", Toast.LENGTH_SHORT).show();
+//                FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//                String userEmail = user.getEmail();
+//                String[] subEmail = userEmail.split("@");
+//                String pathUserId = "User" + subEmail[0];
+//                DatabaseReference myRef1 = database.getReference("duan/User/" + pathUserId).child("SanPham").child(product.getMaSP());
+//                if (myRef1 == myRef){
+//                    Toast.makeText(DetailsScreenActivity.this, "Add to cart fail", Toast.LENGTH_SHORT).show();
+//                }else {
+//                    Toast.makeText(DetailsScreenActivity.this, "Add to cart thanh cong", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//        }).addOnFailureListener(new OnFailureListener() {
+//            @Override
+//            public void onFailure(@NonNull Exception e) {
+//                Toast.makeText(DetailsScreenActivity.this, "Add to cart fail", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+
 
 }
