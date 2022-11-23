@@ -23,6 +23,7 @@
         android:src="@drawable/helloscreen" />
 
     <Button
+
         android:id="@+id/btnGetStarted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
