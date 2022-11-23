@@ -53,12 +53,12 @@ public class HomeFragment extends Fragment {
     private ViewPager2 mViewPager2;
     private CircleIndicator3 mCircleIndicator3;
     private ImageView btnSortListProduct;
-
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
-    private String loaiSanPham = "lsp1";
+    private String loaiSanPham = "lsp2";
     private ProgressDialog progressDialog;
     private List<PhotoSlide> mListPhoto;
+    public static final String TAG = HomeFragment.class.getName();
     private final Handler mHandler = new Handler(Looper.myLooper());
 
     public static HomeFragment newInstance() {
@@ -219,7 +219,7 @@ public class HomeFragment extends Fragment {
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-        getRecyclerViewListProduct("lsp1");
+        getRecyclerViewListProduct("lsp2");
     }
 
     private void getRecyclerViewListProduct(String lsp) {
