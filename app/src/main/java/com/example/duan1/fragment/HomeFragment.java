@@ -217,9 +217,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
+        product_typeAdapter.startListening();
         productAdapter.startListening();
 
-        product_typeAdapter.startListening();
+
 
     }
 
@@ -303,16 +304,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-//        productAdapter.startListening();
-//        product_typeAdapter.startListening();
+
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-//        productAdapter.stopListening();
-//        product_typeAdapter.stopListening();
-    }
+
 
     private void sortLowToHigh(String lsp) {
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
