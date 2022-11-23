@@ -122,11 +122,7 @@ public class CartFragment extends Fragment {
         cartAdapter.startListening();
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        cartAdapter.stopListening();
-    }
+
 
     ///cc
 }
