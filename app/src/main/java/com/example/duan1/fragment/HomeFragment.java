@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
         unitUi();
         setUserInformation();
         setSlideShow();
+
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -133,6 +134,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mHandler.postDelayed(mRun, 3000);
+
     }
 
     private final Runnable mRun = new Runnable() {
@@ -215,6 +217,10 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
+        productAdapter.startListening();
+
+        product_typeAdapter.startListening();
+
     }
 
     private void getRecyclerViewListProduct() {
@@ -297,15 +303,15 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        productAdapter.startListening();
-        product_typeAdapter.startListening();
+//        productAdapter.startListening();
+//        product_typeAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        productAdapter.stopListening();
-        product_typeAdapter.stopListening();
+//        productAdapter.stopListening();
+//        product_typeAdapter.stopListening();
     }
 
     private void sortLowToHigh(String lsp) {

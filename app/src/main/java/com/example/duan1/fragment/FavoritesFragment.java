@@ -68,6 +68,7 @@ public class FavoritesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
+        favoritesItemAdapter.startListening();
     }
 
     private void getRecyclerViewListProduct() {
@@ -157,13 +158,13 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        favoritesItemAdapter.startListening();
+
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        favoritesItemAdapter.stopListening();
+
     }
 
 }
