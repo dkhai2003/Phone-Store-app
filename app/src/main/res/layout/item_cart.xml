@@ -27,17 +27,34 @@
             android:orientation="vertical"
             android:paddingLeft="32dp">
 
-            <TextView
-                android:id="@+id/tvNameCart"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="horizontal"
                 android:layout_marginTop="12dp"
-                android:fontFamily="@font/interbold"
-                android:text="Acer Aspire 5"
-                android:textColor="#535353"
-                android:textSize="18sp"
-
+                >
+                <TextView
+                    android:layout_weight="5"
+                    android:id="@+id/tvNameCart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/interbold"
+                    android:text="Acer Aspire 5"
+                    android:textColor="#535353"
+                    android:textSize="18sp"
+                    />
+                <ImageView
+                    android:id="@+id/imgDeleteCart"
+                    android:layout_weight="1"
+                android:layout_width="40dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_delete"
                 />
+
+
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/tvColorCart"
@@ -54,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
+                android:paddingLeft="4dp"
                 android:paddingBottom="4dp"
                 android:fontFamily="@font/interbold"
                 android:text="x2"
@@ -72,7 +90,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_weight="5"
+                    android:layout_weight="4"
                     android:fontFamily="@font/interbold"
                     android:text="$763.4"
                     android:textColor="#6139FF"
@@ -82,7 +100,7 @@
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="5"
+                    android:layout_weight="6"
                     android:orientation="horizontal">
 
                     <ImageView
