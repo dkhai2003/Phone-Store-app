@@ -32,10 +32,15 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
-    private TextView tvNameDetail, tvPriceDetail;
+
+//    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
+//    private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
     private Button btnAddToCart;
+
+    private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
+    private TextView tvNameDetail, tvPriceDetail,tvSlMua;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,14 +125,51 @@ public class DetailsScreenActivity extends AppCompatActivity {
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
         img4=findViewById(R.id.img4);
+
         btnAddToCart = findViewById(R.id.btnAddToCard);
 
+        btnMinus=findViewById(R.id.btnMinus);
+        btnPlus=findViewById(R.id.btnPlus);
+        tvSlMua=findViewById(R.id.tvSlMua);
+        setNumber();
+
+
+
+
+    }
+    public void setNumber() {
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int number = Integer.parseInt((String) tvSlMua.getText());
+
+                    if(number==1){
+                        tvSlMua.setText("1");
+                    }else {
+                        number=number-1;
+                        tvSlMua.setText(number + "");
+                    }
+
+
+
+            }
+        });
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int number = Integer.parseInt((String) tvSlMua.getText());
+
+                    number=number+1;
+                    tvSlMua.setText(number + "");
+
+
+
+            }
+        });
     }
 
-    public void setDetail(){
 
 
-    }
 
 
     private void setValue() {
