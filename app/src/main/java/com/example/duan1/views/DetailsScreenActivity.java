@@ -22,11 +22,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 
 public class DetailsScreenActivity extends AppCompatActivity {
@@ -243,23 +240,31 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                myRef.child("Cart").child("Total").setValue("0");
+//        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
 //                double value = snapshot.getValue(Double.class);
 //                value += soLuong * product.getGiaSP();
 //                Toast.makeText(DetailsScreenActivity.this, value + "", Toast.LENGTH_SHORT).show();
-            }
-
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        myRef.child("Total").setValue("200").addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onSuccess(Void unused) {
+                Toast.makeText(DetailsScreenActivity.this, "add oke", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(DetailsScreenActivity.this, "Add not ok" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
-
 //        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
 //            @Override
 //            public void onComplete(@NonNull Task<DataSnapshot> task) {
@@ -269,8 +274,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
 //
 //            }
 //        });
-
-
 //        myRef.child("SanPham/" + product.getMaSP()).setValue(product).addOnSuccessListener(new OnSuccessListener<Void>() {
 //            @Override
 //            public void onSuccess(Void unused) {
@@ -295,6 +298,4 @@ public class DetailsScreenActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-
-
 }

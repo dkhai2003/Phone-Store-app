@@ -6,19 +6,17 @@ public class Product implements Serializable {
     private int soLuong;
     private String hinhSP, tenSP;
     private String maSP;
-    private int fav = 0;
     private double giaSP;
 
     private spct spct;
 
 
-    public Product(double giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
+    public Product(double giaSP, int soLuong, String hinhSP, String tenSP, String maSP, com.example.duan1.model.spct spct) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
         this.tenSP = tenSP;
         this.maSP = maSP;
-        this.fav = fav;
         this.spct = spct;
     }
 
@@ -63,14 +61,6 @@ public class Product implements Serializable {
 
     public void setMaSP(String maSP) {
         this.maSP = maSP;
-    }
-
-    public int getFav() {
-        return fav;
-    }
-
-    public void setFav(int fav) {
-        this.fav = fav;
     }
 
     public com.example.duan1.model.spct getSpct() {

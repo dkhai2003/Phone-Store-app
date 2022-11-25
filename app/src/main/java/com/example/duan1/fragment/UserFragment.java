@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -137,10 +138,11 @@ public class UserFragment extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
-
             }
             boolean emailVerified = user.isEmailVerified();
             String uid = user.getUid();
+        } else {
+            Toast.makeText(getContext(), "No User", Toast.LENGTH_SHORT).show();
         }
     }
 
