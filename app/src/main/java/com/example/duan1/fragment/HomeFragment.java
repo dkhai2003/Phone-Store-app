@@ -55,7 +55,7 @@ public class HomeFragment extends Fragment {
     private ImageView btnSortListProduct;
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
-    private String loaiSanPham = "lsp2";
+    private String loaiSanPham = "lsp1";
     private ProgressDialog progressDialog;
     private List<PhotoSlide> mListPhoto;
     public static final String TAG = HomeFragment.class.getName();
@@ -76,25 +76,23 @@ public class HomeFragment extends Fragment {
         unitUi();
         setUserInformation();
         setSlideShow();
-
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                txtSreach(query, loaiSanPham);
+                edSearch(query, loaiSanPham);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                txtSreach(query, loaiSanPham);
+                edSearch(query, loaiSanPham);
                 return false;
             }
         });
-
         btnSortListProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showdialog();
+                sortBySpinner();
             }
         });
 
@@ -134,7 +132,6 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mHandler.postDelayed(mRun, 3000);
-
     }
 
     private final Runnable mRun = new Runnable() {
@@ -149,7 +146,7 @@ public class HomeFragment extends Fragment {
         }
     };
 
-    private void showdialog() {
+    private void sortBySpinner() {
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
         b.setTitle("Sort by");
         String[] types = {"Price low to high", "Price high to low"};
@@ -185,7 +182,7 @@ public class HomeFragment extends Fragment {
         btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
     }
 
-    private void txtSreach(String str, String lsp) {
+    private void edSearch(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
@@ -202,13 +199,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void setUserInformation() {
-        createDialog();
-        progressDialog.show();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         if (user == null) {
             return;
-        } else {
-            progressDialog.dismiss();
         }
     }
 
@@ -219,15 +212,12 @@ public class HomeFragment extends Fragment {
         getRecyclerViewListProduct();
         product_typeAdapter.startListening();
         productAdapter.startListening();
-
     }
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-
-        getRecyclerViewListProduct("lsp2");
         getRecyclerViewListProduct(loaiSanPham);
-
+        progressDialog.dismiss();
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -246,13 +236,13 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerViewListProduct.setAdapter(productAdapter);
+        progressDialog.dismiss();
         productAdapter.notifyDataSetChanged();
     }
 
     private void getRecyclerViewListProduct_type() {
         createDialog();
         Runnable progressRunnable = new Runnable() {
-
             @Override
             public void run() {
                 progressDialog.dismiss();
@@ -278,6 +268,7 @@ public class HomeFragment extends Fragment {
                             loaiSanPham = type.getMaLoai();
                             progressDialog.dismiss();
                         } else {
+                            progressDialog.dismiss();
                             loaiSanPham = type.getMaLoai();
                             getRecyclerViewListProduct(loaiSanPham);
                             productAdapter.notifyDataSetChanged();
@@ -299,14 +290,6 @@ public class HomeFragment extends Fragment {
         progressDialog.setMessage("Connecting to the server ... ");
         progressDialog.setIcon(R.drawable.none_avatar);
     }
-
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
 
 
     private void sortLowToHigh(String lsp) {
