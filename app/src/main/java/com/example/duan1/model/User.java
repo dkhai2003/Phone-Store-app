@@ -14,6 +14,15 @@ public class User {
     private String birthday;
     private Boolean verifyEmail;
     private String userId;
+    private double total;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public String getEmail() {
         return email;
