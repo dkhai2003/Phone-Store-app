@@ -10,18 +10,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 import com.example.duan1.adapter.CartAdapter;
 import com.example.duan1.model.Product;
-import com.example.duan1.views.DetailsScreenActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -36,7 +32,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CartFragment extends Fragment  {
+public class CartFragment extends Fragment {
 
     public static final String TAG = CartFragment.class.getName();
     private TextView tvCountCart, tvTotalCart;
@@ -46,17 +42,12 @@ public class CartFragment extends Fragment  {
     int mcount_cart = 0;
 
 
-
     public static CartFragment newInstance() {
         Bundle args = new Bundle();
         CartFragment fragment = new CartFragment();
         fragment.setArguments(args);
         return fragment;
     }
-
-
-
-
 
 
     @Override
@@ -71,10 +62,10 @@ public class CartFragment extends Fragment  {
         return mView;
     }
 
-    private void uniUi(){
+    private void uniUi() {
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
-         tvCountCart = mView.findViewById(R.id.tvCountCart);
-         tvTotalCart = mView.findViewById(R.id.tvTotalCart);
+        tvCountCart = mView.findViewById(R.id.tvCountCart);
+        tvTotalCart = mView.findViewById(R.id.tvTotalCart);
 
     }
 
@@ -87,7 +78,7 @@ public class CartFragment extends Fragment  {
 
 
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerViewCart.setLayoutManager(linearLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
         FirebaseRecyclerOptions<Product> options =
@@ -117,7 +108,7 @@ public class CartFragment extends Fragment  {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         int soLuongSanPham = (int) snapshot.getChildrenCount();
-                                        tvCountCart.setText((soLuongSanPham)+" items");
+                                        tvCountCart.setText((soLuongSanPham) + " items");
                                     }
 
                                     @Override
@@ -130,9 +121,9 @@ public class CartFragment extends Fragment  {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         double value = snapshot.getValue(Double.class);
-                                        value -=product.getSoLuong()*product.getGiaSP();
+                                        value -= product.getSoLuong() * product.getGiaSP();
                                         myRef.child("Total").setValue(value);
-                                        tvTotalCart.setText("Total: $"+value);
+                                        tvTotalCart.setText("Total: $" + value);
                                     }
 
                                     @Override
@@ -144,26 +135,25 @@ public class CartFragment extends Fragment  {
                             }
                         });
                     }
-                }).setNegativeButton("no",null);
+                }).setNegativeButton("no", null);
                 Dialog dialog = alerBuider.create();
                 dialog.show();
-                
-            }
 
+            }
 
 
             @Override
             public void onClickMinus(Product product) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("soLuong",tru(product));
+                map.put("soLuong", tru(product));
                 FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map);
                 myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value -=product.getGiaSP();
+                        value -= product.getGiaSP();
                         myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $"+value);
+                        tvTotalCart.setText("Total: $" + value);
                     }
 
                     @Override
@@ -178,16 +168,16 @@ public class CartFragment extends Fragment  {
             @Override
             public void onClickPlus(Product product) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("soLuong",cong(product));
+                map.put("soLuong", cong(product));
                 FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map);
 
                 myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value +=product.getGiaSP();
+                        value += product.getGiaSP();
                         myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $"+value);
+                        tvTotalCart.setText("Total: $" + value);
                     }
 
                     @Override
@@ -202,7 +192,7 @@ public class CartFragment extends Fragment  {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int soLuongSanPham = (int) snapshot.getChildrenCount();
-                tvCountCart.setText((soLuongSanPham)+" items");
+                tvCountCart.setText((soLuongSanPham) + " items");
 
             }
 
@@ -217,26 +207,22 @@ public class CartFragment extends Fragment  {
 //        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
 
 
-
-
-
     }
 
 
-
-    public int tru(Product product){
+    public int tru(Product product) {
         int mTru = product.getSoLuong();
-        if(mTru > 1) {
+        if (mTru > 1) {
             mTru = product.getSoLuong() - 1;
         }
         return mTru;
     }
 
-    public int cong(Product product){
+    public int cong(Product product) {
         int mcong = product.getSoLuong();
-        if(mcong >=1){
-            mcong = product.getSoLuong()+1;
-        }else {
+        if (mcong >= 1) {
+            mcong = product.getSoLuong() + 1;
+        } else {
             mcong = 1;
         }
         return mcong;
@@ -249,7 +235,7 @@ public class CartFragment extends Fragment  {
         cartAdapter.startListening();
     }
 
-    public void setTotalCart(){
+    public void setTotalCart() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
@@ -261,8 +247,13 @@ public class CartFragment extends Fragment  {
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double value = snapshot.getValue(Double.class);
-                tvTotalCart.setText("Total: $"+value);
+
+                if (snapshot.exists()) {
+                    double value = snapshot.getValue(Double.class);
+                    tvTotalCart.setText("Total: $" + value);
+                } else {
+                    return;
+                }
 
             }
 
@@ -272,7 +263,6 @@ public class CartFragment extends Fragment  {
             }
         });
     }
-
 
 
 //    @NonNull
@@ -298,11 +288,6 @@ public class CartFragment extends Fragment  {
 //                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("SanPham").child(product.getMaSP()).removeValue();
 //            }
 //        });
-
-
-
-
-
 
 
     ///cc

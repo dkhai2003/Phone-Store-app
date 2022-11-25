@@ -1,7 +1,6 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +16,12 @@ import androidx.appcompat.widget.Toolbar;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.Product;
-import com.example.duan1.model.Product_Type;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -35,15 +32,15 @@ import com.google.firebase.database.ValueEventListener;
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
-//    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
+    //    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
 //    private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
     private Button btnAddToCart;
 
-    private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
-    private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail;
+    private ImageView imgDetail, iv_fav, img1, img2, img3, img4, btnMinus, btnPlus;
+    private TextView tvNameDetail, tvPriceDetail, tvSlMua, tvTotalDetail;
 
-    int soLuong =1;
+    int soLuong = 1;
 
 
     @Override
@@ -122,28 +119,21 @@ public class DetailsScreenActivity extends AppCompatActivity {
         tvNameDetail = findViewById(R.id.tvNameDetail);
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
         iv_fav = findViewById(R.id.iv_fav);
-        img1=findViewById(R.id.img1);
-        img2=findViewById(R.id.img2);
-        img3=findViewById(R.id.img3);
-        img4=findViewById(R.id.img4);
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
+        img3 = findViewById(R.id.img3);
+        img4 = findViewById(R.id.img4);
 
         btnAddToCart = findViewById(R.id.btnAddToCard);
 
-        btnMinus=findViewById(R.id.btnMinus);
-        btnPlus=findViewById(R.id.btnPlus);
-        tvSlMua=findViewById(R.id.tvSlMua);
+        btnMinus = findViewById(R.id.btnMinus);
+        btnPlus = findViewById(R.id.btnPlus);
+        tvSlMua = findViewById(R.id.tvSlMua);
 
         tvTotalDetail = findViewById(R.id.tvTotalDetail);
 
 
-
-
-
     }
-
-
-
-
 
 
     private void setValue() {
@@ -192,10 +182,10 @@ public class DetailsScreenActivity extends AppCompatActivity {
         btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (soLuong >1){
-                    soLuong-=1;
-                    tvSlMua.setText(soLuong+"");
-                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                if (soLuong > 1) {
+                    soLuong -= 1;
+                    tvSlMua.setText(soLuong + "");
+                    tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
                 }
             }
         });
@@ -203,15 +193,15 @@ public class DetailsScreenActivity extends AppCompatActivity {
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(soLuong>= 1){
-                    soLuong+=1;
-                    tvSlMua.setText(soLuong+"");
-                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                if (soLuong >= 1) {
+                    soLuong += 1;
+                    tvSlMua.setText(soLuong + "");
+                    tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
                 }
             }
         });
 
-        tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+        tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
 
 
     }
@@ -240,7 +230,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private void updateCartToFireBase(Product product) {
         int Soluong = Integer.parseInt(tvSlMua.getText().toString());
         product.setSoLuong(Soluong);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
@@ -255,13 +244,13 @@ public class DetailsScreenActivity extends AppCompatActivity {
             }
         });
 
-        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double value = snapshot.getValue(Double.class);
-                value += soLuong*product.getGiaSP();
-                myRef.child("Total").setValue(value);
-                Toast.makeText(DetailsScreenActivity.this, value+"", Toast.LENGTH_SHORT).show();
+                myRef.child("Cart").child("Total").setValue("0");
+//                double value = snapshot.getValue(Double.class);
+//                value += soLuong * product.getGiaSP();
+//                Toast.makeText(DetailsScreenActivity.this, value + "", Toast.LENGTH_SHORT).show();
             }
 
             @Override

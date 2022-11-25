@@ -97,7 +97,6 @@ public class UserFragment extends Fragment {
 
     public void getUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//        progressDialog.show();
         if (user != null) {
             // Name, email address, and profile photo Url
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(userAvatar);
@@ -141,9 +140,6 @@ public class UserFragment extends Fragment {
 
             }
             boolean emailVerified = user.isEmailVerified();
-            // The user's ID, unique to the Firebase project. Do NOT use this value to
-            // authenticate with your backend server, if you have one. Use
-            // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
         }
     }

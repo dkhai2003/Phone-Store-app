@@ -99,7 +99,6 @@ public class FavoritesFragment extends Fragment {
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Toast.makeText(getContext(), "" + dataSnapshot.getChildrenCount(), Toast.LENGTH_SHORT).show();
                     if (dataSnapshot.getChildrenCount() != 0) {
                         setViewLayout(R.layout.fragment_favorites_not_null);
                         getRecyclerViewListProduct();

@@ -36,8 +36,6 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdap
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
         holder.name.setText(model.getTenSP());
         holder.price.setText(model.getGiaSP() + "$");
-
-
         Glide.with(holder.img.getContext())
                 .load(model.getHinhSP())
                 .into(holder.img);

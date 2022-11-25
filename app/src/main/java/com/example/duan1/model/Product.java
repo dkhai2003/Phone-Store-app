@@ -3,15 +3,16 @@ package com.example.duan1.model;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    private int giaSP,soLuong;
+    private int soLuong;
     private String hinhSP, tenSP;
     private String maSP;
     private int fav = 0;
+    private double giaSP;
 
     private spct spct;
 
 
-    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
+    public Product(double giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
@@ -24,11 +25,11 @@ public class Product implements Serializable {
     public Product() {
     }
 
-    public int getGiaSP() {
+    public double getGiaSP() {
         return giaSP;
     }
 
-    public void setGiaSP(int giaSP) {
+    public void setGiaSP(double giaSP) {
         this.giaSP = giaSP;
     }
 
@@ -80,9 +81,3 @@ public class Product implements Serializable {
         this.spct = spct;
     }
 }
-
-//        if (tenSP.length() > 5) {
-//            this.tenSP = tenSP.substring(0, 7) + "...";
-//        } else {
-//            this.tenSP = tenSP;
-//        }

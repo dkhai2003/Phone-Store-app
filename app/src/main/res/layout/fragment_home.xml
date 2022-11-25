@@ -4,12 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F5F5F8"
     tools:context=".fragment.HomeFragment">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:scrollbars="none"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,11 +18,11 @@
             android:layout_height="match_parent">
 
             <LinearLayout
-
                 android:id="@+id/ln"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="#C9D6FF"
                 app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct_type"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -32,18 +33,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="18dp"
+                    android:background="#C0ffffff"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal">
 
                     <SearchView
-
                         android:id="@+id/edSreach"
                         android:layout_width="0dp"
                         android:layout_height="32dp"
                         android:layout_weight="14"
-                        android:background="@drawable/search_background"
+                        android:background="@null"
                         android:drawableStart="@drawable/search"
                         android:iconifiedByDefault="false"
                         android:queryHint="Search here" />
@@ -57,7 +58,7 @@
                         app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
                 </LinearLayout>
 
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -71,15 +72,17 @@
                         android:id="@+id/mCircleIndicator3"
                         android:layout_width="match_parent"
                         android:layout_height="30dp"
+                        android:layout_alignBottom="@id/mViewPager2"
                         app:ci_drawable="@drawable/item_indicator" />
-                </LinearLayout>
+                </RelativeLayout>
             </LinearLayout>
 
             <androidx.recyclerview.widget.RecyclerView
-
                 android:id="@+id/recyclerViewListProduct_type"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
+                android:background="@drawable/background_header"
+                android:padding="10dp"
                 app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

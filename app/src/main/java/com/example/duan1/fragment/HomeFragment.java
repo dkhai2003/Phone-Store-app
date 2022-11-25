@@ -36,11 +36,14 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import me.relex.circleindicator.CircleIndicator3;
@@ -65,7 +68,6 @@ public class HomeFragment extends Fragment {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -74,7 +76,13 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
-        setUserInformation();
+        return mView;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getUserCurrent();
         setSlideShow();
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -96,8 +104,9 @@ public class HomeFragment extends Fragment {
             }
         });
 
-
-        return mView;
+        getRecyclerViewListProduct();
+        product_typeAdapter.startListening();
+        productAdapter.startListening();
     }
 
     private void setSlideShow() {
@@ -151,10 +160,8 @@ public class HomeFragment extends Fragment {
         b.setTitle("Sort by");
         String[] types = {"Price low to high", "Price high to low"};
         b.setItems(types, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
                 switch (which) {
                     case 0:
@@ -167,14 +174,12 @@ public class HomeFragment extends Fragment {
                         break;
                 }
             }
-
         });
-
         b.show();
     }
 
     private void unitUi() {
-        edSearch = mView.findViewById(R.id.edSreach);
+        edSearch = (SearchView) mView.findViewById(R.id.edSreach);
         recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
@@ -198,26 +203,37 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct.setAdapter(productAdapter);
     }
 
-    private void setUserInformation() {
+    private void getUserCurrent() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
+        if (user != null) {
+            createDialog();
+            progressDialog.show();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String uEmail = user.getEmail();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/");
+            myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("TAG", "getInformationUserFromFirebase:error");
+                    progressDialog.dismiss();
+                }
+            });
+        } else {
+            progressDialog.dismiss();
             return;
         }
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getRecyclerViewListProduct();
-        product_typeAdapter.startListening();
-        productAdapter.startListening();
     }
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
         getRecyclerViewListProduct(loaiSanPham);
-        progressDialog.dismiss();
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -236,12 +252,11 @@ public class HomeFragment extends Fragment {
             }
         });
         recyclerViewListProduct.setAdapter(productAdapter);
-        progressDialog.dismiss();
         productAdapter.notifyDataSetChanged();
     }
 
     private void getRecyclerViewListProduct_type() {
-        createDialog();
+
         Runnable progressRunnable = new Runnable() {
             @Override
             public void run() {
@@ -266,9 +281,7 @@ public class HomeFragment extends Fragment {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
                             loaiSanPham = type.getMaLoai();
-                            progressDialog.dismiss();
                         } else {
-                            progressDialog.dismiss();
                             loaiSanPham = type.getMaLoai();
                             getRecyclerViewListProduct(loaiSanPham);
                             productAdapter.notifyDataSetChanged();
