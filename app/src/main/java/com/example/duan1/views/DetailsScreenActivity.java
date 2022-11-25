@@ -217,7 +217,13 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
         tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
 
-
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String userEmail = user.getEmail();
+//        String[] subEmail = userEmail.split("@");
+//        String pathUserId = "User" + subEmail[0];
+//        DatabaseReference myRef1 = database.getReference("duan/User/" + pathUserId);
+//        myRef1.child("Total").setValue(0);
     }
 
     private void updateFavToFirebase(Product product) {
@@ -258,6 +264,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 finish();
             }
         });
+
+
 
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

@@ -108,6 +108,9 @@ public class SignUpActivity extends AppCompatActivity {
                                                     Toast.makeText(SignUpActivity.this, "Create Account Successful", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
+                                    myRef.child("User" + subEmail[0]).child("Total").setValue(0);
+
+
                                     Log.d("UserInformation", user.getUid());
                                     // ==>
                                     progressDialog.dismiss();

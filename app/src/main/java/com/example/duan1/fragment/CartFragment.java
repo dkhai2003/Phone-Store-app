@@ -130,9 +130,11 @@ public class CartFragment extends Fragment  {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         double value = snapshot.getValue(Double.class);
-                                        value -=product.getSoLuong()*product.getGiaSP();
-                                        myRef.child("Total").setValue(value);
-                                        tvTotalCart.setText("Total: $"+value);
+                                        if(value!=0){
+                                            value -=product.getSoLuong()*product.getGiaSP();
+                                            myRef.child("Total").setValue(value);
+                                            tvTotalCart.setText("Total: $"+value);
+                                        }
                                     }
 
                                     @Override
@@ -161,9 +163,11 @@ public class CartFragment extends Fragment  {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value -=product.getGiaSP();
-                        myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $"+value);
+                        if(product.getSoLuong()!=1){
+                            value -=product.getGiaSP();
+                            myRef.child("Total").setValue(value);
+                            tvTotalCart.setText("Total: $"+value);
+                        }
                     }
 
                     @Override
@@ -185,9 +189,11 @@ public class CartFragment extends Fragment  {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value +=product.getGiaSP();
-                        myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $"+value);
+                        if (value >=0){
+                            value +=product.getGiaSP();
+                            myRef.child("Total").setValue(value);
+                            tvTotalCart.setText("Total: $"+value);
+                        }
                     }
 
                     @Override
