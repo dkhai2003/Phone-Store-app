@@ -40,7 +40,7 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type, P
         Glide.with(holder.img.getContext())
                 .load(model.getHinhLoai())
                 .into(holder.img);
-        holder.itemView.setBackgroundColor(pos == position ? Color.GREEN : Color.WHITE);
+//        holder.itemView.setBackgroundColor(pos == position ? Color.GREEN : Color.WHITE);
         holder.itemView.setBackgroundResource(pos == position ? R.drawable.button_custom_white_borderblack : R.drawable.button_custom_white);
         holder.item_layout.setOnClickListener(new View.OnClickListener() {
             @Override
