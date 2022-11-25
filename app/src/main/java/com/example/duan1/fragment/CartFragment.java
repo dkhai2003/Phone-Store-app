@@ -3,6 +3,7 @@ package com.example.duan1.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import com.example.duan1.R;
 import com.example.duan1.adapter.CartAdapter;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.ObservableSnapshotArray;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,7 +87,9 @@ public class CartFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef.child("Cart"), Product.class)
                         .build();
+       ObservableSnapshotArray<Product> t = options.getSnapshots();
 
+        Log.d(">>>>>>>>>", "getRecyclerViewCart: "+ t);
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {
@@ -121,9 +125,11 @@ public class CartFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         double value = snapshot.getValue(Double.class);
-                                        value -= product.getSoLuong() * product.getGiaSP();
-                                        myRef.child("Total").setValue(value);
-                                        tvTotalCart.setText("Total: $" + value);
+                                        if(value!=0){
+                                            value -=product.getSoLuong()*product.getGiaSP();
+                                            myRef.child("Total").setValue(value);
+                                            tvTotalCart.setText("Total: $"+value);
+                                        }
                                     }
 
                                     @Override
@@ -151,9 +157,11 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value -= product.getGiaSP();
-                        myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $" + value);
+                        if(product.getSoLuong()!=1){
+                            value -=product.getGiaSP();
+                            myRef.child("Total").setValue(value);
+                            tvTotalCart.setText("Total: $"+value);
+                        }
                     }
 
                     @Override
@@ -175,9 +183,12 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        value += product.getGiaSP();
-                        myRef.child("Total").setValue(value);
-                        tvTotalCart.setText("Total: $" + value);
+
+                        if (value >=0){
+                            value +=product.getGiaSP();
+                            myRef.child("Total").setValue(value);
+                            tvTotalCart.setText("Total: $"+value);
+                        }
                     }
 
                     @Override

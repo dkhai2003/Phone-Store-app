@@ -22,8 +22,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class DetailsScreenActivity extends AppCompatActivity {
@@ -200,7 +203,13 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
         tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
 
-
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String userEmail = user.getEmail();
+//        String[] subEmail = userEmail.split("@");
+//        String pathUserId = "User" + subEmail[0];
+//        DatabaseReference myRef1 = database.getReference("duan/User/" + pathUserId);
+//        myRef1.child("Total").setValue(0);
     }
 
     private void updateFavToFirebase(Product product) {
@@ -236,32 +245,22 @@ public class DetailsScreenActivity extends AppCompatActivity {
         myRef.child("Cart").child(product.getMaSP()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-//                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
-//        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                double value = snapshot.getValue(Double.class);
-//                value += soLuong * product.getGiaSP();
-//                Toast.makeText(DetailsScreenActivity.this, value + "", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-        myRef.child("Total").setValue("200").addOnSuccessListener(new OnSuccessListener<Void>() {
+
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(Void unused) {
-                Toast.makeText(DetailsScreenActivity.this, "add oke", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double value = snapshot.getValue(Double.class);
+                value += soLuong * product.getGiaSP();
+                myRef.child("Total").setValue(value);
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(DetailsScreenActivity.this, "Add not ok" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(DetailsScreenActivity.this, "Add not ok" + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
