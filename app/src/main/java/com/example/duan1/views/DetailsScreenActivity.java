@@ -26,8 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 public class DetailsScreenActivity extends AppCompatActivity {
@@ -39,7 +41,9 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private Button btnAddToCart;
 
     private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
-    private TextView tvNameDetail, tvPriceDetail,tvSlMua;
+    private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail;
+
+    int soLuong =1;
 
 
     @Override
@@ -131,42 +135,16 @@ public class DetailsScreenActivity extends AppCompatActivity {
         btnMinus=findViewById(R.id.btnMinus);
         btnPlus=findViewById(R.id.btnPlus);
         tvSlMua=findViewById(R.id.tvSlMua);
-        setNumber();
+
+        tvTotalDetail = findViewById(R.id.tvTotalDetail);
+
+
 
 
 
 
     }
-    public void setNumber() {
-        btnMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int number = Integer.parseInt((String) tvSlMua.getText());
 
-                    if(number==1){
-                        tvSlMua.setText("1");
-                    }else {
-                        number=number-1;
-                        tvSlMua.setText(number + "");
-                    }
-
-
-
-            }
-        });
-        btnPlus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int number = Integer.parseInt((String) tvSlMua.getText());
-
-                    number=number+1;
-                    tvSlMua.setText(number + "");
-
-
-
-            }
-        });
-    }
 
 
 
@@ -199,6 +177,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
         tvNameDetail.setText(product.getTenSP());
         tvPriceDetail.setText(product.getGiaSP() + "");
+
         iv_fav.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -212,6 +191,33 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 updateCartToFireBase(product);
             }
         });
+
+
+        btnMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (soLuong >1){
+                    soLuong-=1;
+                    tvSlMua.setText(soLuong+"");
+                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                }
+            }
+        });
+
+        btnPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(soLuong>= 1){
+                    soLuong+=1;
+                    tvSlMua.setText(soLuong+"");
+                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                }
+            }
+        });
+
+        tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+
+
     }
 
     private void updateFavToFirebase(Product product) {
@@ -236,20 +242,37 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
 
     private void updateCartToFireBase(Product product) {
+        int Soluong = Integer.parseInt(tvSlMua.getText().toString());
+        product.setSoLuong(Soluong);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId).child("Cart").child(product.getMaSP());
-        myRef.setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+        myRef.child("Cart").child(product.getMaSP()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
 
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double value = snapshot.getValue(Double.class);
+                value += soLuong*product.getGiaSP();
+                myRef.child("Total").setValue(value);
+                Toast.makeText(DetailsScreenActivity.this, value+"", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 //        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {

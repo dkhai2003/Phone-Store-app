@@ -28,6 +28,8 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
 
     public interface IClickCart{
         void onClickDeleteCart(Product product);
+        void onClickMinus(Product product);
+        void onClickPlus(Product product);
     }
 
     public CartAdapter(@NonNull FirebaseRecyclerOptions<Product> options,IClickCart iClickCart) {
@@ -38,22 +40,75 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
         holder.name.setText(model.getTenSP());
-        holder.price.setText(model.getGiaSP() + "$");
+        holder.price.setText(model.getGiaSP()*model.getSoLuong() + "$");
+        holder.conut.setText(model.getSoLuong()+"");
+        holder.tvCount.setText("Số lượng: "+model.getSoLuong()+"");
+
+
         Glide.with(holder.img.getContext())
                 .load(model.getHinhSP())
                 .into(holder.img);
 
-//        holder.cardViewCart.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                iClickCart.onClickDeleteCart(model);
-//            }
-//        });
+        holder.maSP.setText("Mã sản phẩm: "+model.getMaSP());
+
+
+
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 iClickCart.onClickDeleteCart(model);
+            }
+        });
+
+        holder.imgMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iClickCart.onClickMinus(model);
+            }
+        });
+
+        holder.imgPlus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iClickCart.onClickPlus(model);
+            }
+        });
+
+    }
+
+    @NonNull
+    @Override
+    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
+        return new CartAdapter.myViewHolder(view);
+    }
+
+    static class myViewHolder extends RecyclerView.ViewHolder {
+        ImageView img, imgDelete, imgMinus, imgPlus;
+        TextView name, price, conut, tvCount, maSP;
+        CardView cardViewCart;
+
+
+
+        public myViewHolder(@NonNull View itemView) {
+            super(itemView);
+            conut = itemView.findViewById(R.id.tvSoLuong);
+            img = itemView.findViewById(R.id.imgCart);
+            name = itemView.findViewById(R.id.tvNameCart);
+            price = itemView.findViewById(R.id.tvPriceCart);
+            cardViewCart = itemView.findViewById(R.id.card_view_cart);
+            imgDelete = itemView.findViewById(R.id.imgDeleteCart);
+            imgMinus = itemView.findViewById(R.id.imgMinus);
+            imgPlus = itemView.findViewById(R.id.imgPlus);
+
+            tvCount = itemView.findViewById(R.id.tvAmountCart);
+            maSP = itemView.findViewById(R.id.tvMaSP);
+        }
+    }
+
+}
+
+
 //                AlertDialog.Builder alerBuider = new AlertDialog.Builder(v.getContext());
 //                alerBuider.setTitle("Notifications");
 //                alerBuider.setMessage("Do you want to delete?");
@@ -70,37 +125,3 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
 //                }).setNegativeButton("no",null);
 //                Dialog dialog = alerBuider.create();
 //                dialog.show();
-
-
-            }
-        });
-
-    }
-
-    @NonNull
-    @Override
-    public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cart, parent, false);
-        return new CartAdapter.myViewHolder(view);
-    }
-
-    static class myViewHolder extends RecyclerView.ViewHolder {
-        ImageView img, imgDelete;
-        TextView name, price;
-        CardView cardViewCart;
-
-
-
-        public myViewHolder(@NonNull View itemView) {
-            super(itemView);
-
-            img = itemView.findViewById(R.id.imgCart);
-            name = itemView.findViewById(R.id.tvNameCart);
-            price = itemView.findViewById(R.id.tvPriceCart);
-            cardViewCart = itemView.findViewById(R.id.card_view_cart);
-            imgDelete = itemView.findViewById(R.id.imgDeleteCart);
-
-        }
-    }
-
-}
