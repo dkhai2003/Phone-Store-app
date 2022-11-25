@@ -3,6 +3,7 @@ package com.example.duan1.fragment;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,19 +11,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.viewmodel.CreationExtras;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 import com.example.duan1.adapter.CartAdapter;
 import com.example.duan1.model.Product;
-import com.example.duan1.views.DetailsScreenActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.firebase.ui.database.ObservableSnapshotArray;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -94,7 +92,9 @@ public class CartFragment extends Fragment  {
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef.child("Cart"), Product.class)
                         .build();
+       ObservableSnapshotArray<Product> t = options.getSnapshots();
 
+        Log.d(">>>>>>>>>", "getRecyclerViewCart: "+ t);
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {

@@ -254,7 +254,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         myRef.child("Cart").child(product.getMaSP()).setValue(product).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-//                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DetailsScreenActivity.this, "Thêm vào giỏ hàng thành công", Toast.LENGTH_SHORT).show();
                 finish();
             }
         });
@@ -265,7 +265,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 double value = snapshot.getValue(Double.class);
                 value += soLuong*product.getGiaSP();
                 myRef.child("Total").setValue(value);
-                Toast.makeText(DetailsScreenActivity.this, value+"", Toast.LENGTH_SHORT).show();
+
             }
 
             @Override
