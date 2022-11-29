@@ -2,11 +2,15 @@ package com.example.duan1.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,9 +23,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1.R;
 import com.example.duan1.adapter.CartAdapter;
 import com.example.duan1.model.Product;
+import com.example.duan1.views.CheckOutActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.ObservableSnapshotArray;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,13 +42,15 @@ import java.util.Map;
 
 
 public class CartFragment extends Fragment  {
-
+    private Button btnCheckOut;
     public static final String TAG = CartFragment.class.getName();
     private TextView tvCountCart, tvTotalCart;
     private View mView;
     private RecyclerView recyclerViewCart;
     private CartAdapter cartAdapter;
     int mcount_cart = 0;
+
+    private final Handler mHandler = new Handler(Looper.myLooper());
 
 
 
@@ -66,6 +75,13 @@ public class CartFragment extends Fragment  {
         uniUi();
         getRecyclerViewCart();
         setTotalCart();
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCheckOut();
+            }
+        });
+
         return mView;
     }
 
@@ -73,7 +89,7 @@ public class CartFragment extends Fragment  {
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
          tvCountCart = mView.findViewById(R.id.tvCountCart);
          tvTotalCart = mView.findViewById(R.id.tvTotalCart);
-
+         btnCheckOut = mView.findViewById(R.id.btnCheckOut);
     }
 
 
@@ -92,9 +108,6 @@ public class CartFragment extends Fragment  {
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef.child("Cart"), Product.class)
                         .build();
-       ObservableSnapshotArray<Product> t = options.getSnapshots();
-
-        Log.d(">>>>>>>>>", "getRecyclerViewCart: "+ t);
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {
@@ -191,22 +204,43 @@ public class CartFragment extends Fragment  {
 //
 //                    }
 //                });
-
-
             }
 
             @Override
             public void onClickPlus(Product product) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("soLuong",cong(product));
-                int click =0;
-                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                int click =0;
+//                onClickPlus1(product,click+1);
+                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        int check  =click+1;
-                        onClickPlus1(product,check);
+                    public void onComplete(@NonNull Task<Void> task) {
+                        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                double value = snapshot.getValue(Double.class);
+                                if (product.getSoLuong() >=1){
+                                    double gia =product.getGiaSP();
+                                    double tong = value+(gia);
+                                    myRef.child("Total").setValue(tong).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            tvTotalCart.setText("Total: $"+tong);
+                                        }
+                                    });
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
+
+
 
 
 
@@ -304,8 +338,13 @@ public class CartFragment extends Fragment  {
 
                     double gia =product.getGiaSP()*product.getSoLuong()*click;
                     double tong = value-gia;
-                    myRef.child("Total").setValue(tong);
-                    tvTotalCart.setText("Total: $"+tong);
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
                 }else if(value<0){
                     myRef.child("Total").setValue(0);
                     tvTotalCart.setText("Total: $"+0);
@@ -332,14 +371,16 @@ public class CartFragment extends Fragment  {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
-
-
                 if (product.getSoLuong() >1){
-
                     double gia =product.getGiaSP()*click;
                     double tong = value-(gia);
-                    myRef.child("Total").setValue(tong);
-                    tvTotalCart.setText("Total: $"+tong);
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
                 }
             }
 
@@ -367,8 +408,13 @@ public class CartFragment extends Fragment  {
 
                     double gia =product.getGiaSP()*click;
                     double tong = value+(gia);
-                    myRef.child("Total").setValue(tong);
-                    tvTotalCart.setText("Total: $"+tong);
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
                 }
             }
 
@@ -381,6 +427,12 @@ public class CartFragment extends Fragment  {
     }
 
 
+
+
+    public void onClickCheckOut(){
+        Intent intent = new Intent(getContext(), CheckOutActivity.class);
+        startActivity(intent);
+    }
 
 
 }

@@ -79,6 +79,19 @@ public class Product implements Serializable {
     public void setSpct(com.example.duan1.model.spct spct) {
         this.spct = spct;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "giaSP=" + giaSP +
+                ", soLuong=" + soLuong +
+                ", hinhSP='" + hinhSP + '\'' +
+                ", tenSP='" + tenSP + '\'' +
+                ", maSP='" + maSP + '\'' +
+                ", fav=" + fav +
+                ", spct=" + spct +
+                '}';
+    }
 }
 
 //        if (tenSP.length() > 5) {

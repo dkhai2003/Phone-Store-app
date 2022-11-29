@@ -14,6 +14,10 @@ import com.example.duan1.fragment.FavoritesFragment;
 import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private BottomNavigationView mbnv;
@@ -73,7 +77,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction()
                                 .replace(R.id.frameHome, CartFragment.newInstance(), null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack(CartFragment.TAG) // name can be null
+                                //.addToBackStack(CartFragment.TAG) // name can be null
                                 .commit();
                         break;
                     }
@@ -97,5 +101,15 @@ public class HomeScreenActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public static final DatabaseReference myRef(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+        return myRef;
     }
 }
