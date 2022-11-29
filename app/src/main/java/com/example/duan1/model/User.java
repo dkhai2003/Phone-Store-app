@@ -1,5 +1,10 @@
 package com.example.duan1.model;
 
+import com.google.firebase.database.Exclude;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class User {
     private String userName;
     private String phoneNumber;
@@ -9,6 +14,15 @@ public class User {
     private String birthday;
     private Boolean verifyEmail;
     private String userId;
+    private double total;
+
+    public double getTotal() {
+        return total;
+    }
+
+    public void setTotal(double total) {
+        this.total = total;
+    }
 
     public String getEmail() {
         return email;
@@ -87,4 +101,17 @@ public class User {
         this.verifyEmail = verifyEmail;
         this.email = email;
     }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("email", getEmail());
+        result.put("gender", getGender());
+        result.put("phoneNumber", getPhoneNumber());
+        result.put("userName", getUserName());
+        result.put("address", getAddress());
+        result.put("birthday", getBirthday());
+        return result;
+    }
+
 }

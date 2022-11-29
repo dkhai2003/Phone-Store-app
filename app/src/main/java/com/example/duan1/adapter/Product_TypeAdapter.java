@@ -12,21 +12,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Product_TypeAdapter.myViewHolder> {
+public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type, Product_TypeAdapter.myViewHolder> {
 
     private IclickListener iclickListener;
 
 
-
-    public interface IclickListener{
+    public interface IclickListener {
         void onClickGetMaLoai(Product_Type type);
-
-
     }
 
 
@@ -53,13 +49,11 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type,Pr
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_type,parent,false);
-
-
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_type, parent, false);
         return new Product_TypeAdapter.myViewHolder(view);
     }
 
-    class myViewHolder extends RecyclerView.ViewHolder{
+    class myViewHolder extends RecyclerView.ViewHolder {
         ImageView img;
         TextView name;
         CardView item_layout;

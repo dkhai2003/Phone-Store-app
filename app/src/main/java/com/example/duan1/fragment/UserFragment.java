@@ -40,6 +40,7 @@ public class UserFragment extends Fragment {
     private FrameLayout frameUser;
     private View mView;
     private ProgressDialog progressDialog;
+    public static final String TAG = UserFragment.class.getName();
 
     public static UserFragment newInstance() {
         Bundle args = new Bundle();

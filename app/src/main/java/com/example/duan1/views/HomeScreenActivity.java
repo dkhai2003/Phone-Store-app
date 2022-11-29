@@ -2,100 +2,114 @@ package com.example.duan1.views;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentStatePagerAdapter;
-import androidx.viewpager.widget.ViewPager;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.duan1.R;
-import com.example.duan1.adapter.ViewPagerAdapter;
+import com.example.duan1.fragment.CartFragment;
+import com.example.duan1.fragment.FavoritesFragment;
+import com.example.duan1.fragment.HomeFragment;
+import com.example.duan1.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private BottomNavigationView mbnv;
-    private ViewPager mViewPager;
+    //    private ViewPager mViewPager;
+    private FrameLayout frameHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_screen);
         mbnv = findViewById(R.id.bnv);
-        mViewPager = findViewById(R.id.viewPager);
-        setUpViewPager();
-        mbnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.item_home: {
-                        mViewPager.setCurrentItem(0);
-                        break;
-                    }
-                    case R.id.item_favorite: {
-                        mViewPager.setCurrentItem(1);
-                        break;
-                    }
-                    case R.id.item_cart: {
-                        mViewPager.setCurrentItem(2);
-                        break;
-                    }
-                    case R.id.item_user: {
-                        mViewPager.setCurrentItem(3);
-                        break;
-                    }
-                    default:
-                        mViewPager.setCurrentItem(0);
-                        break;
-                }
-                return true;
-            }
-        });
+        frameHome = findViewById(R.id.frameHome);
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frameHome, HomeFragment.newInstance(), null)
+                .setReorderingAllowed(true)
+                .addToBackStack(HomeFragment.TAG) // name can be null
+                .commit();
+        setUpView();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        setUpViewPager();
+        setUpView();
     }
 
-    private void setUpViewPager() {
-        ViewPagerAdapter adaper = new ViewPagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        mViewPager.setAdapter(adaper);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    @Override
+    protected void onStop() {
+        super.onStop();
+        setUpView();
+    }
 
-            }
-
+    private void setUpView() {
+//        mbnv.setSelectedItemId(R.id.item_home);
+        mbnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public void onPageSelected(int position) {
-                switch (position) {
-                    case 0: {
-                        mbnv.getMenu().findItem(R.id.item_home).setChecked(true);
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                switch (item.getItemId()) {
+                    case R.id.item_home: {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameHome, HomeFragment.newInstance(), null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack(HomeFragment.TAG) // name can be null
+                                .commit();
                         break;
                     }
-                    case 1: {
-                        mbnv.getMenu().findItem(R.id.item_favorite).setChecked(true);
+                    case R.id.item_favorite: {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameHome, FavoritesFragment.newInstance(), null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack(FavoritesFragment.TAG) // name can be null
+                                .commit();
                         break;
                     }
-                    case 2: {
-                        mbnv.getMenu().findItem(R.id.item_cart).setChecked(true);
+                    case R.id.item_cart: {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameHome, CartFragment.newInstance(), null)
+                                .setReorderingAllowed(true)
+                                //.addToBackStack(CartFragment.TAG) // name can be null
+                                .commit();
                         break;
                     }
-                    case 3: {
-                        mbnv.getMenu().findItem(R.id.item_user).setChecked(true);
+                    case R.id.item_user: {
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameHome, UserFragment.newInstance(), null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack(UserFragment.TAG) // name can be null
+                                .commit();
                         break;
                     }
                     default:
-                        mbnv.getMenu().findItem(R.id.item_home).setChecked(true);
+                        fragmentManager.beginTransaction()
+                                .replace(R.id.frameHome, HomeFragment.newInstance(), null)
+                                .setReorderingAllowed(true)
+                                .addToBackStack("name") // name can be null
+                                .commit();
                         break;
                 }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
+                return true;
 
             }
         });
+    }
+
+    public static final DatabaseReference myRef(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+        return myRef;
     }
 }

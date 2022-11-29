@@ -53,4 +53,11 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     implementation 'com.firebaseui:firebase-ui-database:8.0.2'
     implementation 'me.relex:circleindicator:2.1.6'
+    // swipe delete
+    implementation "androidx.recyclerview:recyclerview:1.2.1"
+
+
+
+
+
 }

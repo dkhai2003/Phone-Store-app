@@ -31,7 +31,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.fragment.UserFragment;
 import com.example.duan1.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -481,7 +480,7 @@ public class EditProfileActivity extends AppCompatActivity {
             checkVerifiedEmail();
             User updateUser = new User(updateEmail, updateName, updatePhoneNumber, updateAddress, updateGenDer, updateBirthDay, verifyEmail);
             myRef.child(pathUserId)
-                    .setValue(updateUser, new DatabaseReference.CompletionListener() {
+                    .updateChildren(updateUser.toMap(), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
@@ -506,7 +505,7 @@ public class EditProfileActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            onBackPressed();
+            getFragmentManager().popBackStack();
             finish();
         }
         return super.onOptionsItemSelected(item);

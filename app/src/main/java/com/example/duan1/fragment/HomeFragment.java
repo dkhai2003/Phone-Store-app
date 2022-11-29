@@ -53,12 +53,12 @@ public class HomeFragment extends Fragment {
     private ViewPager2 mViewPager2;
     private CircleIndicator3 mCircleIndicator3;
     private ImageView btnSortListProduct;
-
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
     private String loaiSanPham = "lsp2";
     private ProgressDialog progressDialog;
     private List<PhotoSlide> mListPhoto;
+    public static final String TAG = HomeFragment.class.getName();
     private final Handler mHandler = new Handler(Looper.myLooper());
 
     public static HomeFragment newInstance() {
@@ -76,6 +76,7 @@ public class HomeFragment extends Fragment {
         unitUi();
         setUserInformation();
         setSlideShow();
+
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -133,6 +134,7 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mHandler.postDelayed(mRun, 3000);
+
     }
 
     private final Runnable mRun = new Runnable() {
@@ -215,11 +217,19 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
+        product_typeAdapter.startListening();
+        productAdapter.startListening();
+
+
+
     }
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-        getRecyclerViewListProduct("lsp1");
+
+        getRecyclerViewListProduct("lsp2");
+        getRecyclerViewListProduct(loaiSanPham);
+
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -258,8 +268,6 @@ public class HomeFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product_Type>()
                         .setQuery(myRef, Product_Type.class)
                         .build();
-
-
         product_typeAdapter = new Product_TypeAdapter(options, new Product_TypeAdapter.IclickListener() {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
@@ -297,16 +305,10 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        productAdapter.startListening();
-        product_typeAdapter.startListening();
+
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        productAdapter.stopListening();
-        product_typeAdapter.stopListening();
-    }
+
 
     private void sortLowToHigh(String lsp) {
         recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
@@ -356,7 +358,6 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("SanPham", product);
-        bundle.putString("lsp", loaiSanPham);
         intent.putExtras(bundle);
         startActivity(intent);
     }

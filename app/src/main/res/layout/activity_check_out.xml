@@ -258,6 +258,7 @@
                     android:textSize="17sp" />
 
                 <TextView
+                    android:id="@+id/tvTotalCheckOut"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -271,6 +272,7 @@
             </LinearLayout>
 
             <Button
+                android:onClick="clickOpenBottomSheetDialog"
                 android:id="@+id/btnConfirmAndPay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

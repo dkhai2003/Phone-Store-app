@@ -16,17 +16,19 @@ import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdapter.myViewHolder> {
+public class FavoritesItemAdapter extends FirebaseRecyclerAdapter<Product, FavoritesItemAdapter.myViewHolder> {
 
 
     private final IClickProduct iClickProduct;
 
     public interface IClickProduct {
         void onClickDetailsScreen(Product product);
+
+        void onClickRemoveProduct(Product product);
     }
 
 
-    public ProductAdapter(@NonNull FirebaseRecyclerOptions<Product> options, IClickProduct iClickProduct) {
+    public FavoritesItemAdapter(@NonNull FirebaseRecyclerOptions<Product> options, IClickProduct iClickProduct) {
         super(options);
         this.iClickProduct = iClickProduct;
     }
@@ -42,10 +44,10 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdap
                 .load(model.getHinhSP())
                 .into(holder.img);
 
-        holder.imgDetails.setOnClickListener(new View.OnClickListener() {
+        holder.imgRemove.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                iClickProduct.onClickDetailsScreen(model);
+                iClickProduct.onClickRemoveProduct(model);
             }
         });
         holder.card_view_product.setOnClickListener(new View.OnClickListener() {
@@ -60,14 +62,14 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdap
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_product_custom, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_favorites, parent, false);
 
 
         return new myViewHolder(view);
     }
 
     static class myViewHolder extends RecyclerView.ViewHolder {
-        ImageView img, imgDetails;
+        ImageView img, imgRemove;
         TextView name, price;
         CardView card_view_product;
 
@@ -78,7 +80,7 @@ public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdap
             img = itemView.findViewById(R.id.imgSanPham);
             name = itemView.findViewById(R.id.tvTenSanPham);
             price = itemView.findViewById(R.id.tvGiaSanPham);
-            imgDetails = itemView.findViewById(R.id.imgRemove);
+            imgRemove = itemView.findViewById(R.id.imgRemove);
             card_view_product = itemView.findViewById(R.id.card_view_product);
         }
     }
