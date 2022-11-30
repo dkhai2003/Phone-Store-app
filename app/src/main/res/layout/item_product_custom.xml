@@ -29,51 +29,65 @@
             app:srcCompat="@drawable/item_simple_images" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
+            android:orientation="horizontal"
             android:background="@color/white"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/tvTenSanPham"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="8dp"
-                android:text="tensanpham"
-                android:textColor="#000"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imgSanPham" />
-
+            >
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
+                android:orientation="vertical"
+                android:layout_weight="3"
+                >
                 <TextView
-                    android:id="@+id/tvGiaSanPham"
-                    android:layout_width="368dp"
+                    android:id="@+id/tvTenSanPham"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
+                    android:padding="8dp"
+                    android:text="tensanpham"
+                    android:textColor="#000"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/imgSanPham" />
+                <TextView
+
+                    android:id="@+id/tvGiaSanPham"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:padding="8dp"
                     android:text="gia"
+
                     android:textColor="#536DFE"
                     android:textSize="14sp"
                     android:textStyle="italic|bold"
-                    app:layout_constraintTop_toBottomOf="@+id/tvTenSanPham" />
 
-                <ImageView
-                    android:id="@+id/imgRemove"
-                    android:layout_width="34dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:layout_marginEnd="6dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="@+id/imgSanPham"
-                    app:srcCompat="@drawable/cart_1" />
+                    app:layout_constraintTop_toBottomOf="@+id/tvTenSanPham" />
             </LinearLayout>
+            <ImageView
+                android:layout_gravity="center"
+                android:id="@+id/imgRemove"
+                android:layout_width="34dp"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/imgSanPham"
+                app:srcCompat="@drawable/cart_1" />
+
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="horizontal">
+
+
+
+
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

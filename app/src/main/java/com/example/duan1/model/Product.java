@@ -50,12 +50,7 @@ public class Product implements Serializable {
     public String getTenSP() {
         return tenSP;
     }
-    public String getTenSPsubstring() {
-        if (tenSP.length() >= 15) {
-            return tenSP.substring(0, 11) + "...";
-        }
-        return tenSP;
-    }
+
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }

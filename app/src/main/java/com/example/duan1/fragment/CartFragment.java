@@ -2,13 +2,11 @@ package com.example.duan1.fragment;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1.R;
 import com.example.duan1.adapter.CartAdapter;
 import com.example.duan1.model.Product;
-import com.example.duan1.views.CheckOutActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.ObservableSnapshotArray;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,7 +41,6 @@ public class CartFragment extends Fragment {
     private View mView;
     private RecyclerView recyclerViewCart;
     private CartAdapter cartAdapter;
-    private Button btnCheckOut;
     int mcount_cart = 0;
 
 
@@ -72,15 +68,9 @@ public class CartFragment extends Fragment {
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
         tvCountCart = mView.findViewById(R.id.tvCountCart);
         tvTotalCart = mView.findViewById(R.id.tvTotalCart);
-        btnCheckOut = mView.findViewById(R.id.btnCheckOut);
-        btnCheckOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), CheckOutActivity.class);
-                startActivity(i);
-            }
-        });
+
     }
+
 
     public void getRecyclerViewCart() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -97,9 +87,9 @@ public class CartFragment extends Fragment {
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef.child("Cart"), Product.class)
                         .build();
-        ObservableSnapshotArray<Product> t = options.getSnapshots();
+       ObservableSnapshotArray<Product> t = options.getSnapshots();
 
-        Log.d(">>>>>>>>>", "getRecyclerViewCart: " + t);
+        Log.d(">>>>>>>>>", "getRecyclerViewCart: "+ t);
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {
@@ -135,10 +125,10 @@ public class CartFragment extends Fragment {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         double value = snapshot.getValue(Double.class);
-                                        if (value != 0) {
-                                            value -= product.getSoLuong() * product.getGiaSP();
+                                        if(value!=0){
+                                            value -=product.getSoLuong()*product.getGiaSP();
                                             myRef.child("Total").setValue(value);
-                                            tvTotalCart.setText("Total: $" + value);
+                                            tvTotalCart.setText("Total: $"+value);
                                         }
                                     }
 
@@ -167,10 +157,10 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        if (product.getSoLuong() != 1) {
-                            value -= product.getGiaSP();
+                        if(product.getSoLuong()!=1){
+                            value -=product.getGiaSP();
                             myRef.child("Total").setValue(value);
-                            tvTotalCart.setText("Total: $" + value);
+                            tvTotalCart.setText("Total: $"+value);
                         }
                     }
 
@@ -193,10 +183,11 @@ public class CartFragment extends Fragment {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         double value = snapshot.getValue(Double.class);
-                        if (value >= 0) {
-                            value += product.getGiaSP();
+
+                        if (value >=0){
+                            value +=product.getGiaSP();
                             myRef.child("Total").setValue(value);
-                            tvTotalCart.setText("Total: $" + value);
+                            tvTotalCart.setText("Total: $"+value);
                         }
                     }
 
