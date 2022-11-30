@@ -57,6 +57,12 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
+
+               // updateBillToFireBase();
+                updateBillToFireBase();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
+
             }
         });
         bottomSheetDialog.setContentView(viewDialog);
