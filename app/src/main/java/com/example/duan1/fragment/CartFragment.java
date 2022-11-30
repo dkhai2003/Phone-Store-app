@@ -128,7 +128,6 @@ public class CartFragment extends Fragment {
 
                                     }
                                 });
-
                                 myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -177,7 +176,6 @@ public class CartFragment extends Fragment {
 
                     }
                 });
-
             }
 
             @Override
@@ -264,32 +262,41 @@ public class CartFragment extends Fragment {
 //    @Override
 //    public void onPause() {
 //        super.onPause();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            String userEmail = user.getEmail();
-            String[] subEmail = userEmail.split("@");
-            String pathUserId = "User" + subEmail[0];
-            DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+//        cartAdapter.stopListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        cartAdapter.stopListening();
+//    }
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
 
 
-            myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                    if (snapshot.exists()) {
-                        double value = snapshot.getValue(Double.class);
-                        tvTotalCart.setText("Total: $" + value);
-                    } else {
-                        return;
-                    }
-
+                if (snapshot.exists()) {
+                    double value = snapshot.getValue(Double.class);
+                    tvTotalCart.setText("Total: $" + value);
+                } else {
+                    return;
                 }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            }
 
-                }
-            });
-        }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
 //    @NonNull
@@ -317,6 +324,5 @@ public class CartFragment extends Fragment {
 //        });
 
 
-        ///cc
-    }
+    ///cc
 }
