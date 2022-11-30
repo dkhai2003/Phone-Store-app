@@ -130,12 +130,7 @@ public class HomeFragment extends Fragment {
         mHandler.removeCallbacks(mRun);
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mHandler.postDelayed(mRun, 3000);
 
-    }
 
     private final Runnable mRun = new Runnable() {
         @Override
@@ -217,8 +212,7 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getRecyclerViewListProduct();
-        product_typeAdapter.startListening();
-        productAdapter.startListening();
+
 
 
 
@@ -254,7 +248,6 @@ public class HomeFragment extends Fragment {
     private void getRecyclerViewListProduct_type() {
         createDialog();
         Runnable progressRunnable = new Runnable() {
-
             @Override
             public void run() {
                 progressDialog.dismiss();
@@ -294,9 +287,16 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-
+        product_typeAdapter.startListening();
+        productAdapter.startListening();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        mHandler.postDelayed(mRun, 3000);
+
+    }
 
 
     private void sortLowToHigh(String lsp) {
@@ -350,4 +350,9 @@ public class HomeFragment extends Fragment {
         intent.putExtras(bundle);
         startActivity(intent);
     }
+
+
+
+
+
 }
