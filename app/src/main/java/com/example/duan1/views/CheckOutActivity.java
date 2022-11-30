@@ -60,8 +60,8 @@ public class CheckOutActivity extends AppCompatActivity {
 
                // updateBillToFireBase();
                 updateBillToFireBase();
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
+//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
             }
         });
