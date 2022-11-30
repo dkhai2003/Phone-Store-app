@@ -1,5 +1,7 @@
 package com.example.duan1.adapter;
 
+import android.annotation.SuppressLint;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,9 +19,9 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type, Product_TypeAdapter.myViewHolder> {
-
+    //
     private IclickListener iclickListener;
-
+    private int pos = 0;
 
     public interface IclickListener {
         void onClickGetMaLoai(Product_Type type);
@@ -31,19 +33,28 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type, P
         this.iclickListener = iclickListener;
     }
 
+    @SuppressLint("ResourceAsColor")
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product_Type model) {
         holder.name.setText(model.getTenLoai());
-
         Glide.with(holder.img.getContext())
                 .load(model.getHinhLoai())
                 .into(holder.img);
+//        holder.itemView.setBackgroundColor(pos == position ? Color.GREEN : Color.WHITE);
+        holder.itemView.setBackgroundResource(pos == position ? R.drawable.bottom_border_product_type : R.drawable.button_custom_white);
         holder.item_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iclickListener.onClickGetMaLoai(model);
+                if (holder.getAbsoluteAdapterPosition() == RecyclerView.NO_POSITION) return;
+
+                // Updating old as well as new positions
+                notifyItemChanged(pos);
+                pos = holder.getAbsoluteAdapterPosition();
+                notifyItemChanged(pos);
             }
         });
+
     }
 
     @NonNull
@@ -66,5 +77,9 @@ public class Product_TypeAdapter extends FirebaseRecyclerAdapter<Product_Type, P
             item_layout = itemView.findViewById(R.id.item_layout);
 
         }
+
     }
 }
+
+
+
