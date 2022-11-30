@@ -250,14 +250,15 @@ public class CartFragment extends Fragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        tvTotalCart.setText("Total: $" + 0);
+        tvCountCart.setText(0 + " items");
+    }
+
     public void setTotalCart() {
 
-
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//    }
 
 //    @Override
 //    public void onPause() {
