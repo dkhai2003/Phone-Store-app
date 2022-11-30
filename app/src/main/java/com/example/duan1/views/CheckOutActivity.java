@@ -61,6 +61,7 @@ public class CheckOutActivity extends AppCompatActivity {
                 clickOpenBottomSheetDialog(view);
             }
         });
+        getUserInformation();
     }
 
 
