@@ -102,6 +102,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
 //                Intent intent = new Intent(CheckOutActivity.this, HomeFragment.class);
 //                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
+
                 finish();
                 bottomSheetDialog.dismiss();
 
