@@ -98,8 +98,6 @@ public class CartFragment extends Fragment  {
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
-
-
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         recyclerViewCart.setLayoutManager(linearLayoutManager);
@@ -143,24 +141,6 @@ public class CartFragment extends Fragment  {
                                 });
                                 onClickDelete(product,check);
 
-//                                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        double value = snapshot.getValue(Double.class);
-//                                        if(value!=0){
-//                                            Log.d("=====xoa", "onDataChange: "+value);
-//                                            double sotien =product.getSoLuong()*product.getGiaSP();
-//                                            double tongTien = value -sotien;
-//                                            myRef.child("Total").setValue(tongTien);
-//                                            tvTotalCart.setText("Total: $"+tongTien);
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
 
                             }
                         });
@@ -168,7 +148,7 @@ public class CartFragment extends Fragment  {
                 }).setNegativeButton("no",null);
                 Dialog dialog = alerBuider.create();
                 dialog.show();
-                
+
             }
 
 
@@ -185,25 +165,6 @@ public class CartFragment extends Fragment  {
                         onClickMinus1(product,check);
                     }
                 });
-
-
-//                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        double value = snapshot.getValue(Double.class);
-//                        if(product.getSoLuong()>1){
-//
-//                            double gia =product.getGiaSP();
-//                            double tong = value-gia;
-//                            myRef.child("Total").setValue(tong);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
             }
 
             @Override
@@ -264,10 +225,6 @@ public class CartFragment extends Fragment  {
         cartAdapter.notifyDataSetChanged();
 //        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
 
-
-
-
-
     }
 
 
@@ -294,14 +251,31 @@ public class CartFragment extends Fragment  {
     @Override
     public void onStart() {
         super.onStart();
-        cartAdapter.startListening();
+        if (cartAdapter != null){
+            cartAdapter.startListening();
+        }
+
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        cartAdapter.stopListening();
-    }
+
+
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//    }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        cartAdapter.stopListening();
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        cartAdapter.stopListening();
+//    }
 
     public void setTotalCart(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
