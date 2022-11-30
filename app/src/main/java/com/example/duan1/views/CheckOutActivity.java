@@ -92,7 +92,11 @@ public class CheckOutActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
                // updateBillToFireBase();
+
                 updateBillToFireBase1();
+
+//                updateBillToFireBase();
+
 //                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
@@ -100,7 +104,7 @@ public class CheckOutActivity extends AppCompatActivity {
 //                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
                 finish();
                 bottomSheetDialog.dismiss();
-//
+
             }
         });
         bottomSheetDialog.setContentView(viewDialog);
