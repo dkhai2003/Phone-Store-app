@@ -2,6 +2,7 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +16,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.duan1.R;
-import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
+import com.example.duan1.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -40,26 +40,25 @@ import java.util.Map;
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button btnConfirmAndPay;
-    private TextView tvTotalCheckOut;
+    private TextView tvTotalCheckOut, userName, userAddress, userPhoneNumber;
     private String TAG = "=====";
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
         unitUi();
-//        setSupportActionBar(toolbar);
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("Check Out");
-
-//        actionBar.setDisplayShowHomeEnabled(true);
-//        actionBar.setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Check Out");
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
         setTotalCheckOut(tvTotalCheckOut);
         btnConfirmAndPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickOpenBottomSheetDialog();
+                clickOpenBottomSheetDialog(view);
             }
         });
     }
@@ -75,16 +74,7 @@ public class CheckOutActivity extends AppCompatActivity {
         super.onStop();
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-//        if (item.getItemId() == android.R.id.home) {
-////            getFragmentManager().popBackStack();
-//            finish();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
-
-    public void clickOpenBottomSheetDialog() {
+    public void clickOpenBottomSheetDialog(View view) {
         View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
@@ -99,8 +89,6 @@ public class CheckOutActivity extends AppCompatActivity {
                 updateBillToFireBase1();
 
 
-
-
                 Intent intent = new Intent(CheckOutActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
@@ -112,19 +100,82 @@ public class CheckOutActivity extends AppCompatActivity {
         bottomSheetDialog.show();
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getFragmentManager().popBackStack();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void createDialog() {
+        progressDialog = new ProgressDialog(CheckOutActivity.this);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
+    }
+
+    public void getUserInformation() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            // Check if user's email is verified
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String uEmail = user.getEmail();
+            String userDisplayName = user.getDisplayName();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/");
+            if (user == null) {
+                return;
+            } else {
+                createDialog();
+                progressDialog.show();
+                myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User CurrentUser = snapshot.getValue(User.class);
+                        if (CurrentUser.getUserName() == null) {
+                            userName.setText(userDisplayName);
+                        } else {
+                            userName.setText(CurrentUser.getUserName());
+                        }
+                        userAddress.setText(CurrentUser.getAddress());
+                        userPhoneNumber.setText(CurrentUser.getPhoneNumber());
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("TAG", "getInformationUserFromFirebase:error");
+                        progressDialog.dismiss();
+                    }
+                });
+            }
+            boolean emailVerified = user.isEmailVerified();
+            String uid = user.getUid();
+        } else {
+            Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     private void unitUi() {
+        userName = findViewById(R.id.userName);
+        userAddress = findViewById(R.id.userAddress);
+        userPhoneNumber = findViewById(R.id.userPhoneNumber);
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
     }
 
-    public void setTotalCheckOut(TextView textView){
+    public void setTotalCheckOut(TextView textView) {
         myRef().child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
-                textView.setText("$"+value);
+                textView.setText("$" + value);
             }
 
             @Override
@@ -137,28 +188,28 @@ public class CheckOutActivity extends AppCompatActivity {
     private void updateBillToFireBase1() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        Task<DataSnapshot> gia= myRef().child("Total").get();
-        Log.d(TAG, "updateBillToFireBase: "+ gia);
+        Task<DataSnapshot> gia = myRef().child("Total").get();
+        Log.d(TAG, "updateBillToFireBase: " + gia);
         myRef().child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int soLuong = (int) snapshot.getChildrenCount();
 
-                Map<String,Product> map = new HashMap<>();
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                Map<String, Product> map = new HashMap<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     Product value = dataSnapshot.getValue(Product.class);
-                    map.put(key,value);
+                    map.put(key, value);
                 }
                 myRef().child("HoaDon").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getChildrenCount();
-                        if (soLuong>0){
+                        if (soLuong > 0) {
 
-                            String id = "hd000"+value;
-                            HoaDon hoaDon = new HoaDon(formatter.format(date),id,tvTotalCheckOut.getText().toString(),soLuong);
-                            Log.d(TAG, "onDataChange: "+value);
+                            String id = "hd000" + value;
+                            HoaDon hoaDon = new HoaDon(formatter.format(date), id, tvTotalCheckOut.getText().toString(), soLuong);
+                            Log.d(TAG, "onDataChange: " + value);
                             myRef().child("HoaDon").child(id).setValue(hoaDon);
                             myRef().child("HoaDon").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
@@ -171,6 +222,7 @@ public class CheckOutActivity extends AppCompatActivity {
                         }
 
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
@@ -184,9 +236,7 @@ public class CheckOutActivity extends AppCompatActivity {
         });
 
 
-
     }
-
 
 
 //    public DatabaseReference myRef(){
