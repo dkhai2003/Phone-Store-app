@@ -58,8 +58,16 @@ public class CheckOutActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
 
+<<<<<<< HEAD
                 finish();
                 bottomSheetDialog.dismiss();
+=======
+               // updateBillToFireBase();
+                updateBillToFireBase();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
+
+>>>>>>> parent of 042686d (Merge branch 'test02' into Vy)
             }
         });
         bottomSheetDialog.setContentView(viewDialog);
