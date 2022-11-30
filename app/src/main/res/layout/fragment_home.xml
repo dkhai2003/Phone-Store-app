@@ -4,101 +4,94 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F8"
+
     tools:context=".fragment.HomeFragment">
 
-    <ScrollView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="none">
+        android:layout_height="match_parent">
 
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
+            android:id="@+id/ln"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct_type"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+
+
 
             <LinearLayout
-                android:id="@+id/ln"
+                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="#C9D6FF"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct_type"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="18dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:orientation="horizontal">
 
+                <SearchView
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/edSreach"
+                    android:layout_width="0dp"
+                    android:layout_height="32dp"
+                    android:layout_weight="14"
+                    android:background="@drawable/search_background"
+                    android:drawableStart="@drawable/search"
+                    android:iconifiedByDefault="false"
+                    android:queryHint="Search here" />
+
+                <ImageView
+                    android:id="@+id/btnSortListProduct"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="18dp"
-                    android:background="#C0ffffff"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:orientation="horizontal">
-
-                    <SearchView
-                        android:id="@+id/edSreach"
-                        android:layout_width="0dp"
-                        android:layout_height="32dp"
-                        android:layout_weight="14"
-                        android:background="@null"
-                        android:drawableStart="@drawable/search"
-                        android:iconifiedByDefault="false"
-                        android:queryHint="Search here" />
-
-                    <ImageView
-                        android:id="@+id/btnSortListProduct"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
-                </LinearLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <androidx.viewpager2.widget.ViewPager2
-                        android:id="@+id/mViewPager2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-
-                    <me.relex.circleindicator.CircleIndicator3
-                        android:id="@+id/mCircleIndicator3"
-                        android:layout_width="match_parent"
-                        android:layout_height="30dp"
-                        android:layout_alignBottom="@id/mViewPager2"
-                        app:ci_drawable="@drawable/item_indicator" />
-                </RelativeLayout>
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
             </LinearLayout>
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewListProduct_type"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
-                android:background="@drawable/background_header"
-                android:padding="10dp"
-                app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/ln" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerViewListProduct"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#E9EAEC"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/recyclerViewListProduct_type">
+                android:orientation="vertical">
 
-            </androidx.recyclerview.widget.RecyclerView>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </ScrollView>
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/mViewPager2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+                <me.relex.circleindicator.CircleIndicator3
+                    android:id="@+id/mCircleIndicator3"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    app:ci_drawable="@drawable/item_indicator" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+
+            android:id="@+id/recyclerViewListProduct_type"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ln" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewListProduct"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:background="#E9EAEC"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerViewListProduct_type">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </FrameLayout>

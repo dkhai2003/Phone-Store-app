@@ -1,6 +1,7 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -14,7 +15,10 @@ import com.example.duan1.fragment.FavoritesFragment;
 import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.fragment.UserFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeScreenActivity extends AppCompatActivity {
     private BottomNavigationView mbnv;
@@ -39,6 +43,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUpView();
+        Log.d("======TAG", "onResume: ");
     }
 
     @Override
@@ -48,7 +53,8 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 
     private void setUpView() {
-        mbnv.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
+//        mbnv.setSelectedItemId(R.id.item_home);
+        mbnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
@@ -59,6 +65,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .addToBackStack(HomeFragment.TAG) // name can be null
                                 .commit();
+
                         break;
                     }
                     case R.id.item_favorite: {
@@ -89,14 +96,23 @@ public class HomeScreenActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction()
                                 .replace(R.id.frameHome, HomeFragment.newInstance(), null)
                                 .setReorderingAllowed(true)
-                                .addToBackStack(HomeFragment.TAG) // name can be null
+                                .addToBackStack("name") // name can be null
                                 .commit();
                         break;
                 }
-
                 return true;
 
             }
         });
+    }
+//
+    public static final DatabaseReference myRef(){
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+        return myRef;
     }
 }

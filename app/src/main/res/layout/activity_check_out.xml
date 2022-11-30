@@ -72,7 +72,6 @@
                         android:src="@drawable/checkout_profile_icons" />
 
                     <TextView
-                        android:id="@+id/userName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -96,7 +95,6 @@
                         android:src="@drawable/checkout_location_icons" />
 
                     <TextView
-                        android:id="@+id/userAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -120,7 +118,6 @@
                         android:src="@drawable/checkout_call_icons" />
 
                     <TextView
-                        android:id="@+id/userPhoneNumber"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -161,110 +158,89 @@
                 android:layout_marginTop="24dp"
                 android:layout_marginEnd="32dp"
                 android:background="@drawable/check_out_background"
-                android:orientation="horizontal">
-
-                <RadioGroup
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="2">
-
-                    <RadioButton
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-
-                    <RadioButton
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-
-                    <RadioButton
-                        android:layout_weight="1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
-                </RadioGroup>
+                android:orientation="vertical">
 
                 <LinearLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="10"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
-                    <LinearLayout
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <ImageView
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/checkout_visa_image" />
+
+                    <TextView
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="62dp"
-                            android:layout_height="40dp"
-                            android:layout_marginStart="12dp"
-                            android:src="@drawable/checkout_visa_image" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="18dp"
-                            android:text="**** **** **** 1234"
-                            android:textColor="#000"
-                            android:textSize="17sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="62dp"
-                            android:layout_height="40dp"
-                            android:layout_marginStart="12dp"
-                            android:src="@drawable/checkout_master_image" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="18dp"
-                            android:text="**** **** **** 1234"
-                            android:textColor="#000"
-                            android:textSize="17sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="0dp"
-                        android:layout_weight="1"
-                        android:orientation="horizontal"
-                        android:padding="10dp">
-
-                        <ImageView
-                            android:layout_width="62dp"
-                            android:layout_height="40dp"
-                            android:layout_marginStart="12dp"
-                            android:src="@drawable/checkout_bank_image" />
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:layout_marginStart="18dp"
-                            android:text="**** **** **** 1234"
-                            android:textColor="#000"
-                            android:textSize="17sp" />
-                    </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="18dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
                 </LinearLayout>
 
-            </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
 
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <ImageView
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/checkout_master_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="18dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <RadioButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center" />
+
+                    <ImageView
+                        android:layout_width="62dp"
+                        android:layout_height="40dp"
+                        android:layout_marginStart="12dp"
+                        android:src="@drawable/checkout_bank_image" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="18dp"
+                        android:text="**** **** **** 1234"
+                        android:textColor="#000"
+                        android:textSize="17sp" />
+                </LinearLayout>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -282,6 +258,7 @@
                     android:textSize="17sp" />
 
                 <TextView
+                    android:id="@+id/tvTotalCheckOut"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -295,6 +272,7 @@
             </LinearLayout>
 
             <Button
+                android:onClick="clickOpenBottomSheetDialog"
                 android:id="@+id/btnConfirmAndPay"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -311,5 +289,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <include layout="@layout/bottom_sheet_dialog" />
+    <include layout="@layout/bottom_sheet_dialog"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

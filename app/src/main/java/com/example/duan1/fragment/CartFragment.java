@@ -4,6 +4,8 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,7 +26,9 @@ import com.example.duan1.model.Product;
 import com.example.duan1.views.CheckOutActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.database.ObservableSnapshotArray;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -37,15 +41,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-public class CartFragment extends Fragment {
-
+public class CartFragment extends Fragment  {
+    private Button btnCheckOut;
     public static final String TAG = CartFragment.class.getName();
     private TextView tvCountCart, tvTotalCart;
     private View mView;
     private RecyclerView recyclerViewCart;
     private CartAdapter cartAdapter;
-    private Button btnCheckOut;
     int mcount_cart = 0;
+
+    private final Handler mHandler = new Handler(Looper.myLooper());
+
 
 
     public static CartFragment newInstance() {
@@ -54,6 +60,10 @@ public class CartFragment extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
+
+
+
+
 
 
     @Override
@@ -65,22 +75,23 @@ public class CartFragment extends Fragment {
         uniUi();
         getRecyclerViewCart();
         setTotalCart();
+        btnCheckOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickCheckOut();
+            }
+        });
+
         return mView;
     }
 
-    private void uniUi() {
+    private void uniUi(){
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
-        tvCountCart = mView.findViewById(R.id.tvCountCart);
-        tvTotalCart = mView.findViewById(R.id.tvTotalCart);
-        btnCheckOut = mView.findViewById(R.id.btnCheckOut);
-        btnCheckOut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent i = new Intent(getContext(), CheckOutActivity.class);
-                startActivity(i);
-            }
-        });
+         tvCountCart = mView.findViewById(R.id.tvCountCart);
+         tvTotalCart = mView.findViewById(R.id.tvTotalCart);
+         btnCheckOut = mView.findViewById(R.id.btnCheckOut);
     }
+
 
     public void getRecyclerViewCart() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -90,16 +101,13 @@ public class CartFragment extends Fragment {
 
 
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
         recyclerViewCart.setLayoutManager(linearLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef.child("Cart"), Product.class)
                         .build();
-        ObservableSnapshotArray<Product> t = options.getSnapshots();
-
-        Log.d(">>>>>>>>>", "getRecyclerViewCart: " + t);
         cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
             @Override
             public void onClickDeleteCart(Product product) {
@@ -114,15 +122,18 @@ public class CartFragment extends Fragment {
                         String userEmail = user.getEmail();
                         String[] subEmail = userEmail.split("@");
                         String pathUserId = "User" + subEmail[0];
+                        int click =0;
                         FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
+                                
+                                int check = click+1;
                                 Toast.makeText(getContext(), "Remove Success", Toast.LENGTH_SHORT).show();
                                 myRef.child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
                                     @Override
                                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                                         int soLuongSanPham = (int) snapshot.getChildrenCount();
-                                        tvCountCart.setText((soLuongSanPham) + " items");
+                                        tvCountCart.setText((soLuongSanPham)+" items");
                                     }
 
                                     @Override
@@ -130,81 +141,108 @@ public class CartFragment extends Fragment {
 
                                     }
                                 });
+                                onClickDelete(product,check);
 
-                                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        double value = snapshot.getValue(Double.class);
-                                        if (value != 0) {
-                                            value -= product.getSoLuong() * product.getGiaSP();
-                                            myRef.child("Total").setValue(value);
-                                            tvTotalCart.setText("Total: $" + value);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
+//                                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                                        double value = snapshot.getValue(Double.class);
+//                                        if(value!=0){
+//                                            Log.d("=====xoa", "onDataChange: "+value);
+//                                            double sotien =product.getSoLuong()*product.getGiaSP();
+//                                            double tongTien = value -sotien;
+//                                            myRef.child("Total").setValue(tongTien);
+//                                            tvTotalCart.setText("Total: $"+tongTien);
+//                                        }
+//                                    }
+//
+//                                    @Override
+//                                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                                    }
+//                                });
 
                             }
                         });
                     }
-                }).setNegativeButton("no", null);
+                }).setNegativeButton("no",null);
                 Dialog dialog = alerBuider.create();
                 dialog.show();
-
+                
             }
+
 
 
             @Override
             public void onClickMinus(Product product) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("soLuong", tru(product));
-                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map);
-                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                map.put("soLuong",tru(product));
+                int click =0;
+                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        double value = snapshot.getValue(Double.class);
-                        if (product.getSoLuong() != 1) {
-                            value -= product.getGiaSP();
-                            myRef.child("Total").setValue(value);
-                            tvTotalCart.setText("Total: $" + value);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                    public void onSuccess(Void unused) {
+                        int check = click+1;
+                        onClickMinus1(product,check);
                     }
                 });
 
 
+//                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        double value = snapshot.getValue(Double.class);
+//                        if(product.getSoLuong()>1){
+//
+//                            double gia =product.getGiaSP();
+//                            double tong = value-gia;
+//                            myRef.child("Total").setValue(tong);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
             }
 
             @Override
             public void onClickPlus(Product product) {
                 Map<String, Object> map = new HashMap<>();
-                map.put("soLuong", cong(product));
-                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map);
-
-                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                map.put("soLuong",cong(product));
+//                int click =0;
+//                onClickPlus1(product,click+1);
+                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        double value = snapshot.getValue(Double.class);
-                        if (value >= 0) {
-                            value += product.getGiaSP();
-                            myRef.child("Total").setValue(value);
-                            tvTotalCart.setText("Total: $" + value);
-                        }
-                    }
+                    public void onComplete(@NonNull Task<Void> task) {
+                        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                double value = snapshot.getValue(Double.class);
+                                if (product.getSoLuong() >=1){
+                                    double gia =product.getGiaSP();
+                                    double tong = value+(gia);
+                                    myRef.child("Total").setValue(tong).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            tvTotalCart.setText("Total: $"+tong);
+                                        }
+                                    });
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
+                                }
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 });
+
+
+
+
 
             }
         });
@@ -212,7 +250,7 @@ public class CartFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int soLuongSanPham = (int) snapshot.getChildrenCount();
-                tvCountCart.setText((soLuongSanPham) + " items");
+                tvCountCart.setText((soLuongSanPham)+" items");
 
             }
 
@@ -227,22 +265,26 @@ public class CartFragment extends Fragment {
 //        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
 
 
+
+
+
     }
 
 
-    public int tru(Product product) {
+
+    public int tru(Product product){
         int mTru = product.getSoLuong();
-        if (mTru > 1) {
+        if(mTru > 1) {
             mTru = product.getSoLuong() - 1;
         }
         return mTru;
     }
 
-    public int cong(Product product) {
+    public int cong(Product product){
         int mcong = product.getSoLuong();
-        if (mcong >= 1) {
-            mcong = product.getSoLuong() + 1;
-        } else {
+        if(mcong >=1){
+            mcong = product.getSoLuong()+1;
+        }else {
             mcong = 1;
         }
         return mcong;
@@ -255,7 +297,13 @@ public class CartFragment extends Fragment {
         cartAdapter.startListening();
     }
 
-    public void setTotalCart() {
+    @Override
+    public void onStop() {
+        super.onStop();
+        cartAdapter.stopListening();
+    }
+
+    public void setTotalCart(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
@@ -267,13 +315,8 @@ public class CartFragment extends Fragment {
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (snapshot.exists()) {
-                    double value = snapshot.getValue(Double.class);
-                    tvTotalCart.setText("Total: $" + value);
-                } else {
-                    return;
-                }
+                double value = snapshot.getValue(Double.class);
+                tvTotalCart.setText("Total: $"+value);
 
             }
 
@@ -285,30 +328,117 @@ public class CartFragment extends Fragment {
     }
 
 
-//    @NonNull
-//    @Override
-//    public CreationExtras getDefaultViewModelCreationExtras() {
-//        return super.getDefaultViewModelCreationExtras();
-//    }
-//
-//    @Override
-//    public void onClickDeleteCart(Product product) {
-//        itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-//            @Override
-//            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-//                return true;
-//            }
-//
-//            @Override
-//            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-//                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-//                String userEmail = user.getEmail();
-//                String[] subEmail = userEmail.split("@");
-//                String pathUserId = "User" + subEmail[0];
-//                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("SanPham").child(product.getMaSP()).removeValue();
-//            }
-//        });
+    public void onClickDelete(Product product, int click){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double value = snapshot.getValue(Double.class);
+
+                if (value>0){
+
+                    double gia =product.getGiaSP()*product.getSoLuong()*click;
+                    double tong = value-gia;
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
+                }else if(value<0){
+                    myRef.child("Total").setValue(0);
+                    tvTotalCart.setText("Total: $"+0);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void onClickMinus1(Product product, int click){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double value = snapshot.getValue(Double.class);
+                if (product.getSoLuong() >1){
+                    double gia =product.getGiaSP()*click;
+                    double tong = value-(gia);
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
-    ///cc
+    }
+    public void onClickPlus1(Product product,int click){
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                double value = snapshot.getValue(Double.class);
+
+                if (product.getSoLuong() >=1){
+
+                    double gia =product.getGiaSP()*click;
+                    double tong = value+(gia);
+                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            tvTotalCart.setText("Total: $"+tong);
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+
+
+
+    public void onClickCheckOut(){
+        Intent intent = new Intent(getActivity(), CheckOutActivity.class);
+        startActivity(intent);
+    }
+
+
 }

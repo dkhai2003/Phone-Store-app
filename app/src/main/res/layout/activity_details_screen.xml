@@ -224,13 +224,13 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/tvTotalDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:text="Total : $425.00"
                 android:textColor=" #535353"
+                android:id="@+id/tvTotalDetail"
                 android:textSize="18dp"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -262,5 +262,8 @@
 
             </LinearLayout>
         </LinearLayout>
+
+
     </ScrollView>
+
 </LinearLayout>
