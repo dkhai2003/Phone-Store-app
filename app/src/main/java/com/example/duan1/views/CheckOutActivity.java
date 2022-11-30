@@ -2,9 +2,12 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.example.duan1.R;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.User;
+import com.example.duan1.zaloaccess.CreateOrder;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -32,17 +36,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
+
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private Button btnConfirmAndPay;
+    private Button btnConfirmAndPay, btnZaloPay;
     private TextView tvTotalCheckOut, userName, userAddress, userPhoneNumber;
     private String TAG = "=====";
     private ProgressDialog progressDialog;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +74,72 @@ public class CheckOutActivity extends AppCompatActivity {
                 clickOpenBottomSheetDialog(view);
             }
         });
+        //zalo
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(553, Environment.SANDBOX);
+        btnZaloPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                clickPayWithZaloPay();
+            }
+        });
         getUserInformation();
     }
 
+    private void clickPayWithZaloPay() {
+        CreateOrder orderApi = new CreateOrder();
+        try {
+            JSONObject data = orderApi.createOrder(tvTotalCheckOut.getText().toString());
+            Log.d("Amount", tvTotalCheckOut.getText().toString());
+            String code = data.getString("returncode");
+            Log.d("code", code+"");
+            if (code.equals("1")) {
+                String token = data.getString("zptranstoken");
+                ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                    @Override
+                    public void onPaymentSucceeded(String s, String s1, String s2) {
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                new AlertDialog.Builder(CheckOutActivity.this)
+                                        .setTitle("Payment Success")
+                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                            }
+                                        })
+                                        .setNegativeButton("Cancel", null).show();
+                            }
+
+                        });
+                    }
+
+                    @Override
+                    public void onPaymentCanceled(String s, String s1) {
+
+                    }
+
+                    @Override
+                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                    }
+                });
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
+    }
 
     @Override
     protected void onDestroy() {
@@ -163,6 +239,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
 
     private void unitUi() {
+        btnZaloPay = findViewById(R.id.btnZaloPay);
         userName = findViewById(R.id.userName);
         userAddress = findViewById(R.id.userAddress);
         userPhoneNumber = findViewById(R.id.userPhoneNumber);

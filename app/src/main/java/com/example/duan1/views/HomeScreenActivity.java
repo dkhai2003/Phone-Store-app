@@ -107,7 +107,6 @@ public class HomeScreenActivity extends AppCompatActivity {
     }
 //
     public static final DatabaseReference myRef(){
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
