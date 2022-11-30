@@ -1,8 +1,9 @@
 package com.example.duan1.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class HoaDon {
+public class HoaDon implements Serializable {
     private String date, maHoaDon, toTal;
     private int soLuong;
 

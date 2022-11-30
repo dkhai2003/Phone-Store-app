@@ -180,7 +180,7 @@ public class HomeFragment extends Fragment {
 
     private void unitUi() {
         edSearch = (SearchView) mView.findViewById(R.id.edSreach);
-        recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
+        recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct1);
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
         mCircleIndicator3 = (CircleIndicator3) mView.findViewById(R.id.mCircleIndicator3);
@@ -237,7 +237,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecyclerViewListProduct(String lsp) {
-        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
@@ -306,7 +306,7 @@ public class HomeFragment extends Fragment {
 
 
     private void sortLowToHigh(String lsp) {
-        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
@@ -327,7 +327,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void sortHighToLow(String lsp) {
-        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct);
+        recyclerViewListProduct = mView.findViewById(R.id.recyclerViewListProduct1);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");

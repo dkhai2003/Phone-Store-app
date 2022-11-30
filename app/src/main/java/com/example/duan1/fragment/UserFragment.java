@@ -22,6 +22,7 @@ import com.example.duan1.R;
 import com.example.duan1.model.User;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
+import com.example.duan1.views.OrderHistoryActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -36,7 +37,7 @@ public class UserFragment extends Fragment {
     private TextView userName, userEmail, userAddress, userPhoneNumber;
     private ImageView userAvatar;
     private Button btnLogout;
-    private Button btnEditProfile;
+    private Button btnEditProfile, btnOrderHistory;
     private FrameLayout frameUser;
     private View mView;
     private ProgressDialog progressDialog;
@@ -78,11 +79,25 @@ public class UserFragment extends Fragment {
                 onClickEditProfile();
             }
         });
+
+        btnOrderHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickHistory();
+            }
+        });
+
     }
 
     private void onClickEditProfile() {
 //        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
+        startActivity(intent);
+    }
+
+    private void onClickHistory() {
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
+        Intent intent = new Intent(getContext(), OrderHistoryActivity.class);
         startActivity(intent);
     }
 
@@ -157,7 +172,7 @@ public class UserFragment extends Fragment {
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
         userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
-
+        btnOrderHistory = mView.findViewById(R.id.btnOrderHistory);
     }
 
 

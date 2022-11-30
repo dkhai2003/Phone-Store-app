@@ -76,13 +76,13 @@
             android:id="@+id/recyclerViewListProduct_type"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct"
+            app:layout_constraintBottom_toTopOf="@+id/recyclerViewListProduct1"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ln" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewListProduct"
+            android:id="@+id/recyclerViewListProduct1"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="#E9EAEC"
