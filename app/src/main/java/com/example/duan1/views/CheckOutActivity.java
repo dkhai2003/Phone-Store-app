@@ -57,7 +57,7 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
-                
+
                 finish();
                 bottomSheetDialog.dismiss();
             }
