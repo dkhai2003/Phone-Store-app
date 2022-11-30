@@ -156,8 +156,5 @@ public class UserFragment extends Fragment {
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
         userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
-
     }
-
-
 }
