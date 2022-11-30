@@ -257,13 +257,22 @@ public class CartFragment extends Fragment  {
 
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        tvTotalCart.setText("Total: $"+0);
+        tvCountCart.setText(0+" items");
+    }
 
 //    @Override
 //    public void onPause() {
