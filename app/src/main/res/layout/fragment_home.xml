@@ -22,13 +22,11 @@
             app:layout_constraintTop_toTopOf="parent">
 
 
-
-
             <LinearLayout
-                android:layout_marginTop="16dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="18dp"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="8dp"
                 android:layout_marginBottom="8dp"
                 android:orientation="horizontal">
@@ -53,7 +51,7 @@
                     app:srcCompat="@drawable/ic_baseline_filter_alt_24" />
             </LinearLayout>
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -67,8 +65,9 @@
                     android:id="@+id/mCircleIndicator3"
                     android:layout_width="match_parent"
                     android:layout_height="30dp"
+                    android:layout_alignBottom="@+id/mViewPager2"
                     app:ci_drawable="@drawable/item_indicator" />
-            </LinearLayout>
+            </RelativeLayout>
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
