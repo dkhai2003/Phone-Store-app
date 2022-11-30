@@ -105,7 +105,7 @@ public class HomeScreenActivity extends AppCompatActivity {
             }
         });
     }
-
+//
     public static final DatabaseReference myRef(){
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

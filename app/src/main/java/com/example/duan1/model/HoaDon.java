@@ -7,7 +7,7 @@ public class HoaDon {
     private int soLuong;
 
 
-
+//
     public HoaDon() {
     }
 
