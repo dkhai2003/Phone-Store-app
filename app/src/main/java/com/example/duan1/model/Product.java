@@ -38,7 +38,7 @@ public class Product implements Serializable {
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
     }
-
+//
     public String getHinhSP() {
         return hinhSP;
     }

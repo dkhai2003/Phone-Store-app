@@ -57,7 +57,7 @@ public class FavoritesItemAdapter extends FirebaseRecyclerAdapter<Product, Favor
             }
         });
     }
-
+//
 
     @NonNull
     @Override

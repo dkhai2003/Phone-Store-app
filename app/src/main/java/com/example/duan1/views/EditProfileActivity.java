@@ -107,7 +107,7 @@ public class EditProfileActivity extends AppCompatActivity {
         birthday = findViewById(R.id.birthday);
         email = findViewById(R.id.email);
     }
-
+//
     private void setUriImage(Uri uri) {
         uriImage = uri;
     }

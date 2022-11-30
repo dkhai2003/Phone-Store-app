@@ -7,7 +7,7 @@ public class Product_Type {
     private String hinhLoai, tenLoai, maLoai;
     private Product product;
 
-
+//
     public Product_Type(String hinhLoai, String tenLoai, String maLoai, Product product) {
         this.hinhLoai = hinhLoai;
         this.tenLoai = tenLoai;

@@ -51,7 +51,7 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
 
         holder.maSP.setText("Mã sản phẩm: "+model.getMaSP());
 
-
+//
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -19,7 +19,7 @@ public class PhotoSlideAdapter extends RecyclerView.Adapter<PhotoSlideAdapter.Ph
     public PhotoSlideAdapter(List<PhotoSlide> mList) {
         this.mList = mList;
     }
-
+//
     @NonNull
     @Override
     public PhotoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

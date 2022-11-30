@@ -30,7 +30,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private Button btnConfirmAndPay;
     private TextView userPhoneNumber, userAddress, userName;
     private ProgressDialog progressDialog;
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

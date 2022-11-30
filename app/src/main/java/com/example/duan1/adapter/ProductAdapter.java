@@ -17,7 +17,7 @@ import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 public class ProductAdapter extends FirebaseRecyclerAdapter<Product, ProductAdapter.myViewHolder> {
-
+//
 
     private final IClickProduct iClickProduct;
 

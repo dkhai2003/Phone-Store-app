@@ -180,7 +180,7 @@ public class FavoritesFragment extends Fragment {
                     dialog.show();
                 }
             });
-
+//
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {

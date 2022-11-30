@@ -7,7 +7,7 @@ import android.os.Bundle;
 import com.example.duan1.R;
 
 public class FinishedPaymentActivity extends AppCompatActivity {
-
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

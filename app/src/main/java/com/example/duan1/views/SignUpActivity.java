@@ -158,7 +158,7 @@ public class SignUpActivity extends AppCompatActivity {
         }
         return false;
     } //==>
-
+//
     // <== Mapping
     public void unitUi() {
         btnRegister = (Button) findViewById(R.id.btnRegister);

@@ -211,7 +211,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
 //        DatabaseReference myRef1 = database.getReference("duan/User/" + pathUserId);
 //        myRef1.child("Total").setValue(0);
     }
-
+//
     private void updateFavToFirebase(Product product) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

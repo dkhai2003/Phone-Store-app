@@ -10,7 +10,7 @@ public class spct implements Serializable {
 
     public spct() {
     }
-
+//
     public spct(String hinh1, String hinh2, String hinh3, String hinh4) {
         this.hinh1 = hinh1;
         this.hinh2 = hinh2;

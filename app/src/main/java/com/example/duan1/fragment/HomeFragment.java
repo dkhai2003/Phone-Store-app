@@ -154,7 +154,7 @@ public class HomeFragment extends Fragment {
             }
         }
     };
-
+//
     private void sortBySpinner() {
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
         b.setTitle("Sort by");

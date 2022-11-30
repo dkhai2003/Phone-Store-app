@@ -229,7 +229,7 @@ public class CartFragment extends Fragment {
 
     }
 
-
+//
     public int tru(Product product) {
         int mTru = product.getSoLuong();
         if (mTru > 1) {

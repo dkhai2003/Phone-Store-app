@@ -3,7 +3,7 @@ package com.example.duan1.model;
 public class CategoryProduct {
     private int pic;
     private String name;
-
+//
     public int getPic() {
         return pic;
     }

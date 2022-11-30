@@ -20,7 +20,7 @@ public class ProductAdapterRCV extends RecyclerView.Adapter<ProductAdapterRCV.Vi
     public ProductAdapterRCV(ArrayList<Product> listItemAll) {
         this.listItemAll = listItemAll;
     }
-
+//
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
