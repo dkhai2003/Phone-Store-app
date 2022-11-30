@@ -251,7 +251,7 @@ public class CartFragment extends Fragment  {
     @Override
     public void onStart() {
         super.onStart();
-        if (cartAdapter != null){
+        if (cartAdapter != null) {
             cartAdapter.startListening();
         }
 
