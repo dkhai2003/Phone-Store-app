@@ -56,14 +56,6 @@ public class CheckOutActivity extends AppCompatActivity {
 //        actionBar.setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTotalCheckOut(tvTotalCheckOut);
-
-    }
-
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         btnConfirmAndPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,14 +64,25 @@ public class CheckOutActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-//            getFragmentManager().popBackStack();
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+    protected void onDestroy() {
+        super.onDestroy();
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        if (item.getItemId() == android.R.id.home) {
+////            getFragmentManager().popBackStack();
+//            finish();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     public void clickOpenBottomSheetDialog() {
         View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
@@ -91,19 +94,17 @@ public class CheckOutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
-               // updateBillToFireBase();
+
 
                 updateBillToFireBase1();
 
-//                updateBillToFireBase();
 
-//                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
+
 
                 Intent intent = new Intent(CheckOutActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
-                bottomSheetDialog.dismiss();
+//                bottomSheetDialog.dismiss();
 
             }
         });
@@ -138,7 +139,7 @@ public class CheckOutActivity extends AppCompatActivity {
         Date date = new Date();
         Task<DataSnapshot> gia= myRef().child("Total").get();
         Log.d(TAG, "updateBillToFireBase: "+ gia);
-        myRef().child("Cart").addValueEventListener(new ValueEventListener() {
+        myRef().child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int soLuong = (int) snapshot.getChildrenCount();
@@ -175,11 +176,14 @@ public class CheckOutActivity extends AppCompatActivity {
                     }
                 });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
+
+
 
     }
 
