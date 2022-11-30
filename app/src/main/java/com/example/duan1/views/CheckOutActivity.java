@@ -100,9 +100,8 @@ public class CheckOutActivity extends AppCompatActivity {
 //                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
-//                Intent intent = new Intent(CheckOutActivity.this, HomeFragment.class);
-//                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
-
+                Intent intent = new Intent(CheckOutActivity.this, HomeScreenActivity.class);
+                startActivity(intent);
                 finish();
                 bottomSheetDialog.dismiss();
 
