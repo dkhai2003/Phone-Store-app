@@ -92,7 +92,7 @@ public class CheckOutActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
                // updateBillToFireBase();
-                updateBillToFireBase();
+                updateBillToFireBase1();
 //                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
@@ -129,7 +129,7 @@ public class CheckOutActivity extends AppCompatActivity {
         });
     }
 
-    private void updateBillToFireBase() {
+    private void updateBillToFireBase1() {
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
         Task<DataSnapshot> gia= myRef().child("Total").get();
