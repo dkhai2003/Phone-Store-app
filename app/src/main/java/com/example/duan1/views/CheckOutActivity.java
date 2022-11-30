@@ -100,7 +100,7 @@ public class CheckOutActivity extends AppCompatActivity {
 //                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
 //                finish();
 //                bottomSheetDialog.dismiss();
-
+//
             }
         });
         bottomSheetDialog.setContentView(viewDialog);
