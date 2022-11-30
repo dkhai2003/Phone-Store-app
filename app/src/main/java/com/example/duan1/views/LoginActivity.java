@@ -138,7 +138,6 @@ public class LoginActivity extends AppCompatActivity {
                                             Log.d("SaveUidToRealtime", "saveIdU");
                                         }
                                     });
-                            myRef.child("User" + subEmail[0]).child("Total").setValue(0);
                             Log.d("User Google", user.getEmail());
                             progressDialogLoginGoogle.dismiss();
                             startMainActivityMethod(user.getUid());

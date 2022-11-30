@@ -342,6 +342,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 openGallery();
             } else {
                 Toast.makeText(this, "You are DENIED permisstions", Toast.LENGTH_SHORT).show();
+
                 String[] permisstions = {Manifest.permission.READ_EXTERNAL_STORAGE};
                 this.requestPermissions(permisstions, MY_REQUEST_CODE);
             }
@@ -359,7 +360,6 @@ public class EditProfileActivity extends AppCompatActivity {
 
     private void setBitMapImageViewAvatar(Bitmap bitMapImageViewAvatar) {
         ivAvatar.setImageBitmap(bitMapImageViewAvatar);
-        Glide.with(this).load(bitMapImageViewAvatar).error(R.drawable.none_avatar).into(ivAvatar);
     }
 
 

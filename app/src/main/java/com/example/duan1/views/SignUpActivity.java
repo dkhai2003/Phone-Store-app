@@ -109,6 +109,8 @@ public class SignUpActivity extends AppCompatActivity {
                                                 }
                                             });
                                     myRef.child("User" + subEmail[0]).child("Total").setValue(0);
+
+
                                     Log.d("UserInformation", user.getUid());
                                     // ==>
                                     progressDialog.dismiss();

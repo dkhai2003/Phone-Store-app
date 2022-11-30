@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -58,18 +57,15 @@ public class UserFragment extends Fragment {
         return mView;
     }
 
-    private void createDialog() {
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
-        progressDialog.setIcon(R.drawable.none_avatar);
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
         unitUi();
         getUserInformation();
+
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -85,6 +81,7 @@ public class UserFragment extends Fragment {
     }
 
     private void onClickEditProfile() {
+//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
     }
@@ -98,6 +95,7 @@ public class UserFragment extends Fragment {
 
     public void getUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        progressDialog.show();
         if (user != null) {
             // Name, email address, and profile photo Url
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(userAvatar);
@@ -111,8 +109,6 @@ public class UserFragment extends Fragment {
             if (user == null) {
                 return;
             } else {
-                createDialog();
-                progressDialog.show();
                 myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -138,11 +134,16 @@ public class UserFragment extends Fragment {
                         progressDialog.dismiss();
                     }
                 });
+
             }
             boolean emailVerified = user.isEmailVerified();
+            // The user's ID, unique to the Firebase project. Do NOT use this value to
+            // authenticate with your backend server, if you have one. Use
+            // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
+            progressDialog.dismiss();
         } else {
-            Toast.makeText(getContext(), "No User", Toast.LENGTH_SHORT).show();
+            progressDialog.dismiss();
         }
     }
 
@@ -156,5 +157,8 @@ public class UserFragment extends Fragment {
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
         userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
+
     }
+
+
 }

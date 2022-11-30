@@ -3,31 +3,32 @@ package com.example.duan1.model;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    private int soLuong;
+    private int giaSP,soLuong;
     private String hinhSP, tenSP;
     private String maSP;
-    private double giaSP;
+    private int fav = 0;
 
     private spct spct;
 
 
-    public Product(double giaSP, int soLuong, String hinhSP, String tenSP, String maSP, com.example.duan1.model.spct spct) {
+    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
         this.tenSP = tenSP;
         this.maSP = maSP;
+        this.fav = fav;
         this.spct = spct;
     }
 
     public Product() {
     }
 
-    public double getGiaSP() {
+    public int getGiaSP() {
         return giaSP;
     }
 
-    public void setGiaSP(double giaSP) {
+    public void setGiaSP(int giaSP) {
         this.giaSP = giaSP;
     }
 
@@ -50,12 +51,7 @@ public class Product implements Serializable {
     public String getTenSP() {
         return tenSP;
     }
-    public String getTenSPsubstring() {
-        if (tenSP.length() >= 15) {
-            return tenSP.substring(0, 11) + "...";
-        }
-        return tenSP;
-    }
+
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }
@@ -68,6 +64,14 @@ public class Product implements Serializable {
         this.maSP = maSP;
     }
 
+    public int getFav() {
+        return fav;
+    }
+
+    public void setFav(int fav) {
+        this.fav = fav;
+    }
+
     public com.example.duan1.model.spct getSpct() {
         return spct;
     }
@@ -75,4 +79,23 @@ public class Product implements Serializable {
     public void setSpct(com.example.duan1.model.spct spct) {
         this.spct = spct;
     }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "giaSP=" + giaSP +
+                ", soLuong=" + soLuong +
+                ", hinhSP='" + hinhSP + '\'' +
+                ", tenSP='" + tenSP + '\'' +
+                ", maSP='" + maSP + '\'' +
+                ", fav=" + fav +
+                ", spct=" + spct +
+                '}';
+    }
 }
+
+//        if (tenSP.length() > 5) {
+//            this.tenSP = tenSP.substring(0, 7) + "...";
+//        } else {
+//            this.tenSP = tenSP;
+//        }
