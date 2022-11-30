@@ -59,10 +59,14 @@ public class CheckOutActivity extends AppCompatActivity {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
 
                // updateBillToFireBase();
-                updateBillToFireBase();
+//                updateBillToFireBase();
 //                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
 //                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
+//                Intent intent = new Intent(CheckOutActivity.this, HomeFragment.class);
+//                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
+                finish();
+                bottomSheetDialog.dismiss();
             }
         });
         bottomSheetDialog.setContentView(viewDialog);
