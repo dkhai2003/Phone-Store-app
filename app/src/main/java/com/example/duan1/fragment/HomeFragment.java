@@ -97,12 +97,12 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortBySpinner();
-            }
-        });
+//        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sortBySpinner();
+//            }
+//        });
 
         getRecyclerViewListProduct();
         product_typeAdapter.startListening();
@@ -184,7 +184,7 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
         mCircleIndicator3 = (CircleIndicator3) mView.findViewById(R.id.mCircleIndicator3);
-        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
+//        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
     }
 
     private void edSearch(String str, String lsp) {

@@ -3,7 +3,7 @@ package com.example.duan1.model;
 import java.io.Serializable;
 
 public class Product implements Serializable {
-    private int giaSP,soLuong;
+    private int giaSP, soLuong;
     private String hinhSP, tenSP;
     private String maSP;
     private int fav = 0;
@@ -49,6 +49,13 @@ public class Product implements Serializable {
     }
 
     public String getTenSP() {
+        return tenSP;
+    }
+
+    public String getTenSPSubString() {
+        if (tenSP.length() >= 17) {
+            return tenSP.substring(0, 17);
+        }
         return tenSP;
     }
 
