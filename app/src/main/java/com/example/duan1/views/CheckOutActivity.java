@@ -125,7 +125,7 @@ public class CheckOutActivity extends AppCompatActivity {
             Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
         }
     }
-
+//
     private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);

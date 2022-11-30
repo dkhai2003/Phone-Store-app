@@ -141,7 +141,7 @@ public class FavoritesFragment extends Fragment {
                     intent.putExtra("SanPham", product);
                     startActivity(intent);
                 }
-
+//
                 @Override
                 public void onClickRemoveProduct(Product product) {
                     AlertDialog.Builder alertBuilder = new AlertDialog.Builder(getContext());
