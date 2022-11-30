@@ -1,7 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="140dp">
-    
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_margin="8dp"
+    android:id="@+id/card_view_history"
+    app:cardCornerRadius="4dp">
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:orientation="vertical"
+       >
+       <TextView
+           android:id="@+id/tvMaHoaDon"
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="hoa don 001"
+           android:fontFamily="@font/interbold"
+           android:textSize="20sp"
+           android:textColor="@color/black"
+           android:layout_gravity="center"
+           />
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+
+           >
+
+           <ImageView
+               android:layout_gravity="center"
+               android:id="@+id/imgCart"
+               android:layout_width="80dp"
+               android:layout_height="100dp"
+               android:src="@drawable/bill"
+               />
+
+           <LinearLayout
+               android:layout_width="match_parent"
+               android:layout_height="match_parent"
+               android:orientation="vertical"
+               android:paddingLeft="8dp">
+
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="horizontal"
+                   android:layout_marginTop="8dp"
+                   >
+                   <TextView
+                       android:layout_weight="5"
+                       android:id="@+id/tvTotalHistory"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:fontFamily="@font/interbold"
+                       android:text="Tổng giá: 300$"
+                       android:textColor="#535353"
+                       android:textSize="18sp"
+                       />
+               </LinearLayout>
+               <TextView
+                   android:id="@+id/tvDateHistory"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:paddingTop="4dp"
+                   android:fontFamily="@font/interbold"
+                   android:text="Ngày giờ"
+                   android:textSize="18sp" />
+
+               <TextView
+                   android:id="@+id/tvAmountHistory"
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/interbold"
+
+                   android:paddingTop="4dp"
+                   android:paddingBottom="4dp"
+                   android:text="Tổng số lượng sản phẩm"
+                   android:textSize="14sp" />
+
+
+
+           </LinearLayout>
+
+
+       </LinearLayout>
+   </LinearLayout>
+
+
+
+
 
 </androidx.cardview.widget.CardView>

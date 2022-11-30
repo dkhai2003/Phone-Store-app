@@ -82,7 +82,6 @@
                 app:layout_constraintTop_toBottomOf="@+id/recyclerViewListProduct_type">
 
             </androidx.recyclerview.widget.RecyclerView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 </FrameLayout>
