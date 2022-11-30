@@ -297,6 +297,12 @@ public class CartFragment extends Fragment  {
         cartAdapter.startListening();
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        cartAdapter.stopListening();
+    }
+
     public void setTotalCart(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -430,7 +436,7 @@ public class CartFragment extends Fragment  {
 
 
     public void onClickCheckOut(){
-        Intent intent = new Intent(getContext(), CheckOutActivity.class);
+        Intent intent = new Intent(getActivity(), CheckOutActivity.class);
         startActivity(intent);
     }
 

@@ -2,6 +2,7 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -14,11 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.duan1.R;
+import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -44,16 +48,17 @@ public class CheckOutActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_check_out);
         unitUi();
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Check Out");
+//        setSupportActionBar(toolbar);
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Check Out");
 
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayShowHomeEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTotalCheckOut(tvTotalCheckOut);
 
     }
+
 
 
     @Override
@@ -71,9 +76,6 @@ public class CheckOutActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 //            getFragmentManager().popBackStack();
-
-
-
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -91,7 +93,12 @@ public class CheckOutActivity extends AppCompatActivity {
                 Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
                // updateBillToFireBase();
                 updateBillToFireBase();
+                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(androidx.appcompat.R.id.home, new HomeFragment()).commit();
 
+//                Intent intent = new Intent(CheckOutActivity.this, HomeFragment.class);
+//                startActivityFromFragment(HomeFragment.newInstance(),intent,1);
+//                finish();
 //                bottomSheetDialog.dismiss();
 
             }
@@ -101,24 +108,14 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
 
-
     private void unitUi() {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
     }
 
-
-
-
     public void setTotalCheckOut(TextView textView){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user.getEmail();
-        String[] subEmail = userEmail.split("@");
-        String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
-        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef().child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
@@ -132,29 +129,16 @@ public class CheckOutActivity extends AppCompatActivity {
         });
     }
 
-
     private void updateBillToFireBase() {
-        double gia =0;
         SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        myRef().child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Double value = snapshot.getValue(Double.class);
-                Log.d(TAG, "onDataChange: "+value);
-                value = gia;
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
+        Task<DataSnapshot> gia= myRef().child("Total").get();
+        Log.d(TAG, "updateBillToFireBase: "+ gia);
         myRef().child("Cart").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int soLuong = (int) snapshot.getChildrenCount();
+
                 Map<String,Product> map = new HashMap<>();
                 for (DataSnapshot dataSnapshot: snapshot.getChildren()){
                     String key = dataSnapshot.getKey();
@@ -165,21 +149,21 @@ public class CheckOutActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getChildrenCount();
-//                        if (value>0){
+                        if (soLuong>0){
 
                             String id = "hd000"+value;
-                            HoaDon hoaDon = new HoaDon(formatter.format(date),id,value,gia);
+                            HoaDon hoaDon = new HoaDon(formatter.format(date),id,tvTotalCheckOut.getText().toString(),soLuong);
                             Log.d(TAG, "onDataChange: "+value);
                             myRef().child("HoaDon").child(id).setValue(hoaDon);
                             myRef().child("HoaDon").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-//                                    myRef().child("Cart").removeValue();
-//                                    myRef().child("Total").setValue(0);
+                                    myRef().child("Cart").removeValue();
+                                    myRef().child("Total").setValue(0);
                                 }
                             });
 
-//                        }
+                        }
 
                     }
                     @Override

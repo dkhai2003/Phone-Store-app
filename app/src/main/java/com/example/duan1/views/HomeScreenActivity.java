@@ -1,6 +1,7 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
@@ -42,6 +43,7 @@ public class HomeScreenActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         setUpView();
+        Log.d("======TAG", "onResume: ");
     }
 
     @Override
@@ -63,6 +65,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                                 .setReorderingAllowed(true)
                                 .addToBackStack(HomeFragment.TAG) // name can be null
                                 .commit();
+
                         break;
                     }
                     case R.id.item_favorite: {
@@ -77,7 +80,7 @@ public class HomeScreenActivity extends AppCompatActivity {
                         fragmentManager.beginTransaction()
                                 .replace(R.id.frameHome, CartFragment.newInstance(), null)
                                 .setReorderingAllowed(true)
-                                //.addToBackStack(CartFragment.TAG) // name can be null
+                                .addToBackStack(CartFragment.TAG) // name can be null
                                 .commit();
                         break;
                     }

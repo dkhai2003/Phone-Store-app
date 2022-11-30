@@ -272,23 +272,12 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClickGetMaLoai(Product_Type type) {
                 progressDialog.show();
-                myRef.child(type.getMaLoai()).get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DataSnapshot> task) {
-                        if (!task.isSuccessful()) {
-                            Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
-                            loaiSanPham = type.getMaLoai();
-                            progressDialog.dismiss();
-                        } else {
-                            loaiSanPham = type.getMaLoai();
-                            getRecyclerViewListProduct(loaiSanPham);
-                            productAdapter.notifyDataSetChanged();
-                            productAdapter.startListening();
-                            Handler pdCanceller = new Handler();
-                            pdCanceller.postDelayed(progressRunnable, 1000);
-                        }
-                    }
-                });
+                loaiSanPham = type.getMaLoai();
+                getRecyclerViewListProduct(loaiSanPham);
+                productAdapter.notifyDataSetChanged();
+                productAdapter.startListening();
+                Handler pdCanceller = new Handler();
+                pdCanceller.postDelayed(progressRunnable, 500);
 
             }
         });
