@@ -1,10 +1,12 @@
 package com.example.duan1.views;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -45,6 +47,15 @@ public class CheckOutActivity extends AppCompatActivity {
         });
         bottomSheetDialog.setContentView(viewDialog);
         bottomSheetDialog.show();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            getFragmentManager().popBackStack();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void unitUi() {
