@@ -87,8 +87,6 @@ public class CartFragment extends Fragment {
         String userEmail = user.getEmail();
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
-
-
         recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
         recyclerViewCart.setLayoutManager(linearLayoutManager);
@@ -180,7 +178,6 @@ public class CartFragment extends Fragment {
                     }
                 });
 
-
             }
 
             @Override
@@ -224,9 +221,6 @@ public class CartFragment extends Fragment {
 
         recyclerViewCart.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
-//        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
-
-
     }
 
 
@@ -252,37 +246,50 @@ public class CartFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        cartAdapter.startListening();
+        if (cartAdapter != null) {
+            cartAdapter.startListening();
+        }
+
     }
 
     public void setTotalCart() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user.getEmail();
-        String[] subEmail = userEmail.split("@");
-        String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
 
 
-        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//
+//    }
 
-                if (snapshot.exists()) {
-                    double value = snapshot.getValue(Double.class);
-                    tvTotalCart.setText("Total: $" + value);
-                } else {
-                    return;
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String userEmail = user.getEmail();
+            String[] subEmail = userEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+
+
+            myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (snapshot.exists()) {
+                        double value = snapshot.getValue(Double.class);
+                        tvTotalCart.setText("Total: $" + value);
+                    } else {
+                        return;
+                    }
+
                 }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
+                }
+            });
+        }
 
 
 //    @NonNull
@@ -310,5 +317,6 @@ public class CartFragment extends Fragment {
 //        });
 
 
-    ///cc
+        ///cc
+    }
 }
