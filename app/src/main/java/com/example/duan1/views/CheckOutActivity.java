@@ -90,7 +90,7 @@ public class CheckOutActivity extends AppCompatActivity {
                 updateBillToFireBase1();
 
 
-                Intent intent = new Intent(CheckOutActivity.this, HomeScreenActivity.class);
+                Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
                 startActivity(intent);
                 finish();
 //                bottomSheetDialog.dismiss();

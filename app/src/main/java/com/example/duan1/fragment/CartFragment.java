@@ -62,9 +62,7 @@ public class CartFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         mView = inflater.inflate(R.layout.fragment_cart_not_null, container, false);
-        //anh xa
         uniUi();
         getRecyclerViewCart();
         setTotalCart();
@@ -149,26 +147,6 @@ public class CartFragment extends Fragment {
                                     }
                                 });
                                 onClickDelete(product, check);
-
-//                                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                                        double value = snapshot.getValue(Double.class);
-//                                        if(value!=0){
-//                                            Log.d("=====xoa", "onDataChange: "+value);
-//                                            double sotien =product.getSoLuong()*product.getGiaSP();
-//                                            double tongTien = value -sotien;
-//                                            myRef.child("Total").setValue(tongTien);
-//                                            tvTotalCart.setText("Total: $"+tongTien);
-//                                        }
-//                                    }
-//
-//                                    @Override
-//                                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                                    }
-//                                });
-
                             }
                         });
                     }
@@ -191,31 +169,12 @@ public class CartFragment extends Fragment {
                         onClickMinus1(product, check);
                     }
                 });
-//                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        double value = snapshot.getValue(Double.class);
-//                        if(product.getSoLuong()>1){
-//
-//                            double gia =product.getGiaSP();
-//                            double tong = value-gia;
-//                            myRef.child("Total").setValue(tong);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
             }
 
             @Override
             public void onClickPlus(Product product) {
                 Map<String, Object> map = new HashMap<>();
                 map.put("soLuong", cong(product));
-//                int click =0;
-//                onClickPlus1(product,click+1);
                 FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -263,7 +222,6 @@ public class CartFragment extends Fragment {
 
         recyclerViewCart.setAdapter(cartAdapter);
         cartAdapter.notifyDataSetChanged();
-//        itemTouchHelper.attachToRecyclerView(recyclerViewCart);
     }
 
 
@@ -302,18 +260,6 @@ public class CartFragment extends Fragment {
         tvCountCart.setText(0 + " items");
     }
 
-
-    //    @Override
-//    public void onPause() {
-//        super.onPause();
-//        cartAdapter.stopListening();
-//    }
-//
-//    @Override
-//    public void onStop() {
-//        super.onStop();
-//        cartAdapter.stopListening();
-//    }
     @Override
     public void onStop() {
         super.onStop();
@@ -412,44 +358,7 @@ public class CartFragment extends Fragment {
 
             }
         });
-
-
     }
-
-    public void onClickPlus1(Product product, int click) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user.getEmail();
-        String[] subEmail = userEmail.split("@");
-        String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
-
-        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double value = snapshot.getValue(Double.class);
-
-                if (product.getSoLuong() >= 1) {
-
-                    double gia = product.getGiaSP() * click;
-                    double tong = value + (gia);
-                    myRef.child("Total").setValue(tong).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-                            tvTotalCart.setText("Total: $" + tong);
-                        }
-                    });
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-    }
-
 
     public void onClickCheckOut() {
         Intent intent = new Intent(getActivity(), CheckOutActivity.class);
