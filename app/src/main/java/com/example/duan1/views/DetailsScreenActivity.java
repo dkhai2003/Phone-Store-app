@@ -41,7 +41,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private Button btnAddToCart;
 
     private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
-    private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail;
+    private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail, tvMota;
 
     int soLuong =1;
 
@@ -75,6 +75,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
                         .into(imgDetail);
             }
         });
+
+
 
         img2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,6 +126,9 @@ public class DetailsScreenActivity extends AppCompatActivity {
         imgDetail = findViewById(R.id.imgDetail);
         tvNameDetail = findViewById(R.id.tvNameDetail);
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
+        tvMota = findViewById(R.id.tvDescribe);
+
+
         iv_fav = findViewById(R.id.iv_fav);
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
@@ -175,6 +180,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 .into(img4);
 
 
+
+        tvMota.setText(product.getMoTa());
         tvNameDetail.setText(product.getTenSP());
         tvPriceDetail.setText(product.getGiaSP() + "");
 

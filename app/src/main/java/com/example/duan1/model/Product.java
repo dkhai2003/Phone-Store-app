@@ -4,18 +4,20 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
     private int giaSP,soLuong;
-    private String hinhSP, tenSP;
+    private String hinhSP, tenSP,moTa;
     private String maSP;
     private int fav = 0;
+
 
     private spct spct;
 
 
-    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
+    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String moTa, String maSP, int fav, com.example.duan1.model.spct spct) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
         this.tenSP = tenSP;
+        this.moTa = moTa;
         this.maSP = maSP;
         this.fav = fav;
         this.spct = spct;
@@ -56,6 +58,14 @@ public class Product implements Serializable {
         this.tenSP = tenSP;
     }
 
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
+    }
+
     public String getMaSP() {
         return maSP;
     }
@@ -78,19 +88,6 @@ public class Product implements Serializable {
 
     public void setSpct(com.example.duan1.model.spct spct) {
         this.spct = spct;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "giaSP=" + giaSP +
-                ", soLuong=" + soLuong +
-                ", hinhSP='" + hinhSP + '\'' +
-                ", tenSP='" + tenSP + '\'' +
-                ", maSP='" + maSP + '\'' +
-                ", fav=" + fav +
-                ", spct=" + spct +
-                '}';
     }
 }
 
