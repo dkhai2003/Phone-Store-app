@@ -6,20 +6,16 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.duan1.R;
-import com.example.duan1.fragment.HomeFragment;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.User;
@@ -125,7 +121,7 @@ public class CheckOutActivity extends AppCompatActivity {
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
         userPhoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
         userAddress = (TextView) findViewById(R.id.userAddress);
-        userName = (TextView) findViewById(R.id.userName);
+        userName = (TextView) findViewById(R.id.userName1);
     }
 
     public void setTotalCheckOut(TextView textView){

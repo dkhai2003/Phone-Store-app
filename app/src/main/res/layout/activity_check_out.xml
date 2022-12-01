@@ -72,6 +72,7 @@
                         android:src="@drawable/checkout_profile_icons" />
 
                     <TextView
+                        android:id="@+id/userName1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -95,6 +96,7 @@
                         android:src="@drawable/checkout_location_icons" />
 
                     <TextView
+                        android:id="@+id/userAddress"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -118,6 +120,7 @@
                         android:src="@drawable/checkout_call_icons" />
 
                     <TextView
+                        android:id="@+id/userPhoneNumber"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

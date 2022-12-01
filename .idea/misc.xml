@@ -77,6 +77,7 @@
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/background_user_item.xml" value="0.2985" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.268" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/background_bottom_sheet_dialog.xml" value="0.2985" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/background_btn_helo.xml" value="0.1485" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/background_header.xml" value="0.272" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/bottom_border_product_type.xml" value="0.2195" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/drawable/button_custom.xml" value="0.1" />
@@ -91,7 +92,7 @@
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_hello.xml" value="0.25" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_home_screen.xml" value="0.25" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_list_product_history.xml" value="0.2171868319794784" />
-        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.3009833262077811" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_order_history.xml" value="0.22" />
         <entry key="..\:/workspacing/FPT_Polytechnic/du_an_1/duan/nhom2_duan1/app/src/main/res/layout/activity_order_history_not_null.xml" value="0.16" />
