@@ -93,7 +93,7 @@ public class CheckOutActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
 
 
                 updateBillToFireBase1();
@@ -101,7 +101,7 @@ public class CheckOutActivity extends AppCompatActivity {
 
 
 
-                Intent intent = new Intent(CheckOutActivity.this, HomeScreenActivity.class);
+                Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
                 startActivity(intent);
                 finish();
 //                bottomSheetDialog.dismiss();
