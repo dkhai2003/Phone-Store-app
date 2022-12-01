@@ -45,6 +45,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private TextView tvTotalCheckOut;
     private String TAG = "=====";
     private ProgressDialog progressDialog;
+    private TextView userPhoneNumber, userAddress, userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +123,9 @@ public class CheckOutActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
+        userPhoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
+        userAddress = (TextView) findViewById(R.id.userAddress);
+        userName = (TextView) findViewById(R.id.userName);
     }
 
     public void setTotalCheckOut(TextView textView){
