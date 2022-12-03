@@ -2,7 +2,9 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.duan1.R;
+import com.example.duan1.model.CreateOrder;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -28,14 +31,21 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.json.JSONObject;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import vn.zalopay.sdk.Environment;
+import vn.zalopay.sdk.ZaloPayError;
+import vn.zalopay.sdk.ZaloPaySDK;
+import vn.zalopay.sdk.listeners.PayOrderListener;
+
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private Button btnConfirmAndPay;
+    private Button btnConfirmAndPay,btnZaLoPay;
     private TextView tvTotalCheckOut;
     private String TAG = "=====";
 
@@ -52,6 +62,51 @@ public class CheckOutActivity extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTotalCheckOut(tvTotalCheckOut);
+
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+        ZaloPaySDK.init(2553, Environment.SANDBOX);
+        btnZaLoPay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d("Amount","abc");
+                CreateOrder orderApi = new CreateOrder();
+
+                try {
+                    JSONObject data = orderApi.createOrder("100000");
+                    String code = data.getString("return_code");
+
+                    if (code.equals("1")) {
+                        Log.d("Amount","abc");
+                        String token =  data.getString("zp_trans_token");
+                        ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+                            @Override
+                            public void onPaymentSucceeded(String s, String s1, String s2) {
+
+                            }
+
+                            @Override
+                            public void onPaymentCanceled(String s, String s1) {
+
+                            }
+
+                            @Override
+                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+
+                            }
+                        });
+                    }
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
 
     }
 
@@ -98,6 +153,7 @@ public class CheckOutActivity extends AppCompatActivity {
         });
         bottomSheetDialog.setContentView(viewDialog);
         bottomSheetDialog.show();
+
     }
 
 
@@ -106,6 +162,7 @@ public class CheckOutActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
+        btnZaLoPay=findViewById(R.id.btnZaloPay);
     }
 
 
@@ -196,7 +253,11 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        ZaloPaySDK.getInstance().onResult(intent);
+    }
 //    public DatabaseReference myRef(){
 //
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -206,5 +267,6 @@ public class CheckOutActivity extends AppCompatActivity {
 //        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
 //        return myRef;
 //    }
+
 
 }

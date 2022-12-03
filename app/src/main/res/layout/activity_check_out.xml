@@ -269,6 +269,12 @@
                     android:textColor="#5956E9"
                     android:textSize="17sp"
                     android:textStyle="bold" />
+                <Button
+                    android:id="@+id/btnZaloPay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="20dp"
+                    android:text="Thanh toán zalo"/>
             </LinearLayout>
 
             <Button
@@ -286,6 +292,7 @@
                 android:textAllCaps="false"
                 android:textColor="@color/white"
                 android:textSize="20dp" />
+
         </LinearLayout>
     </LinearLayout>
 

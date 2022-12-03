@@ -2,9 +2,6 @@ package com.example.duan1.model;
 
 import android.util.Log;
 
-import com.bumptech.glide.request.Request;
-import com.google.android.gms.common.api.Response;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -12,8 +9,13 @@ import java.io.IOException;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
-
-import vn.zalopay.sdk.analytic.network.http.RequestBody;
+import okhttp3.CipherSuite;
+import okhttp3.ConnectionSpec;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.TlsVersion;
 
 public class HttpProvider {
      public static JSONObject sendPost(String URL, RequestBody formBody) {

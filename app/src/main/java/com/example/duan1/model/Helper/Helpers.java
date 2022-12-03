@@ -2,7 +2,8 @@ package com.example.duan1.model.Helper;
 
 import android.annotation.SuppressLint;
 
-import com.zlpdemo.merchantDemo.Helper.HMac.HMacUtil;
+import com.example.duan1.model.Helper.HMac.HMacUtil;
+
 
 import org.jetbrains.annotations.NotNull;
 import java.security.InvalidKeyException;
