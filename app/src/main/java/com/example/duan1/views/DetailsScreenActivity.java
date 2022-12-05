@@ -1,5 +1,6 @@
 package com.example.duan1.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -13,11 +14,17 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
+import com.example.duan1.adapter.ProductAdapter;
+import com.example.duan1.adapter.ProductAdapterAnother;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +41,8 @@ import com.google.firebase.database.ValueEventListener;
 
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
+    private RecyclerView rcvListAnotherItem;
+    private ProductAdapterAnother productAdapter;
 
 //    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
 //    private TextView tvNameDetail, tvPriceDetail;
@@ -119,13 +128,12 @@ public class DetailsScreenActivity extends AppCompatActivity {
     }
 
     private void unitUi() {
+        rcvListAnotherItem = findViewById(R.id.rcvListAnotherItem);
         toolbar = findViewById(R.id.toolbar);
         imgDetail = findViewById(R.id.imgDetail);
         tvNameDetail = findViewById(R.id.tvNameDetail);
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
         tvMota = findViewById(R.id.tvDescribe);
-
-
         iv_fav = findViewById(R.id.iv_fav);
         img1=findViewById(R.id.img1);
         img2=findViewById(R.id.img2);
@@ -158,7 +166,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
             return;
         }
         Product product = (Product) bundle.get("SanPham");
-
+        String lsp = bundle.getString("lsp");
+        getRecyclerViewListProductAnother(lsp);
 
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
@@ -268,9 +277,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -285,6 +291,36 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void getRecyclerViewListProductAnother(String lsp) {
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
+        rcvListAnotherItem.setLayoutManager(linearLayoutManager);
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
+        FirebaseRecyclerOptions<Product> options =
+                new FirebaseRecyclerOptions.Builder<Product>()
+                        .setQuery(myRef, Product.class)
+                        .build();
+        productAdapter = new ProductAdapterAnother(options, new ProductAdapterAnother.IClickProduct1() {
+            @Override
+            public void onClickDetailsScreen(Product product) {
+                onClickGoToDetail(product,lsp);
+            }
+        });
+        rcvListAnotherItem.setAdapter(productAdapter);
+        productAdapter.notifyDataSetChanged();
+        productAdapter.startListening();
+    }
+
+    public void onClickGoToDetail(Product product, String lsp) {
+        Intent intent = new Intent(this, DetailsScreenActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("SanPham", product);
+        bundle.putString("lsp",lsp);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
     }
 
 //        myRef.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
