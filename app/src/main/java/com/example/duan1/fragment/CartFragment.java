@@ -290,18 +290,18 @@ public class CartFragment extends Fragment {
         cartAdapter.startListening();
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        tvTotalCart.setText("Total: $" + 0);
-        tvCountCart.setText(0 + " items");
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        cartAdapter.stopListening();
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        tvTotalCart.setText("Total: $" + 0);
+//        tvCountCart.setText(0 + " items");
+//    }
+//
+//    @Override
+//    public void onStop() {
+//        super.onStop();
+//        cartAdapter.stopListening();
+//    }
 
     public void setTotalCart() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
