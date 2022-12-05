@@ -3,6 +3,7 @@ package com.example.duan1.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -57,7 +58,15 @@ public class FavoritesFragment extends Fragment {
         recyclerViewFav = mView.findViewById(R.id.recyclerViewFav);
         return mView;
     }
-
+    private void setViewLayout(int id) {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(id, null);
+        count_Fav = mView.findViewById(R.id.count_fav);
+        recyclerViewFav = mView.findViewById(R.id.recyclerViewFav);
+        ViewGroup rootView = (ViewGroup) getView();
+        rootView.removeAllViews();
+        rootView.addView(mView);
+    }
     @Override
     public void onResume() {
         super.onResume();
