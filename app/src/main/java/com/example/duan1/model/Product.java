@@ -55,8 +55,8 @@ public class Product implements Serializable {
     }
 
     public String getTenSPSubString17() {
-        if (tenSP.length() > 17) {
-            return tenSP.substring(0, 17)+"...";
+        if (tenSP.length() >= 17) {
+            return tenSP.substring(0, 15)+"...";
         }
         return tenSP;
     }

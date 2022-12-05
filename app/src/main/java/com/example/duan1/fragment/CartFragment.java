@@ -28,6 +28,7 @@ import com.example.duan1.model.Product;
 import com.example.duan1.views.CheckOutActivity;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,13 +74,13 @@ public class CartFragment extends Fragment {
                 onClickCheckOut();
             }
         });
+        cartAdapter.startListening();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_cart_not_null, container, false);
-
         return mView;
     }
 
@@ -184,6 +185,8 @@ public class CartFragment extends Fragment {
 
                 @Override
                 public void onClickMinus(Product product) {
+                    createDialog();
+                    progressDialog.show();
                     Map<String, Object> map = new HashMap<>();
                     map.put("soLuong", tru(product));
                     int click = 0;
@@ -192,12 +195,21 @@ public class CartFragment extends Fragment {
                         public void onSuccess(Void unused) {
                             int check = click + 1;
                             onClickMinus1(product, check);
+                            progressDialog.dismiss();
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(getContext(), "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
 
                 @Override
                 public void onClickPlus(Product product) {
+                    createDialog();
+                    progressDialog.show();
                     Map<String, Object> map = new HashMap<>();
                     map.put("soLuong", cong(product));
                     FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -214,6 +226,7 @@ public class CartFragment extends Fragment {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 tvTotalCart.setText("Total: $" + tong);
+                                                progressDialog.dismiss();
                                             }
                                         });
 
@@ -222,7 +235,7 @@ public class CartFragment extends Fragment {
 
                                 @Override
                                 public void onCancelled(@NonNull DatabaseError error) {
-
+                                    progressDialog.dismiss();
                                 }
                             });
                         }
@@ -247,7 +260,6 @@ public class CartFragment extends Fragment {
                     progressDialog.dismiss();
                 }
             });
-
             recyclerViewCart.setAdapter(cartAdapter);
             cartAdapter.notifyDataSetChanged();
         }
@@ -275,10 +287,7 @@ public class CartFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        if (cartAdapter != null) {
-            cartAdapter.startListening();
-        }
-
+        cartAdapter.startListening();
     }
 
     @Override
@@ -301,14 +310,11 @@ public class CartFragment extends Fragment {
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
         DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
-
-
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
                 tvTotalCart.setText("Total: $" + value);
-
             }
 
             @Override
@@ -363,7 +369,6 @@ public class CartFragment extends Fragment {
         String[] subEmail = userEmail.split("@");
         String pathUserId = "User" + subEmail[0];
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
-
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -383,7 +388,7 @@ public class CartFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                progressDialog.dismiss();
             }
         });
     }
@@ -396,6 +401,7 @@ public class CartFragment extends Fragment {
     private void createDialog() {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setTitle("Please Wait..");
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Connecting to the server ... ");
         progressDialog.setIcon(R.drawable.none_avatar);
     }

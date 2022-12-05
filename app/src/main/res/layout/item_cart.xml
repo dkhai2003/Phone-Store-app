@@ -55,7 +55,7 @@
 
             <TextView
                 android:id="@+id/tvMaSP"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/interbold"
 
@@ -65,13 +65,13 @@
 
             <TextView
                 android:id="@+id/tvAmountCart"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/interbold"
                 android:paddingTop="4dp"
                 android:paddingBottom="4dp"
                 android:text="x2"
-                android:textSize="14sp" />
+                android:textSize="15sp" />
 
             <LinearLayout
 
@@ -103,7 +103,6 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_gravity="center"
-
                         android:src="@drawable/minus" />
 
                     <TextView

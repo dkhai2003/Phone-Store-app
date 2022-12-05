@@ -113,9 +113,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
 //            getFragmentManager().popBackStack();
-
-
-
             finish();
         }
         return super.onOptionsItemSelected(item);

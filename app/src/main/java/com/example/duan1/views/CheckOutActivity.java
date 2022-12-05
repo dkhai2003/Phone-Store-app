@@ -179,7 +179,7 @@ public class CheckOutActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            getFragmentManager().popBackStack();
+//            getFragmentManager().popBackStack();
             finish();
         }
         return super.onOptionsItemSelected(item);
