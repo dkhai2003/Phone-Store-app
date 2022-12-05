@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation fileTree(dir: 'F:\\Du_An_1', include: ['*.aar', '*.jar'], exclude: [])
+    implementation fileTree(dir: 'H:\\zalo\\zpdk_v2.0.4\\android', include: ['*.aar', '*.jar'], exclude: [])
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
