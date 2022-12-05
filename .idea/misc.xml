@@ -47,6 +47,7 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_order_history.xml" value="0.20735356990166737" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_order_history_not_null.xml" value="0.157298277425204" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_test.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_user.xml" value="0.264" />
@@ -75,6 +76,7 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_selected.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_sort_data.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/order_history.xml" value="0.2" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/test_history_cardview.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/testprofile.xml" value="0.176" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/toolbar_custom.xml" value="0.15049864007252947" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/toolbar_custom_editprofile.xml" value="0.157298277425204" />
