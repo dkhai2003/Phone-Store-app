@@ -67,7 +67,7 @@
         </LinearLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/test"
+            android:id="@+id/recycleViewItemHistory"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="28dp"
@@ -102,7 +102,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
-                android:src="@drawable/ic_favorite" />
+                android:src="@drawable/ic_drop_down" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

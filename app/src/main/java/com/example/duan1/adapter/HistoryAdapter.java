@@ -2,7 +2,6 @@ package com.example.duan1.adapter;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
-import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.duan1.R;
 import com.example.duan1.model.HoaDon;
 import com.example.duan1.model.Product;
-import com.example.duan1.views.DetailsScreenActivity;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -82,7 +80,7 @@ public class HistoryAdapter extends FirebaseRecyclerAdapter<HoaDon, HistoryAdapt
             soLuong = itemView.findViewById(R.id.tvAmountHistory);
             card_view_history = itemView.findViewById(R.id.card_view_history);
             btnShow = itemView.findViewById(R.id.btnShow);
-            recyclerViewItemHistory = itemView.findViewById(R.id.test);
+            recyclerViewItemHistory = itemView.findViewById(R.id.recycleViewItemHistory);
         }
 
         public void extendItem(HoaDon hoaDon) {
@@ -107,8 +105,10 @@ public class HistoryAdapter extends FirebaseRecyclerAdapter<HoaDon, HistoryAdapt
         public void setVisible() {
             if (recyclerViewItemHistory.getVisibility() == View.GONE) {
                 recyclerViewItemHistory.setVisibility(View.VISIBLE);
+                btnShow.setRotation(90);
             } else {
                 recyclerViewItemHistory.setVisibility(View.GONE);
+                btnShow.setRotation(0);
             }
         }
     }
