@@ -15,28 +15,28 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
-import com.example.duan1.model.HoaDon;
+import com.example.duan1.model.Bill;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class HistoryAdapter extends FirebaseRecyclerAdapter<HoaDon, HistoryAdapter.myViewHolder> {
+public class HistoryAdapter extends FirebaseRecyclerAdapter<Bill, HistoryAdapter.myViewHolder> {
 
     private final IClickHistory iClickHistory;
 
     public interface IClickHistory {
-        void onClickShowListProduct(HoaDon hoaDon);
+        void onClickShowListProduct(Bill bill);
     }
 
 
-    public HistoryAdapter(@NonNull FirebaseRecyclerOptions<HoaDon> options, IClickHistory iClickHistory) {
+    public HistoryAdapter(@NonNull FirebaseRecyclerOptions<Bill> options, IClickHistory iClickHistory) {
         super(options);
         this.iClickHistory = iClickHistory;
     }
 
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull HoaDon model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Bill model) {
         holder.maHoaDon.setText("Mã hóa đơn: " + model.getMaHoaDon().toUpperCase());
         holder.gia.setText("Tổng giá: " + model.getToTal());
         holder.ngay.setText("Thời gian: " + model.getDate());
@@ -83,14 +83,14 @@ public class HistoryAdapter extends FirebaseRecyclerAdapter<HoaDon, HistoryAdapt
             recyclerViewItemHistory = itemView.findViewById(R.id.recycleViewItemHistory);
         }
 
-        public void extendItem(HoaDon hoaDon) {
+        public void extendItem(Bill bill) {
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(card_view_history.getContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewItemHistory.setLayoutManager(linearLayoutManager);
             FirebaseRecyclerOptions<Product> options =
                     new FirebaseRecyclerOptions.Builder<Product>()
-                            .setQuery(myRef().child("HoaDon").child(hoaDon.getMaHoaDon()).child("Cart"), Product.class)
+                            .setQuery(myRef().child("Bill").child(bill.getMaHoaDon()).child("Cart"), Product.class)
                             .build();
-            Log.d("YYY", hoaDon.getMaHoaDon());
+            Log.d("YYY", bill.getMaHoaDon());
             historyItemAdapter = new HistoryItemAdapter(options, new HistoryItemAdapter.IClickProduct() {
                 @Override
                 public void onClickDetailsScreen(Product product) {

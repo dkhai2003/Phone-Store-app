@@ -9,10 +9,10 @@ public class Product implements Serializable {
     private int fav = 0;
 
 
-    private spct spct;
+    private Product_Images Product_Images;
 
 
-    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String moTa, String maSP, int fav, com.example.duan1.model.spct spct) {
+    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String moTa, String maSP, int fav, Product_Images Product_Images) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
@@ -20,7 +20,7 @@ public class Product implements Serializable {
         this.moTa = moTa;
         this.maSP = maSP;
         this.fav = fav;
-        this.spct = spct;
+        this.Product_Images = Product_Images;
     }
 
     public Product() {
@@ -94,12 +94,12 @@ public class Product implements Serializable {
         this.fav = fav;
     }
 
-    public com.example.duan1.model.spct getSpct() {
-        return spct;
+    public Product_Images getSpct() {
+        return Product_Images;
     }
 
-    public void setSpct(com.example.duan1.model.spct spct) {
-        this.spct = spct;
+    public void setSpct(Product_Images Product_Images) {
+        this.Product_Images = Product_Images;
     }
 }
 

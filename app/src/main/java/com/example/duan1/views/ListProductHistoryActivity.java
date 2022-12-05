@@ -4,7 +4,6 @@ import static com.example.duan1.views.HomeScreenActivity.myRef;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -13,7 +12,7 @@ import android.widget.ImageView;
 
 import com.example.duan1.R;
 import com.example.duan1.adapter.ListHistoryProductAdapter;
-import com.example.duan1.model.HoaDon;
+import com.example.duan1.model.Bill;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
@@ -49,14 +48,14 @@ public class ListProductHistoryActivity extends AppCompatActivity {
         if (bundle == null) {
             return;
         }
-        HoaDon hoaDon = (HoaDon) bundle.get("HoaDon");
+        Bill bill = (Bill) bundle.get("Bill");
 
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
 
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(myRef().child("HoaDon").child(hoaDon.getMaHoaDon()).child("Cart"), Product.class)
+                        .setQuery(myRef().child("Bill").child(bill.getMaHoaDon()).child("Cart"), Product.class)
                         .build();
 
         listHistoryProductAdapter = new ListHistoryProductAdapter(options);

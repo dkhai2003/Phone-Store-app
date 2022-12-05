@@ -21,7 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.duan1.R;
-import com.example.duan1.model.HoaDon;
+import com.example.duan1.model.Bill;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.User;
 import com.example.duan1.zaloaccess.CreateOrder;
@@ -274,17 +274,17 @@ public class CheckOutActivity extends AppCompatActivity {
                     Product value = dataSnapshot.getValue(Product.class);
                     map.put(key, value);
                 }
-                myRef().child("HoaDon").addListenerForSingleValueEvent(new ValueEventListener() {
+                myRef().child("Bill").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getChildrenCount();
                         if (soLuong > 0) {
 
                             String id = "hd000" + value;
-                            HoaDon hoaDon = new HoaDon(formatter.format(date), id, tvTotalCheckOut.getText().toString(), soLuong);
+                            Bill bill = new Bill(formatter.format(date), id, tvTotalCheckOut.getText().toString(), soLuong);
                             Log.d(TAG, "onDataChange: " + value);
-                            myRef().child("HoaDon").child(id).setValue(hoaDon);
-                            myRef().child("HoaDon").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            myRef().child("Bill").child(id).setValue(bill);
+                            myRef().child("Bill").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
                                     myRef().child("Cart").removeValue();

@@ -15,11 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.duan1.R;
 import com.example.duan1.adapter.HistoryAdapter;
-import com.example.duan1.model.HoaDon;
+import com.example.duan1.model.Bill;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
 
 public class OrderHistoryActivity extends AppCompatActivity {
     private Toolbar toolbar;
@@ -57,14 +54,14 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private void setRecyclerViewListHistory() {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerViewListHistory.setLayoutManager(linearLayoutManager);
-        FirebaseRecyclerOptions<HoaDon> options =
-                new FirebaseRecyclerOptions.Builder<HoaDon>()
-                        .setQuery(myRef().child("HoaDon"), HoaDon.class)
+        FirebaseRecyclerOptions<Bill> options =
+                new FirebaseRecyclerOptions.Builder<Bill>()
+                        .setQuery(myRef().child("Bill"), Bill.class)
                         .build();
         historyAdapter = new HistoryAdapter(options, new HistoryAdapter.IClickHistory() {
             @Override
-            public void onClickShowListProduct(HoaDon hoaDon) {
-                onClickGoToListProduct(hoaDon);
+            public void onClickShowListProduct(Bill bill) {
+                onClickGoToListProduct(bill);
             }
         });
 
@@ -74,10 +71,10 @@ public class OrderHistoryActivity extends AppCompatActivity {
     }
 
 
-    public void onClickGoToListProduct(HoaDon hoaDon) {
+    public void onClickGoToListProduct(Bill bill) {
 //        Intent intent = new Intent(this, ListProductHistoryActivity.class);
 //        Bundle bundle = new Bundle();
-//        bundle.putSerializable("HoaDon", hoaDon);
+//        bundle.putSerializable("Bill", bill);
 //        intent.putExtras(bundle);
 //        startActivity(intent);
     }

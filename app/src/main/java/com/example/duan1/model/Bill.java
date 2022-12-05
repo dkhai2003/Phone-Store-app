@@ -3,16 +3,16 @@ package com.example.duan1.model;
 import java.io.Serializable;
 import java.util.Date;
 
-public class HoaDon implements Serializable {
+public class Bill implements Serializable {
     private String date, maHoaDon, toTal;
     private int soLuong;
 
 
 //
-    public HoaDon() {
+    public Bill() {
     }
 
-    public HoaDon(String date, String maHoaDon, String toTal, int soLuong) {
+    public Bill(String date, String maHoaDon, String toTal, int soLuong) {
         this.date = date;
         this.maHoaDon = maHoaDon;
         this.toTal = toTal;
