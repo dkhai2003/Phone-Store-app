@@ -61,7 +61,6 @@ public class FavoritesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     @Override
