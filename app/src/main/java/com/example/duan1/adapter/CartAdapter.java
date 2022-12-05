@@ -33,7 +33,7 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
-        holder.name.setText(model.getTenSPSubString()+"...");
+        holder.name.setText(model.getTenSPSubString17()+"...");
         holder.price.setText(model.getGiaSP()*model.getSoLuong() + "$");
         holder.count.setText(model.getSoLuong()+"");
         holder.tvCount.setText("Số lượng: "+model.getSoLuong()+"");

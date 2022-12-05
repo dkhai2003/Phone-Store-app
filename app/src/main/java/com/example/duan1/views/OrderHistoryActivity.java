@@ -2,7 +2,6 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -24,7 +23,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
     private Button btnStartOrdering;
     private RecyclerView recyclerViewListHistory;
     HistoryAdapter historyAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +48,6 @@ public class OrderHistoryActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
 //        btnStartOrdering = findViewById(R.id.btnStartOrdering);
         recyclerViewListHistory = findViewById(R.id.recyclerviewListHistory);
-
     }
 
     private void setRecyclerViewListHistory() {
@@ -71,16 +68,19 @@ public class OrderHistoryActivity extends AppCompatActivity {
         historyAdapter.startListening();
     }
 
+
     public void onClickGoToListProduct(HoaDon hoaDon) {
-        Intent intent = new Intent(this, ListProductHistoryActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("HoaDon", hoaDon);
-        intent.putExtras(bundle);
-        startActivity(intent);
+//        Intent intent = new Intent(this, ListProductHistoryActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putSerializable("HoaDon", hoaDon);
+//        intent.putExtras(bundle);
+//        startActivity(intent);
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         historyAdapter.stopListening();
     }
+
 }

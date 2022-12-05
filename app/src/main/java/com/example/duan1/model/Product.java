@@ -54,13 +54,18 @@ public class Product implements Serializable {
         return tenSP;
     }
 
-    public String getTenSPSubString() {
-        if (tenSP.length() >= 17) {
-            return tenSP.substring(0, 17);
+    public String getTenSPSubString17() {
+        if (tenSP.length() > 17) {
+            return tenSP.substring(0, 17)+"...";
         }
         return tenSP;
     }
-
+    public String getTenSPSubString15() {
+        if (tenSP.length() > 15) {
+            return tenSP.substring(0, 14)+"...";
+        }
+        return tenSP;
+    }
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
     }
