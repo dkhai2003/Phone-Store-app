@@ -17,12 +17,16 @@ import com.example.duan1.R;
 import com.example.duan1.adapter.HistoryAdapter;
 import com.example.duan1.model.HoaDon;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
 public class OrderHistoryActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Button btnStartOrdering;
     private RecyclerView recyclerViewListHistory;
     HistoryAdapter historyAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +67,7 @@ public class OrderHistoryActivity extends AppCompatActivity {
                 onClickGoToListProduct(hoaDon);
             }
         });
+
         recyclerViewListHistory.setAdapter(historyAdapter);
         historyAdapter.notifyDataSetChanged();
         historyAdapter.startListening();

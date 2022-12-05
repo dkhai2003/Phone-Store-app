@@ -20,7 +20,7 @@
             android:id="@+id/imgSanPham"
             android:layout_width="0dp"
             android:layout_height="140dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/item_simple_images" />
@@ -73,7 +73,7 @@
                 android:layout_height="34dp"
                 android:layout_gravity="center"
                 android:layout_marginEnd="6dp"
-                app:srcCompat="@drawable/remove" />
+                app:srcCompat="@drawable/ic_delete" />
 
 
         </LinearLayout>

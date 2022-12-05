@@ -1,6 +1,8 @@
 package com.example.duan1.fragment;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -47,7 +50,7 @@ public class CartFragment extends Fragment {
     private RecyclerView recyclerViewCart;
     private CartAdapter cartAdapter;
     int mcount_cart = 0;
-
+    private ProgressDialog progressDialog;
     private final Handler mHandler = new Handler(Looper.myLooper());
 
 
@@ -58,11 +61,9 @@ public class CartFragment extends Fragment {
         return fragment;
     }
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        mView = inflater.inflate(R.layout.fragment_cart_not_null, container, false);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         uniUi();
         getRecyclerViewCart();
         setTotalCart();
@@ -72,8 +73,22 @@ public class CartFragment extends Fragment {
                 onClickCheckOut();
             }
         });
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        mView = inflater.inflate(R.layout.fragment_cart_not_null, container, false);
 
         return mView;
+    }
+
+    private void setViewLayout(int id) {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(id, null);
+        ViewGroup rootView = (ViewGroup) getView();
+        rootView.removeAllViews();
+        rootView.addView(mView);
     }
 
     private void uniUi() {
@@ -86,144 +101,157 @@ public class CartFragment extends Fragment {
 
     public void getRecyclerViewCart() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user.getEmail();
-        String[] subEmail = userEmail.split("@");
-        String pathUserId = "User" + subEmail[0];
-        recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        recyclerViewCart.setLayoutManager(linearLayoutManager);
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
-        FirebaseRecyclerOptions<Product> options =
-                new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(myRef.child("Cart"), Product.class)
-                        .build();
-        cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
-            @Override
-            public void onClickDeleteCart(Product product) {
-                AlertDialog.Builder alerBuider = new AlertDialog.Builder(getContext());
-                alerBuider.setTitle("Notifications");
-                alerBuider.setMessage("Do you want to delete?");
-                alerBuider.setCancelable(false);
-                alerBuider.setPositiveButton("yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String userEmail = user.getEmail();
-                        String[] subEmail = userEmail.split("@");
-                        String pathUserId = "User" + subEmail[0];
-                        int click = 0;
-                        FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-
-                                int check = click + 1;
-                                Toast.makeText(getContext(), "Remove Success", Toast.LENGTH_SHORT).show();
-                                myRef.child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        int soLuongSanPham = (int) snapshot.getChildrenCount();
-                                        tvCountCart.setText((soLuongSanPham) + " items");
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-                                    @Override
-                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                        double value = snapshot.getValue(Double.class);
-                                        if (value != 0) {
-                                            value -= product.getSoLuong() * product.getGiaSP();
-                                            myRef.child("Total").setValue(value);
-                                            tvTotalCart.setText("Total: $" + value);
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onCancelled(@NonNull DatabaseError error) {
-
-                                    }
-                                });
-                                onClickDelete(product, check);
-                            }
-                        });
-                    }
-                }).setNegativeButton("no", null);
-                Dialog dialog = alerBuider.create();
-                dialog.show();
-
-            }
-
-
-            @Override
-            public void onClickMinus(Product product) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("soLuong", tru(product));
-                int click = 0;
-                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        int check = click + 1;
-                        onClickMinus1(product, check);
-                    }
-                });
-            }
-
-            @Override
-            public void onClickPlus(Product product) {
-                Map<String, Object> map = new HashMap<>();
-                map.put("soLuong", cong(product));
-                FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                double value = snapshot.getValue(Double.class);
-                                if (product.getSoLuong() >= 1) {
-                                    double gia = product.getGiaSP();
-                                    double tong = value + (gia);
-                                    myRef.child("Total").setValue(tong).addOnCompleteListener(new OnCompleteListener<Void>() {
+        if (user == null) {
+            return;
+        } else {
+            createDialog();
+            progressDialog.show();
+            String userEmail = user.getEmail();
+            String[] subEmail = userEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            recyclerViewCart = mView.findViewById(R.id.recyclerviewListCart);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+            recyclerViewCart.setLayoutManager(linearLayoutManager);
+            DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId);
+            FirebaseRecyclerOptions<Product> options =
+                    new FirebaseRecyclerOptions.Builder<Product>()
+                            .setQuery(myRef.child("Cart"), Product.class)
+                            .build();
+            cartAdapter = new CartAdapter(options, new CartAdapter.IClickCart() {
+                @Override
+                public void onClickDeleteCart(Product product) {
+                    AlertDialog.Builder alerBuider = new AlertDialog.Builder(getContext());
+                    alerBuider.setTitle("Notifications");
+                    alerBuider.setMessage("Do you want to delete?");
+                    alerBuider.setCancelable(false);
+                    alerBuider.setPositiveButton("yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            String userEmail = user.getEmail();
+                            String[] subEmail = userEmail.split("@");
+                            String pathUserId = "User" + subEmail[0];
+                            int click = 0;
+                            FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).removeValue().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    int check = click + 1;
+                                    Toast.makeText(getContext(), "Remove Success", Toast.LENGTH_SHORT).show();
+                                    myRef.child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
-                                        public void onComplete(@NonNull Task<Void> task) {
-                                            tvTotalCart.setText("Total: $" + tong);
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            int soLuongSanPham = (int) snapshot.getChildrenCount();
+                                            tvCountCart.setText((soLuongSanPham) + " items");
+                                            if (snapshot.getChildrenCount() == 0) {
+                                                setViewLayout(R.layout.fragment_cart_null);
+                                                progressDialog.dismiss();
+                                            } else {
+                                                progressDialog.dismiss();
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
                                         }
                                     });
+                                    myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            double value = snapshot.getValue(Double.class);
+                                            if (value != 0) {
+                                                value -= product.getSoLuong() * product.getGiaSP();
+                                                myRef.child("Total").setValue(value);
+                                                tvTotalCart.setText("Total: $" + value);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+
+                                        }
+                                    });
+                                    onClickDelete(product, check);
+                                }
+                            });
+                        }
+                    }).setNegativeButton("no", null);
+                    Dialog dialog = alerBuider.create();
+                    dialog.show();
+
+                }
+
+
+                @Override
+                public void onClickMinus(Product product) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("soLuong", tru(product));
+                    int click = 0;
+                    FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+                            int check = click + 1;
+                            onClickMinus1(product, check);
+                        }
+                    });
+                }
+
+                @Override
+                public void onClickPlus(Product product) {
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("soLuong", cong(product));
+                    FirebaseDatabase.getInstance().getReference("duan/User").child(pathUserId).child("Cart").child(product.getMaSP()).updateChildren(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                    double value = snapshot.getValue(Double.class);
+                                    if (product.getSoLuong() >= 1) {
+                                        double gia = product.getGiaSP();
+                                        double tong = value + (gia);
+                                        myRef.child("Total").setValue(tong).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                tvTotalCart.setText("Total: $" + tong);
+                                            }
+                                        });
+
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError error) {
 
                                 }
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-
-                            }
-                        });
+                            });
+                        }
+                    });
+                }
+            });
+            myRef.child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    int soLuongSanPham = (int) snapshot.getChildrenCount();
+                    tvCountCart.setText((soLuongSanPham) + " items");
+                    if (snapshot.getChildrenCount() == 0) {
+                        setViewLayout(R.layout.fragment_cart_null);
+                        progressDialog.dismiss();
+                    } else {
+                        progressDialog.dismiss();
                     }
-                });
+                }
 
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressDialog.dismiss();
+                }
+            });
 
-            }
-        });
-        myRef.child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int soLuongSanPham = (int) snapshot.getChildrenCount();
-                tvCountCart.setText((soLuongSanPham) + " items");
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-        recyclerViewCart.setAdapter(cartAdapter);
-        cartAdapter.notifyDataSetChanged();
+            recyclerViewCart.setAdapter(cartAdapter);
+            cartAdapter.notifyDataSetChanged();
+        }
     }
-
 
     public int tru(Product product) {
         int mTru = product.getSoLuong();
@@ -363,5 +391,12 @@ public class CartFragment extends Fragment {
     public void onClickCheckOut() {
         Intent intent = new Intent(getActivity(), CheckOutActivity.class);
         startActivity(intent);
+    }
+
+    private void createDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
     }
 }

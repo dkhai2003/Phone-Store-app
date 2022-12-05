@@ -61,12 +61,8 @@ public class UserFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        progressDialog = new ProgressDialog(getContext());
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
         unitUi();
         getUserInformation();
-
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -90,13 +86,11 @@ public class UserFragment extends Fragment {
     }
 
     private void onClickEditProfile() {
-//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
         Intent intent = new Intent(getContext(), EditProfileActivity.class);
         startActivity(intent);
     }
 
     private void onClickHistory() {
-//        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frameUser, FrofileFragment.newInstance()).commit();
         Intent intent = new Intent(getContext(), OrderHistoryActivity.class);
         startActivity(intent);
     }
@@ -110,8 +104,9 @@ public class UserFragment extends Fragment {
 
     public void getUserInformation() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        progressDialog.show();
         if (user != null) {
+            createDialog();
+            progressDialog.show();
             // Name, email address, and profile photo Url
             Glide.with(this).load(user.getPhotoUrl()).error(R.drawable.none_avatar).into(userAvatar);
             // Check if user's email is verified
@@ -127,6 +122,11 @@ public class UserFragment extends Fragment {
                 myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.getChildrenCount() == 0) {
+                            progressDialog.dismiss();
+                        } else {
+                            progressDialog.dismiss();
+                        }
                         User CurrentUser = snapshot.getValue(User.class);
                         if (CurrentUser.getUserName() == null) {
                             userName.setText(userDisplayName);
@@ -140,7 +140,6 @@ public class UserFragment extends Fragment {
                         }
                         userAddress.setText(CurrentUser.getAddress());
                         userPhoneNumber.setText(CurrentUser.getPhoneNumber());
-                        progressDialog.dismiss();
                     }
 
                     @Override
@@ -156,7 +155,6 @@ public class UserFragment extends Fragment {
             // authenticate with your backend server, if you have one. Use
             // FirebaseUser.getIdToken() instead.
             String uid = user.getUid();
-            progressDialog.dismiss();
         } else {
             progressDialog.dismiss();
         }
@@ -175,5 +173,11 @@ public class UserFragment extends Fragment {
         btnOrderHistory = mView.findViewById(R.id.btnOrderHistory);
     }
 
+    private void createDialog() {
+        progressDialog = new ProgressDialog(getContext());
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
+    }
 
 }
