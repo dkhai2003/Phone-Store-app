@@ -23,6 +23,7 @@ import com.example.duan1.model.User;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
 import com.example.duan1.views.OrderHistoryActivity;
+import com.facebook.FacebookSdk;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

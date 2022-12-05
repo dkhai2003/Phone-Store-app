@@ -313,8 +313,12 @@ public class CartFragment extends Fragment {
         myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double value = snapshot.getValue(Double.class);
-                tvTotalCart.setText("Total: $" + value);
+                if (snapshot.getValue() == null) {
+                    myRef.child("Total").setValue(0);
+                } else {
+                    double value = snapshot.getValue(Double.class);
+                    tvTotalCart.setText("Total: $" + value);
+                }
             }
 
             @Override
