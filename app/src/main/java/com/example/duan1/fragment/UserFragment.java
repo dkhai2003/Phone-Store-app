@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.User;
+import com.example.duan1.views.AboutActivity;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
 import com.example.duan1.views.OrderHistoryActivity;
@@ -37,7 +38,7 @@ public class UserFragment extends Fragment {
     private TextView userName, userEmail, userAddress, userPhoneNumber;
     private ImageView userAvatar;
     private Button btnLogout;
-    private Button btnEditProfile, btnOrderHistory;
+    private Button btnEditProfile, btnOrderHistory, btnAboutUs;
     private FrameLayout frameUser;
     private View mView;
     private ProgressDialog progressDialog;
@@ -84,6 +85,14 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 onClickHistory();
+            }
+        });
+
+        btnAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AboutActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -173,6 +182,7 @@ public class UserFragment extends Fragment {
         userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
         btnOrderHistory = mView.findViewById(R.id.btnOrderHistory);
+        btnAboutUs = mView.findViewById(R.id.btnAboutUs);
     }
 
 

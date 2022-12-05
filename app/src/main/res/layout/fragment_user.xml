@@ -173,19 +173,7 @@
                     android:textSize="16dp"
                     android:textStyle="bold" />
 
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="18dp"
-                    android:background="@drawable/background_user_item"
-                    android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
-                    android:gravity="left"
-                    android:padding="20dp"
-                    android:text="Shopping address"
-                    android:textAllCaps="false"
-                    android:textColor="#000000"
-                    android:textSize="16dp"
-                    android:textStyle="bold" />
+
 
                 <Button
                     android:id="@+id/btnOrderHistory"
@@ -203,7 +191,7 @@
                     android:textStyle="bold" />
 
                 <Button
-
+                    android:id="@+id/btnAboutUs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
@@ -211,7 +199,7 @@
                     android:drawableEnd="@drawable/ic_baseline_keyboard_arrow_right_24"
                     android:gravity="left"
                     android:padding="20dp"
-                    android:text="Cards"
+                    android:text="About us"
                     android:textAllCaps="false"
                     android:textColor="#000000"
                     android:textSize="16dp"
