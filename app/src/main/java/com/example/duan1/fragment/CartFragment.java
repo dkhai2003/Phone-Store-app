@@ -289,7 +289,7 @@ public class CartFragment extends Fragment {
         super.onStart();
         cartAdapter.startListening();
     }
-
+    
 //    @Override
 //    public void onResume() {
 //        super.onResume();
@@ -302,6 +302,11 @@ public class CartFragment extends Fragment {
 //        super.onStop();
 //        cartAdapter.stopListening();
 //    }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
 
     public void setTotalCart() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
