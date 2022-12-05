@@ -44,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -190,7 +191,7 @@ public class HomeFragment extends Fragment {
     private void edSearch(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str.toUpperCase()).endAt(str + "~"), Product.class)
                         .build();
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {

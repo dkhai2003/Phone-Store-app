@@ -87,6 +87,7 @@ public class CheckOutActivity extends AppCompatActivity {
                 clickPayWithZaloPay();
             }
         });
+
         getUserInformation();
     }
 
@@ -96,7 +97,7 @@ public class CheckOutActivity extends AppCompatActivity {
             JSONObject data = orderApi.createOrder(tvTotalCheckOut.getText().toString());
             Log.d("Amount", tvTotalCheckOut.getText().toString());
             String code = data.getString("returncode");
-            Log.d("code", code+"");
+            Log.d("code", code + "");
             if (code.equals("1")) {
                 String token = data.getString("zptranstoken");
                 ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
@@ -160,12 +161,10 @@ public class CheckOutActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
 
 
                 updateBillToFireBase1();
-
-
                 Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
                 startActivity(intent);
                 finish();
@@ -184,13 +183,6 @@ public class CheckOutActivity extends AppCompatActivity {
             finish();
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void createDialog() {
-        progressDialog = new ProgressDialog(CheckOutActivity.this);
-        progressDialog.setTitle("Please Wait..");
-        progressDialog.setMessage("Connecting to the server ... ");
-        progressDialog.setIcon(R.drawable.none_avatar);
     }
 
     public void getUserInformation() {
@@ -246,6 +238,9 @@ public class CheckOutActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
+        userPhoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
+        userAddress = (TextView) findViewById(R.id.userAddress);
+        userName = (TextView) findViewById(R.id.userName);
     }
 
     public void setTotalCheckOut(TextView textView) {
@@ -312,11 +307,59 @@ public class CheckOutActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
+//    public void getUserInformation() {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            // Name, email address, and profile photo Url
+//            // Check if user's email is verified
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            String uEmail = user.getEmail();
+//            String userDisplayName = user.getDisplayName();
+//            String[] subEmail = uEmail.split("@");
+//            String pathUserId = "User" + subEmail[0];
+//            DatabaseReference myRef = database.getReference("duan/User/");
+//            if (user == null) {
+//                return;
+//            } else {
+//                createDialog();
+//                progressDialog.show();
+//                myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        User CurrentUser = snapshot.getValue(User.class);
+//                        if (CurrentUser.getUserName() == null) {
+//                            userName.setText(userDisplayName);
+//                        } else {
+//                            userName.setText(CurrentUser.getUserName());
+//                        }
+//                        userAddress.setText(CurrentUser.getAddress());
+//                        userPhoneNumber.setText(CurrentUser.getPhoneNumber());
+//                        progressDialog.dismiss();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Log.d("TAG", "getInformationUserFromFirebase:error");
+//                        progressDialog.dismiss();
+//                    }
+//                });
+//            }
+//            boolean emailVerified = user.isEmailVerified();
+//            String uid = user.getUid();
+//        } else {
+//            Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
+
+    private void createDialog() {
+        progressDialog = new ProgressDialog(CheckOutActivity.this);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
+    }
 //    public DatabaseReference myRef(){
 //
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

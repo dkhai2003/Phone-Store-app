@@ -10,16 +10,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.duan1.R;
 
 public class FinishedPaymentActivity extends AppCompatActivity {
-    private Button btnGoHome;
+    private Button btnGOBackToHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_finished_payment);
-        btnGoHome = findViewById(R.id.btnGoHome);
-        btnGoHome.setOnClickListener(new View.OnClickListener() {
+        btnGOBackToHome = findViewById(R.id.btnGoBackToHome);
+        btnGOBackToHome.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 Intent intent = new Intent(FinishedPaymentActivity.this, HomeScreenActivity.class);
                 startActivity(intent);
                 finish();
