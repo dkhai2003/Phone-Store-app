@@ -294,6 +294,8 @@ public class CartFragment extends Fragment {
     public void onResume() {
         super.onResume();
     }
+
+
     public void setTotalCart() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
