@@ -136,8 +136,10 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                             Log.d("SaveUidToRealtime", "saveIdU");
+
                                         }
                                     });
+                            myRef.child("User" + subEmail[0]).child("Total");
                             Log.d("User Google", user.getEmail());
                             progressDialogLoginGoogle.dismiss();
                             startMainActivityMethod(user.getUid());
