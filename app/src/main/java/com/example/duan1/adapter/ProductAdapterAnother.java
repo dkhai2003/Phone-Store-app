@@ -34,7 +34,7 @@ public class ProductAdapterAnother extends FirebaseRecyclerAdapter<Product, Prod
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
-        holder.name.setText(model.getTenSP());
+        holder.name.setText(model.getTenSPSubString15());
         holder.price.setText(model.getGiaSP() + "$");
 
 
@@ -42,12 +42,12 @@ public class ProductAdapterAnother extends FirebaseRecyclerAdapter<Product, Prod
                 .load(model.getHinhSP())
                 .into(holder.img);
 
-        holder.imgDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                iClickProduct.onClickDetailsScreen(model);
-            }
-        });
+//        holder.imgDetails.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                iClickProduct.onClickDetailsScreen(model);
+//            }
+//        });
         holder.card_view_product.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +78,7 @@ public class ProductAdapterAnother extends FirebaseRecyclerAdapter<Product, Prod
             img = itemView.findViewById(R.id.imgSanPham1);
             name = itemView.findViewById(R.id.tvTenSanPham1);
             price = itemView.findViewById(R.id.tvGiaSanPham1);
-            imgDetails = itemView.findViewById(R.id.imgRemove1);
+//            imgDetails = itemView.findViewById(R.id.imgRemove1);
             card_view_product = itemView.findViewById(R.id.card_view_product);
         }
     }

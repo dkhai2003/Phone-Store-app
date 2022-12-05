@@ -43,12 +43,10 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rcvListAnotherItem;
     private ProductAdapterAnother productAdapter;
-
 //    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
 //    private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
     private Button btnAddToCart;
-
     private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
     private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail, tvMota;
 
@@ -139,27 +137,12 @@ public class DetailsScreenActivity extends AppCompatActivity {
         img2=findViewById(R.id.img2);
         img3=findViewById(R.id.img3);
         img4=findViewById(R.id.img4);
-
         btnAddToCart = findViewById(R.id.btnAddToCard);
-
         btnMinus=findViewById(R.id.btnMinus);
         btnPlus=findViewById(R.id.btnPlus);
         tvSlMua=findViewById(R.id.tvSlMua);
-
         tvTotalDetail = findViewById(R.id.tvTotalDetail);
-
-
-
-
-
-
     }
-
-
-
-
-
-
     private void setValue() {
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
@@ -294,7 +277,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
     }
 
     private void getRecyclerViewListProductAnother(String lsp) {
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         rcvListAnotherItem.setLayoutManager(linearLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
@@ -358,6 +340,4 @@ public class DetailsScreenActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
-
-
 }

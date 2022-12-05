@@ -289,8 +289,8 @@ public class CartFragment extends Fragment {
         super.onStart();
         cartAdapter.startListening();
     }
-    
-//    @Override
+
+    //    @Override
 //    public void onResume() {
 //        super.onResume();
 //        tvTotalCart.setText("Total: $" + 0);
