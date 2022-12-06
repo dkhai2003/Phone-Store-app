@@ -3,7 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F8">
+    android:background="#F5F5F8"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar_custom" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,7 +17,6 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <include layout="@layout/toolbar_custom" />
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

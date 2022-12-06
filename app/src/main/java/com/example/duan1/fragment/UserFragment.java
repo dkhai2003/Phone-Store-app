@@ -22,6 +22,7 @@ import com.example.duan1.R;
 import com.example.duan1.model.User;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
+import com.example.duan1.views.MapsActivity;
 import com.example.duan1.views.OrderHistoryActivity;
 import com.facebook.login.LoginManager;
 import com.google.firebase.auth.FirebaseAuth;
@@ -37,8 +38,7 @@ public class UserFragment extends Fragment {
     private Toolbar toolbar;
     private TextView userName, userEmail, userAddress, userPhoneNumber;
     private ImageView userAvatar;
-    private Button btnLogout;
-    private Button btnEditProfile, btnOrderHistory;
+    private Button btnEditProfile, btnOrderHistory, btnAddress, btnLogout;
     private FrameLayout frameUser;
     private View mView;
     private ProgressDialog progressDialog;
@@ -83,7 +83,17 @@ public class UserFragment extends Fragment {
                 onClickHistory();
             }
         });
+        btnAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickMap();
+            }
+        });
+    }
 
+    private void onClickMap() {
+        Intent intent = new Intent(getContext(), MapsActivity.class);
+        startActivity(intent);
     }
 
     private void onClickEditProfile() {
@@ -172,7 +182,8 @@ public class UserFragment extends Fragment {
         frameUser = (FrameLayout) mView.findViewById(R.id.frameUser);
         userPhoneNumber = (TextView) mView.findViewById(R.id.tvPhoneNumber);
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
-        btnOrderHistory = mView.findViewById(R.id.btnOrderHistory);
+        btnOrderHistory = (Button) mView.findViewById(R.id.btnOrderHistory);
+        btnAddress = (Button) mView.findViewById(R.id.btnAddress);
     }
 
     private void createDialog() {

@@ -46,6 +46,7 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_list_product_history.xml" value="0.3582427536231884" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_login.xml" value="0.22" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_main.xml" value="0.20735356990166737" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_maps.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_order_history.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_order_history_not_null.xml" value="0.157298277425204" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/activity_sign_up.xml" value="0.22" />
@@ -65,6 +66,7 @@
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_favorites_null.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_frofile_edit.xml" value="0.20735356990166737" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_home.xml" value="0.176" />
+        <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_maps.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/fragment_user.xml" value="0.22780797101449277" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_all2.xml" value="0.2997007268063275" />
         <entry key="..\:/nhom2_duan1/app/src/main/res/layout/item_cart.xml" value="0.22780797101449277" />
