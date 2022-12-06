@@ -20,7 +20,7 @@
             android:id="@+id/imgSanPham"
             android:layout_width="0dp"
             android:layout_height="140dp"
-            android:layout_weight="2"
+            android:layout_weight="1"
             android:paddingTop="10dp"
             android:paddingBottom="10dp"
             app:srcCompat="@drawable/item_simple_images" />
@@ -48,7 +48,7 @@
                     android:padding="8dp"
                     android:text="tensanpham"
                     android:textColor="#000"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/imgSanPham" />
@@ -61,7 +61,7 @@
                     android:padding="8dp"
                     android:text="gia"
                     android:textColor="#536DFE"
-                    android:textSize="14sp"
+                    android:textSize="16sp"
                     android:textStyle="italic|bold"
 
                     app:layout_constraintTop_toBottomOf="@+id/tvTenSanPham" />
@@ -72,8 +72,8 @@
                 android:layout_width="34dp"
                 android:layout_height="34dp"
                 android:layout_gravity="center"
-                android:layout_marginEnd="6dp"
-                app:srcCompat="@drawable/remove" />
+                android:layout_marginEnd="4dp"
+                app:srcCompat="@drawable/ic_delete" />
 
 
         </LinearLayout>

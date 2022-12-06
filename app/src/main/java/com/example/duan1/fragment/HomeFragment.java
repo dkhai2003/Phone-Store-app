@@ -36,12 +36,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -55,7 +58,7 @@ public class HomeFragment extends Fragment {
     private ImageView btnSortListProduct;
     private ProductAdapter productAdapter;
     private Product_TypeAdapter product_typeAdapter;
-    private String loaiSanPham = "lsp2";
+    private String loaiSanPham = "lsp1";
     private ProgressDialog progressDialog;
     private List<PhotoSlide> mListPhoto;
     public static final String TAG = HomeFragment.class.getName();
@@ -65,7 +68,6 @@ public class HomeFragment extends Fragment {
         Bundle args = new Bundle();
         HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -74,32 +76,38 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
-        setUserInformation();
-        setSlideShow();
+        edSearch.clearFocus();
+        return mView;
+    }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        getUserCurrent();
+        setSlideShow();
         edSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                txtSreach(query, loaiSanPham);
+                edSearch(query, loaiSanPham);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String query) {
-                txtSreach(query, loaiSanPham);
+                edSearch(query, loaiSanPham);
                 return false;
             }
         });
+//        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                sortBySpinner();
+//            }
+//        });
 
-        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showdialog();
-            }
-        });
-
-
-        return mView;
+        getRecyclerViewListProduct();
+        product_typeAdapter.startListening();
+        productAdapter.startListening();
     }
 
     private void setSlideShow() {
@@ -134,7 +142,6 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         super.onResume();
         mHandler.postDelayed(mRun, 3000);
-
     }
 
     private final Runnable mRun = new Runnable() {
@@ -148,16 +155,14 @@ public class HomeFragment extends Fragment {
             }
         }
     };
-
-    private void showdialog() {
+    //
+    private void sortBySpinner() {
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
         b.setTitle("Sort by");
         String[] types = {"Price low to high", "Price high to low"};
         b.setItems(types, new DialogInterface.OnClickListener() {
-
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
                 dialog.dismiss();
                 switch (which) {
                     case 0:
@@ -170,25 +175,23 @@ public class HomeFragment extends Fragment {
                         break;
                 }
             }
-
         });
-
         b.show();
     }
 
     private void unitUi() {
-        edSearch = mView.findViewById(R.id.edSreach);
+        edSearch = (SearchView) mView.findViewById(R.id.edSreach);
         recyclerViewListProduct = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct);
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
         mCircleIndicator3 = (CircleIndicator3) mView.findViewById(R.id.mCircleIndicator3);
-        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
+//        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
     }
 
-    private void txtSreach(String str, String lsp) {
+    private void edSearch(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str + "~"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str.toUpperCase()).endAt(str + "~"), Product.class)
                         .build();
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
@@ -201,35 +204,37 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct.setAdapter(productAdapter);
     }
 
-    private void setUserInformation() {
-        createDialog();
-        progressDialog.show();
+    private void getUserCurrent() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        if (user == null) {
-            return;
+        if (user != null) {
+            createDialog();
+            progressDialog.show();
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String uEmail = user.getEmail();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/");
+            myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    progressDialog.dismiss();
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.d("TAG", "getInformationUserFromFirebase:error");
+                    progressDialog.dismiss();
+                }
+            });
         } else {
             progressDialog.dismiss();
+            return;
         }
-    }
-
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        getRecyclerViewListProduct();
-        product_typeAdapter.startListening();
-        productAdapter.startListening();
-
-
-
     }
 
     private void getRecyclerViewListProduct() {
         getRecyclerViewListProduct_type();
-
-        getRecyclerViewListProduct("lsp2");
         getRecyclerViewListProduct(loaiSanPham);
-
     }
 
     private void getRecyclerViewListProduct(String lsp) {
@@ -252,9 +257,8 @@ public class HomeFragment extends Fragment {
     }
 
     private void getRecyclerViewListProduct_type() {
-        createDialog();
-        Runnable progressRunnable = new Runnable() {
 
+        Runnable progressRunnable = new Runnable() {
             @Override
             public void run() {
                 progressDialog.dismiss();
@@ -278,7 +282,6 @@ public class HomeFragment extends Fragment {
                         if (!task.isSuccessful()) {
                             Log.e("=>>>>>>>>>>>>firebase", "Error getting data", task.getException());
                             loaiSanPham = type.getMaLoai();
-                            progressDialog.dismiss();
                         } else {
                             loaiSanPham = type.getMaLoai();
                             getRecyclerViewListProduct(loaiSanPham);
@@ -301,13 +304,6 @@ public class HomeFragment extends Fragment {
         progressDialog.setMessage("Connecting to the server ... ");
         progressDialog.setIcon(R.drawable.none_avatar);
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
 
 
     private void sortLowToHigh(String lsp) {
@@ -358,6 +354,7 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("SanPham", product);
+        bundle.putString("lsp",loaiSanPham);
         intent.putExtras(bundle);
         startActivity(intent);
     }

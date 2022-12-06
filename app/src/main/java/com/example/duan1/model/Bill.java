@@ -1,21 +1,22 @@
 package com.example.duan1.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class HoaDon {
-    private String date, maHoaDon;
+public class Bill implements Serializable {
+    private String date, maHoaDon, toTal;
     private int soLuong;
-    private double Total;
 
 
-    public HoaDon() {
+//
+    public Bill() {
     }
 
-    public HoaDon(String date, String maHoaDon, int soLuong, double total) {
+    public Bill(String date, String maHoaDon, String toTal, int soLuong) {
         this.date = date;
         this.maHoaDon = maHoaDon;
+        this.toTal = toTal;
         this.soLuong = soLuong;
-        Total = total;
     }
 
     public String getDate() {
@@ -34,19 +35,19 @@ public class HoaDon {
         this.maHoaDon = maHoaDon;
     }
 
+    public String getToTal() {
+        return toTal;
+    }
+
+    public void setToTal(String toTal) {
+        this.toTal = toTal;
+    }
+
     public int getSoLuong() {
         return soLuong;
     }
 
     public void setSoLuong(int soLuong) {
         this.soLuong = soLuong;
-    }
-
-    public double getTotal() {
-        return Total;
-    }
-
-    public void setTotal(double total) {
-        Total = total;
     }
 }

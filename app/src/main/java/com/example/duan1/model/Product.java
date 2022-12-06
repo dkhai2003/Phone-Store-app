@@ -4,21 +4,23 @@ import java.io.Serializable;
 
 public class Product implements Serializable {
     private int giaSP,soLuong;
-    private String hinhSP, tenSP;
+    private String hinhSP, tenSP,moTa;
     private String maSP;
     private int fav = 0;
 
-    private spct spct;
+
+    private Product_Images Product_Images;
 
 
-    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String maSP, int fav, com.example.duan1.model.spct spct) {
+    public Product(int giaSP, int soLuong, String hinhSP, String tenSP, String moTa, String maSP, int fav, Product_Images Product_Images) {
         this.giaSP = giaSP;
         this.soLuong = soLuong;
         this.hinhSP = hinhSP;
         this.tenSP = tenSP;
+        this.moTa = moTa;
         this.maSP = maSP;
         this.fav = fav;
-        this.spct = spct;
+        this.Product_Images = Product_Images;
     }
 
     public Product() {
@@ -52,8 +54,28 @@ public class Product implements Serializable {
         return tenSP;
     }
 
+    public String getTenSPSubString17() {
+        if (tenSP.length() >= 17) {
+            return tenSP.substring(0, 15)+"...";
+        }
+        return tenSP;
+    }
+    public String getTenSPSubString15() {
+        if (tenSP.length() > 15) {
+            return tenSP.substring(0, 14)+"...";
+        }
+        return tenSP;
+    }
     public void setTenSP(String tenSP) {
         this.tenSP = tenSP;
+    }
+
+    public String getMoTa() {
+        return moTa;
+    }
+
+    public void setMoTa(String moTa) {
+        this.moTa = moTa;
     }
 
     public String getMaSP() {
@@ -72,25 +94,12 @@ public class Product implements Serializable {
         this.fav = fav;
     }
 
-    public com.example.duan1.model.spct getSpct() {
-        return spct;
+    public Product_Images getSpct() {
+        return Product_Images;
     }
 
-    public void setSpct(com.example.duan1.model.spct spct) {
-        this.spct = spct;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{" +
-                "giaSP=" + giaSP +
-                ", soLuong=" + soLuong +
-                ", hinhSP='" + hinhSP + '\'' +
-                ", tenSP='" + tenSP + '\'' +
-                ", maSP='" + maSP + '\'' +
-                ", fav=" + fav +
-                ", spct=" + spct +
-                '}';
+    public void setSpct(Product_Images Product_Images) {
+        this.Product_Images = Product_Images;
     }
 }
 

@@ -25,7 +25,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="18dp"
             android:gravity="center"
-            android:text="No history yet"
+            android:text="No products in the cart"
             android:textColor="#000"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -40,20 +40,5 @@
             android:textColor="#000"
             android:textSize="17sp" />
 
-        <Button
-            android:id="@+id/btnStartOrdering"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="52dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="52dp"
-            android:layout_marginBottom="32dp"
-            android:background="@drawable/button_custom_blue10rd"
-            android:gravity="center"
-            android:padding="18dp"
-            android:text="Start ordering"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
     </LinearLayout>
 </FrameLayout>

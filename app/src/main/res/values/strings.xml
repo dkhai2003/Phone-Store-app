@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">Nhom2</string>
+    <string name="app_name">Phone Store</string>
     <string name="login"><u>Login</u></string>
     <string name="create_account"><u>Create Account</u></string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="facebook_app_id">6419853651365063</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">e032023291584a2a12c0f640593a302f</string>
 </resources>

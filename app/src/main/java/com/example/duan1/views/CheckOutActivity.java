@@ -2,6 +2,10 @@ package com.example.duan1.views;
 
 import static com.example.duan1.views.HomeScreenActivity.myRef;
 
+
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.StrictMode;
@@ -18,10 +22,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.example.duan1.R;
+
 import com.example.duan1.model.CreateOrder;
-import com.example.duan1.model.HoaDon;
+
+
+import com.example.duan1.model.Bill;
+
 import com.example.duan1.model.Product;
+
+import com.example.duan1.model.User;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -38,16 +49,18 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import vn.zalopay.sdk.Environment;
-import vn.zalopay.sdk.ZaloPayError;
-import vn.zalopay.sdk.ZaloPaySDK;
-import vn.zalopay.sdk.listeners.PayOrderListener;
+
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
+
     private Button btnConfirmAndPay,btnZaLoPay;
-    private TextView tvTotalCheckOut;
+    private TextView tvTotalCheckOut,userName, userAddress, userPhoneNumber;
+
     private String TAG = "=====";
+    private ProgressDialog progressDialog;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,54 +70,53 @@ public class CheckOutActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Check Out");
-
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setTotalCheckOut(tvTotalCheckOut);
+
 
         StrictMode.ThreadPolicy policy = new
                 StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
         // ZaloPay SDK Init
-        ZaloPaySDK.init(2553, Environment.SANDBOX);
-        btnZaLoPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Log.d("Amount","abc");
-                CreateOrder orderApi = new CreateOrder();
 
-                try {
-                    JSONObject data = orderApi.createOrder("100000");
-                    String code = data.getString("return_code");
-
-                    if (code.equals("1")) {
-                        Log.d("Amount","abc");
-                        String token =  data.getString("zp_trans_token");
-                        ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                            @Override
-                            public void onPaymentSucceeded(String s, String s1, String s2) {
-
-                            }
-
-                            @Override
-                            public void onPaymentCanceled(String s, String s1) {
-
-                            }
-
-                            @Override
-                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-
-                            }
-                        });
-                    }
-
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
+//        btnZaLoPay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Log.d("Amount","abc");
+//                CreateOrder orderApi = new CreateOrder();
+//
+//                try {
+//                    JSONObject data = orderApi.createOrder("100000");
+//                    String code = data.getString("return_code");
+//
+//                    if (code.equals("1")) {
+//                        Log.d("Amount","abc");
+//                        String token =  data.getString("zp_trans_token");
+//                        ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                            @Override
+//                            public void onPaymentSucceeded(String s, String s1, String s2) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onPaymentCanceled(String s, String s1) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+//
+//                            }
+//                        });
+//                    }
+//
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
 
 
 
@@ -114,27 +126,92 @@ public class CheckOutActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
         btnConfirmAndPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                clickOpenBottomSheetDialog();
+                clickOpenBottomSheetDialog(view);
             }
         });
+        //zalo
+        StrictMode.ThreadPolicy policy = new
+                StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        // ZaloPay SDK Init
+//        ZaloPaySDK.init(553, Environment.SANDBOX);
+//        btnZaloPay.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                clickPayWithZaloPay();
+//            }
+//        });
+
+//        getUserInformation();
+    }
+//
+//    private void clickPayWithZaloPay() {
+//        CreateOrder orderApi = new CreateOrder();
+//        try {
+//            JSONObject data = orderApi.createOrder(tvTotalCheckOut.getText().toString());
+//            Log.d("Amount", tvTotalCheckOut.getText().toString());
+//            String code = data.getString("returncode");
+//            Log.d("code", code + "");
+//            if (code.equals("1")) {
+//                String token = data.getString("zptranstoken");
+//                ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
+//                    @Override
+//                    public void onPaymentSucceeded(String s, String s1, String s2) {
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                new AlertDialog.Builder(CheckOutActivity.this)
+//                                        .setTitle("Payment Success")
+//                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+//                                            @Override
+//                                            public void onClick(DialogInterface dialog, int which) {
+//                                            }
+//                                        })
+//                                        .setNegativeButton("Cancel", null).show();
+//                            }
+//
+//                        });
+//                    }
+//
+//                    @Override
+//                    public void onPaymentCanceled(String s, String s1) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
+//
+//                    }
+//                });
+//            }
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
+//
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        ZaloPaySDK.getInstance().onResult(intent);
+//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 
     @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-//            getFragmentManager().popBackStack();
-
-
-
-            finish();
-        }
-        return super.onOptionsItemSelected(item);
+    protected void onStop() {
+        super.onStop();
     }
 
-    public void clickOpenBottomSheetDialog() {
+    public void clickOpenBottomSheetDialog(View view) {
         View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
         Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
@@ -143,10 +220,13 @@ public class CheckOutActivity extends AppCompatActivity {
         btnPayNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
-               // updateBillToFireBase();
-                updateBillToFireBase();
+//                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
 
+
+                updateBillToFireBase1();
+                Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
+                startActivity(intent);
+                finish();
 //                bottomSheetDialog.dismiss();
 
             }
@@ -156,51 +236,82 @@ public class CheckOutActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+//            getFragmentManager().popBackStack();
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void getUserInformation() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        if (user != null) {
+            // Name, email address, and profile photo Url
+            // Check if user's email is verified
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            String uEmail = user.getEmail();
+            String userDisplayName = user.getDisplayName();
+            String[] subEmail = uEmail.split("@");
+            String pathUserId = "User" + subEmail[0];
+            DatabaseReference myRef = database.getReference("duan/User/");
+            if (user == null) {
+                return;
+            } else {
+                createDialog();
+                progressDialog.show();
+                myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User CurrentUser = snapshot.getValue(User.class);
+                        if (CurrentUser.getUserName() == null) {
+                            userName.setText(userDisplayName);
+                        } else {
+                            userName.setText(CurrentUser.getUserName());
+                        }
+                        userAddress.setText(CurrentUser.getAddress());
+                        userPhoneNumber.setText(CurrentUser.getPhoneNumber());
+                        progressDialog.dismiss();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.d("TAG", "getInformationUserFromFirebase:error");
+                        progressDialog.dismiss();
+                    }
+                });
+            }
+            boolean emailVerified = user.isEmailVerified();
+            String uid = user.getUid();
+        } else {
+            Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 
     private void unitUi() {
+//        btnZaloPay = findViewById(R.id.btnZaloPay);
+        userName = findViewById(R.id.userName);
+        userAddress = findViewById(R.id.userAddress);
+        userPhoneNumber = findViewById(R.id.userPhoneNumber);
         toolbar = findViewById(R.id.toolbar);
         btnConfirmAndPay = findViewById(R.id.btnConfirmAndPay);
         tvTotalCheckOut = findViewById(R.id.tvTotalCheckOut);
+
         btnZaLoPay=findViewById(R.id.btnZaloPay);
+        userPhoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
+        userAddress = (TextView) findViewById(R.id.userAddress);
+        userName = (TextView) findViewById(R.id.userName);
+
     }
 
-
-
-
-    public void setTotalCheckOut(TextView textView){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userEmail = user.getEmail();
-        String[] subEmail = userEmail.split("@");
-        String pathUserId = "User" + subEmail[0];
-        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
-        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                double value = snapshot.getValue(Double.class);
-                textView.setText("$"+value);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-
-    private void updateBillToFireBase() {
-        double gia =0;
-        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        Date date = new Date();
+    public void setTotalCheckOut(TextView textView) {
         myRef().child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Double value = snapshot.getValue(Double.class);
-                Log.d(TAG, "onDataChange: "+value);
-                value = gia;
-
+                double value = snapshot.getValue(Double.class);
+                textView.setText("$" + value);
             }
 
             @Override
@@ -208,55 +319,114 @@ public class CheckOutActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        myRef().child("Cart").addValueEventListener(new ValueEventListener() {
+    private void updateBillToFireBase1() {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        Task<DataSnapshot> gia = myRef().child("Total").get();
+        Log.d(TAG, "updateBillToFireBase: " + gia);
+        myRef().child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                Map<String,Product> map = new HashMap<>();
-                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                int soLuong = (int) snapshot.getChildrenCount();
+
+                Map<String, Product> map = new HashMap<>();
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String key = dataSnapshot.getKey();
                     Product value = dataSnapshot.getValue(Product.class);
-                    map.put(key,value);
+                    map.put(key, value);
                 }
-                myRef().child("HoaDon").addListenerForSingleValueEvent(new ValueEventListener() {
+                myRef().child("Bill").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getChildrenCount();
-//                        if (value>0){
+                        if (soLuong > 0) {
 
-                            String id = "hd000"+value;
-                            HoaDon hoaDon = new HoaDon(formatter.format(date),id,value,gia);
-                            Log.d(TAG, "onDataChange: "+value);
-                            myRef().child("HoaDon").child(id).setValue(hoaDon);
-                            myRef().child("HoaDon").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            String id = "hd000" + value;
+                            Bill bill = new Bill(formatter.format(date), id, tvTotalCheckOut.getText().toString(), soLuong);
+                            Log.d(TAG, "onDataChange: " + value);
+                            myRef().child("Bill").child(id).setValue(bill);
+                            myRef().child("Bill").child(id).child("Cart").setValue(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
-//                                    myRef().child("Cart").removeValue();
-//                                    myRef().child("Total").setValue(0);
+                                    myRef().child("Cart").removeValue();
+                                    myRef().child("Total").setValue(0);
                                 }
                             });
 
-//                        }
+                        }
 
                     }
+
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
         });
-
     }
 
+//    public void getUserInformation() {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        if (user != null) {
+//            // Name, email address, and profile photo Url
+//            // Check if user's email is verified
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//            String uEmail = user.getEmail();
+//            String userDisplayName = user.getDisplayName();
+//            String[] subEmail = uEmail.split("@");
+//            String pathUserId = "User" + subEmail[0];
+//            DatabaseReference myRef = database.getReference("duan/User/");
+//            if (user == null) {
+//                return;
+//            } else {
+//                createDialog();
+//                progressDialog.show();
+//                myRef.child(pathUserId).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        User CurrentUser = snapshot.getValue(User.class);
+//                        if (CurrentUser.getUserName() == null) {
+//                            userName.setText(userDisplayName);
+//                        } else {
+//                            userName.setText(CurrentUser.getUserName());
+//                        }
+//                        userAddress.setText(CurrentUser.getAddress());
+//                        userPhoneNumber.setText(CurrentUser.getPhoneNumber());
+//                        progressDialog.dismiss();
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Log.d("TAG", "getInformationUserFromFirebase:error");
+//                        progressDialog.dismiss();
+//                    }
+//                });
+//            }
+//            boolean emailVerified = user.isEmailVerified();
+//            String uid = user.getUid();
+//        } else {
+//            Toast.makeText(this, "No User", Toast.LENGTH_SHORT).show();
+//        }
+//    }
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        ZaloPaySDK.getInstance().onResult(intent);
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        super.onNewIntent(intent);
+//        ZaloPaySDK.getInstance().onResult(intent);
+
+    private void createDialog() {
+        progressDialog = new ProgressDialog(CheckOutActivity.this);
+        progressDialog.setTitle("Please Wait..");
+        progressDialog.setMessage("Connecting to the server ... ");
+        progressDialog.setIcon(R.drawable.none_avatar);
+
     }
 //    public DatabaseReference myRef(){
 //

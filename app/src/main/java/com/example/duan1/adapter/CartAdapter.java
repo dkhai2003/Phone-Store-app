@@ -1,8 +1,5 @@
 package com.example.duan1.adapter;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,39 +15,41 @@ import com.example.duan1.R;
 import com.example.duan1.model.Product;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 
-public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myViewHolder> {
+public class CartAdapter extends FirebaseRecyclerAdapter<Product, CartAdapter.myViewHolder> {
 
     private final IClickCart iClickCart;
 
-    public interface IClickCart{
+    public interface IClickCart {
         void onClickDeleteCart(Product product);
+
         void onClickMinus(Product product);
+
         void onClickPlus(Product product);
     }
 
-    public CartAdapter(@NonNull FirebaseRecyclerOptions<Product> options,IClickCart iClickCart) {
+    public CartAdapter(@NonNull FirebaseRecyclerOptions<Product> options, IClickCart iClickCart) {
         super(options);
         this.iClickCart = iClickCart;
     }
 
     @Override
     protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull Product model) {
-        holder.name.setText(model.getTenSP());
-        holder.price.setText(model.getGiaSP()*model.getSoLuong() + "$");
-        holder.conut.setText(model.getSoLuong()+"");
-        holder.tvCount.setText("Số lượng: "+model.getSoLuong()+"");
-
-
+        holder.name.setText(model.getTenSPSubString17());
+        holder.price.setText(model.getGiaSP() * model.getSoLuong() + "$");
+        holder.count.setText(model.getSoLuong() + "");
+        holder.tvCount.setText("Số lượng: " + model.getSoLuong() + "");
         Glide.with(holder.img.getContext())
                 .load(model.getHinhSP())
                 .into(holder.img);
-
-        holder.maSP.setText("Mã sản phẩm: "+model.getMaSP());
-
+        if (model.getSoLuong() == 1) {
+            holder.imgMinus.setEnabled(false);
+            holder.imgMinus.setImageResource(R.drawable.minus_false);
+        } else {
+            holder.imgMinus.setEnabled(true);
+            holder.imgMinus.setImageResource(R.drawable.minus);
+        }
+        holder.maSP.setText("Mã sản phẩm: " + model.getMaSP());
 
 
         holder.imgDelete.setOnClickListener(new View.OnClickListener() {
@@ -85,14 +84,13 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
 
     static class myViewHolder extends RecyclerView.ViewHolder {
         ImageView img, imgDelete, imgMinus, imgPlus;
-        TextView name, price, conut, tvCount, maSP;
+        TextView name, price, count, tvCount, maSP;
         CardView cardViewCart;
-
 
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            conut = itemView.findViewById(R.id.tvSoLuong);
+            count = itemView.findViewById(R.id.tvSoLuong);
             img = itemView.findViewById(R.id.imgCart);
             name = itemView.findViewById(R.id.tvNameCart);
             price = itemView.findViewById(R.id.tvPriceCart);
@@ -100,12 +98,10 @@ public class CartAdapter extends FirebaseRecyclerAdapter<Product,CartAdapter.myV
             imgDelete = itemView.findViewById(R.id.imgDeleteCart);
             imgMinus = itemView.findViewById(R.id.imgMinus);
             imgPlus = itemView.findViewById(R.id.imgPlus);
-
             tvCount = itemView.findViewById(R.id.tvAmountCart);
             maSP = itemView.findViewById(R.id.tvMaSP);
         }
     }
-
 }
 
 

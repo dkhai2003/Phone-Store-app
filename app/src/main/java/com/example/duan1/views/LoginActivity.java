@@ -15,6 +15,12 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.duan1.R;
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -26,6 +32,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
@@ -37,12 +44,16 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123;
     private TextView tvForgot, tvCreate;
     private Button btnLogin;
+    private LoginButton btnLoginFacebook;
     private SignInButton btnGoogleSignIn;
     private EditText edtEmail, edtPass;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference myRef = database.getReference("duan");
     private ProgressDialog progressDialogLogin, progressDialogLoginGoogle;
     private GoogleSignInClient mGoogleSignInClient;
+    private CallbackManager callbackManager;
+    private FirebaseAuth mAuth;
+    private Integer reCode = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,8 +85,72 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialogLoginGoogle.setMessage("Connecting to Google ... ");
                 onClickSignInGoogle();
             }
+        });// ==>
+        //<== Login Facebook
+        btnLoginFacebook.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reCode = 1;
+                callbackManager = CallbackManager.Factory.create();
+                btnLoginFacebook.setReadPermissions("email", "public_profile");
+                btnLoginFacebook.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        Log.d("TAG", "facebook:onSuccess:" + loginResult);
+                        handleFacebookAccessToken(loginResult.getAccessToken());
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Log.d("TAG", "facebook:onCancel");
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d("TAG", "facebook:onError", error);
+                    }
+                });
+            }
         });
-    }// ==>
+
+        //==>
+    }
+
+    private void handleFacebookAccessToken(AccessToken accessToken) {
+        Log.d("TAG", "handleFacebookAccessToken:" + accessToken);
+        mAuth = FirebaseAuth.getInstance();
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d("TAG", "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            String userEmail = user.getEmail();
+                            Log.d("TAG1", userEmail);
+                            String[] subEmail = userEmail.split("@");
+                            DatabaseReference myRef = database.getReference("duan/User");
+                            myRef.child("User" + subEmail[0]).child("UserId")
+                                    .setValue(mAuth.getUid(), new DatabaseReference.CompletionListener() {
+                                        @Override
+                                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                            Log.d("SaveUidToRealtime", "saveIdU");
+
+                                        }
+                                    });
+                            Log.d("User Google", user.getEmail());
+                            startMainActivityMethod(user.getUid());
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w("TAG", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
     private void onClickSignInGoogle() {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
@@ -114,6 +189,9 @@ public class LoginActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
+        if (reCode == 1) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
@@ -136,6 +214,7 @@ public class LoginActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                             Log.d("SaveUidToRealtime", "saveIdU");
+
                                         }
                                     });
                             Log.d("User Google", user.getEmail());
@@ -193,6 +272,7 @@ public class LoginActivity extends AppCompatActivity {
     TextInputLayout inpPass;
 
     public void unitUi() {
+        btnLoginFacebook = (LoginButton) findViewById(R.id.btnLoginFacebook);
         tvForgot = (TextView) findViewById(R.id.tvForgot);
         tvCreate = (TextView) findViewById(R.id.tvCreate);
         btnLogin = (Button) findViewById(R.id.btnLogin);

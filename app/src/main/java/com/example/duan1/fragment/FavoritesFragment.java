@@ -3,6 +3,7 @@ package com.example.duan1.fragment;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -58,10 +58,12 @@ public class FavoritesFragment extends Fragment {
         return mView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-
+    private void setViewLayout(int id) {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mView = inflater.inflate(id, null);
+        ViewGroup rootView = (ViewGroup) getView();
+        rootView.removeAllViews();
+        rootView.addView(mView);
     }
 
     @Override
@@ -76,10 +78,11 @@ public class FavoritesFragment extends Fragment {
         if (user == null) {
             return;
         } else {
+            createDialog();
+            progressDialog.show();
             String uEmail = user.getEmail();
             String[] subEmail = uEmail.split("@");
             String pathUserId = "User" + subEmail[0];
-            GridLayoutManager gridLayoutManager = new GridLayoutManager(getContext(), 2);
             LinearLayoutManager linearLayoutManager = new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false);
             recyclerViewFav.setLayoutManager(linearLayoutManager);
             DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("User").child(pathUserId).child("favorites");
@@ -116,10 +119,17 @@ public class FavoritesFragment extends Fragment {
                                         public void onDataChange(DataSnapshot dataSnapshot) {
                                             mcount_fav = dataSnapshot.getChildrenCount();
                                             count_Fav.setText(mcount_fav + " items");
+                                            if (dataSnapshot.getChildrenCount() == 0) {
+                                                setViewLayout(R.layout.fragment_favorites_null);
+                                                progressDialog.dismiss();
+                                            }else {
+                                                progressDialog.dismiss();
+                                            }
                                         }
 
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
+                                            progressDialog.dismiss();
                                         }
                                     });
                                 }
@@ -136,13 +146,19 @@ public class FavoritesFragment extends Fragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     mcount_fav = dataSnapshot.getChildrenCount();
                     count_Fav.setText(mcount_fav + " items");
+                    if (dataSnapshot.getChildrenCount() == 0) {
+                        setViewLayout(R.layout.fragment_favorites_null);
+                        progressDialog.dismiss();
+                    } else {
+                        progressDialog.dismiss();
+                    }
                 }
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
+                    progressDialog.dismiss();
                 }
             });
-
             recyclerViewFav.setAdapter(favoritesItemAdapter);
             favoritesItemAdapter.notifyDataSetChanged();
         }
@@ -154,17 +170,4 @@ public class FavoritesFragment extends Fragment {
         progressDialog.setMessage("Connecting to the server ... ");
         progressDialog.setIcon(R.drawable.none_avatar);
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-
-    }
-
 }

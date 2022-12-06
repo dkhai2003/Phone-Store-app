@@ -2,16 +2,16 @@ package com.example.duan1.model;
 
 import java.io.Serializable;
 
-public class spct implements Serializable {
+public class Product_Images implements Serializable {
     String hinh1;
     String hinh2;
     String hinh3;
     String hinh4;
 
-    public spct() {
+    public Product_Images() {
     }
 
-    public spct(String hinh1, String hinh2, String hinh3, String hinh4) {
+    public Product_Images(String hinh1, String hinh2, String hinh3, String hinh4) {
         this.hinh1 = hinh1;
         this.hinh2 = hinh2;
         this.hinh3 = hinh3;
