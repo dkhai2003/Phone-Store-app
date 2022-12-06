@@ -28,6 +28,7 @@
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/tvProductCount"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,6 +65,7 @@
                 android:textSize="18sp" />
 
             <ImageView
+                android:id="@+id/imgCard"
                 android:layout_width="62sp"
                 android:layout_height="40sp"
                 android:layout_margin="15dp"

@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -56,6 +58,7 @@ public class CheckOutActivity extends AppCompatActivity {
     private String TAG = "=====";
     private ProgressDialog progressDialog;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private RadioButton r1, r2, r3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,27 +156,78 @@ public class CheckOutActivity extends AppCompatActivity {
     }
 
     public void clickOpenBottomSheetDialog(View view) {
-        View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
-        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
-        TextView tvCost = viewDialog.findViewById(R.id.tvCost);
-        setTotalCheckOut(tvCost);
-        btnPayNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                Toast.makeText(CheckOutActivity.this, "This is Button PayNow", Toast.LENGTH_SHORT).show();
-
-
-                updateBillToFireBase1();
-                Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
-                startActivity(intent);
-                finish();
-//                bottomSheetDialog.dismiss();
-
+        if (userName.getText().toString().isEmpty()|| userAddress.getText().toString().isEmpty() || userPhoneNumber.getText().toString().isEmpty()) {
+            Toast.makeText(this, "You have not filled in enough information", Toast.LENGTH_SHORT).show();
+            return;
+        } else {
+            if (r1.isChecked()) {
+                View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
+                ImageView imgCard = viewDialog.findViewById(R.id.imgCard);
+                TextView tvProductCount = viewDialog.findViewById(R.id.tvProductCount);
+                TextView tvCost = viewDialog.findViewById(R.id.tvCost);
+                setTotalCheckOut(tvCost);
+                imgCard.setImageResource(R.drawable.checkout_visa_image);
+                setCountProductCheckOut(tvProductCount);
+                btnPayNow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updateBillToFireBase1();
+                        Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                bottomSheetDialog.setContentView(viewDialog);
+                bottomSheetDialog.show();
+            } else if (r2.isChecked()) {
+                View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
+                ImageView imgCard = viewDialog.findViewById(R.id.imgCard);
+                TextView tvCost = viewDialog.findViewById(R.id.tvCost);
+                TextView tvProductCount = viewDialog.findViewById(R.id.tvProductCount);
+                imgCard.setImageResource(R.drawable.checkout_master_image);
+                setCountProductCheckOut(tvProductCount);
+                setTotalCheckOut(tvCost);
+                btnPayNow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updateBillToFireBase1();
+                        Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                bottomSheetDialog.setContentView(viewDialog);
+                bottomSheetDialog.show();
+            } else if (r3.isChecked()) {
+                View viewDialog = getLayoutInflater().inflate(R.layout.bottom_sheet_dialog, null);
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+                Button btnPayNow = viewDialog.findViewById(R.id.btnPayNow);
+                ImageView imgCard = viewDialog.findViewById(R.id.imgCard);
+                TextView tvCost = viewDialog.findViewById(R.id.tvCost);
+                TextView tvProductCount = viewDialog.findViewById(R.id.tvProductCount);
+                imgCard.setImageResource(R.drawable.checkout_bank_image);
+                setCountProductCheckOut(tvProductCount);
+                setTotalCheckOut(tvCost);
+                btnPayNow.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        updateBillToFireBase1();
+                        Intent intent = new Intent(CheckOutActivity.this, FinishedPaymentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
+                bottomSheetDialog.setContentView(viewDialog);
+                bottomSheetDialog.show();
+            } else {
+                Toast.makeText(this, "You have not selected a payment method", Toast.LENGTH_SHORT).show();
+                return;
             }
-        });
-        bottomSheetDialog.setContentView(viewDialog);
-        bottomSheetDialog.show();
+        }
     }
 
     @Override
@@ -241,6 +295,9 @@ public class CheckOutActivity extends AppCompatActivity {
         userPhoneNumber = (TextView) findViewById(R.id.userPhoneNumber);
         userAddress = (TextView) findViewById(R.id.userAddress);
         userName = (TextView) findViewById(R.id.userName);
+        r1 = findViewById(R.id.r1);
+        r2 = findViewById(R.id.r2);
+        r3 = findViewById(R.id.r3);
     }
 
     public void setTotalCheckOut(TextView textView) {
@@ -249,6 +306,20 @@ public class CheckOutActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
                 textView.setText("$" + value);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    public void setCountProductCheckOut(TextView textView) {
+        myRef().child("Cart").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                textView.setText("Product: " + snapshot.getChildrenCount());
             }
 
             @Override
@@ -279,7 +350,6 @@ public class CheckOutActivity extends AppCompatActivity {
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         int value = (int) snapshot.getChildrenCount();
                         if (soLuong > 0) {
-
                             String id = "hd000" + value;
                             Bill bill = new Bill(formatter.format(date), id, tvTotalCheckOut.getText().toString(), soLuong);
                             Log.d(TAG, "onDataChange: " + value);
