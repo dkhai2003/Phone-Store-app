@@ -48,7 +48,6 @@ public class LoginActivity extends AppCompatActivity {
     private SignInButton btnGoogleSignIn;
     private EditText edtEmail, edtPass;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference myRef = database.getReference("duan");
     private ProgressDialog progressDialogLogin, progressDialogLoginGoogle;
     private GoogleSignInClient mGoogleSignInClient;
     private CallbackManager callbackManager;
@@ -73,6 +72,12 @@ public class LoginActivity extends AppCompatActivity {
                 progressDialogLogin.setTitle("Please Wait..");
                 progressDialogLogin.setMessage("Connecting to the server ... ");
                 onClickSignInUser();
+            }
+        });
+        tvForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onClickForgotPassword();
             }
         });
         //<== Login Google Authenticate
@@ -114,6 +119,11 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         //==>
+    }
+
+    private void onClickForgotPassword() {
+        Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+        startActivity(intent);
     }
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
