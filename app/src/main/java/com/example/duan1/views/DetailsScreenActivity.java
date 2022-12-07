@@ -38,18 +38,17 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Random;
+
 
 public class DetailsScreenActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private RecyclerView rcvListAnotherItem;
     private ProductAdapterAnother productAdapter;
-//    private ImageView imgDetail, iv_fav,img1,img2,img3,img4;
-//    private TextView tvNameDetail, tvPriceDetail;
     int a = 0;
     private Button btnAddToCart;
     private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
     private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail, tvMota;
-
     int soLuong =1;
 
 
@@ -144,13 +143,18 @@ public class DetailsScreenActivity extends AppCompatActivity {
         tvTotalDetail = findViewById(R.id.tvTotalDetail);
     }
     private void setValue() {
+
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
             return;
         }
         Product product = (Product) bundle.get("SanPham");
-        String lsp = bundle.getString("lsp");
-        getRecyclerViewListProductAnother(lsp);
+
+
+
+        getRecyclerViewListProductAnother();
+
+
 
         Glide.with(imgDetail.getContext())
                 .load(product.getHinhSP())
@@ -276,10 +280,14 @@ public class DetailsScreenActivity extends AppCompatActivity {
         });
     }
 
-    private void getRecyclerViewListProductAnother(String lsp) {
+    private void getRecyclerViewListProductAnother() {
+        Random rd = new Random();
+        int number1 = rd.nextInt(8);
+        int b =number1+1;
+        String lsp1 = "lsp"+ b;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         rcvListAnotherItem.setLayoutManager(linearLayoutManager);
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp1).child("SanPham");
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
                         .setQuery(myRef, Product.class)
@@ -287,7 +295,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         productAdapter = new ProductAdapterAnother(options, new ProductAdapterAnother.IClickProduct1() {
             @Override
             public void onClickDetailsScreen(Product product) {
-                onClickGoToDetail(product,lsp);
+                onClickGoToDetail(product);
             }
         });
         rcvListAnotherItem.setAdapter(productAdapter);
@@ -295,11 +303,10 @@ public class DetailsScreenActivity extends AppCompatActivity {
         productAdapter.startListening();
     }
 
-    public void onClickGoToDetail(Product product, String lsp) {
+    public void onClickGoToDetail(Product product) {
         Intent intent = new Intent(this, DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("SanPham", product);
-        bundle.putString("lsp",lsp);
         intent.putExtras(bundle);
         startActivity(intent);
         finish();
