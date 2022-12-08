@@ -20,6 +20,7 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
 import com.example.duan1.model.User;
+import com.example.duan1.views.AboutActivity;
 import com.example.duan1.views.EditProfileActivity;
 import com.example.duan1.views.LoginActivity;
 import com.example.duan1.views.MapsActivity;
@@ -38,7 +39,7 @@ public class UserFragment extends Fragment {
     private Toolbar toolbar;
     private TextView userName, userEmail, userAddress, userPhoneNumber;
     private ImageView userAvatar;
-    private Button btnEditProfile, btnOrderHistory, btnAddress, btnLogout;
+    private Button btnEditProfile, btnOrderHistory, btnAddress, btnLogout,btnAboutUs;
     private FrameLayout frameUser;
     private View mView;
     private ProgressDialog progressDialog;
@@ -87,6 +88,14 @@ public class UserFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 onClickMap();
+            }
+        });
+
+        btnAboutUs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(), AboutActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -184,6 +193,7 @@ public class UserFragment extends Fragment {
         userAddress = (TextView) mView.findViewById(R.id.tvAddress);
         btnOrderHistory = (Button) mView.findViewById(R.id.btnOrderHistory);
         btnAddress = (Button) mView.findViewById(R.id.btnAddress);
+        btnAboutUs = (Button) mView.findViewById(R.id.btnAboutUs);
     }
 
     private void createDialog() {
