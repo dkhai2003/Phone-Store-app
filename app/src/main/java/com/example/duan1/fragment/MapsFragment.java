@@ -30,7 +30,7 @@ public class MapsFragment extends Fragment {
         return fragment;
     }
 
-    private OnMapReadyCallback callback = new OnMapReadyCallback() {
+    private final OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
          * Manipulates the map once available.
@@ -42,7 +42,7 @@ public class MapsFragment extends Fragment {
          * user has installed Google Play services and returned to the app.
          */
         @Override
-        public void onMapReady(GoogleMap googleMap) {
+        public void onMapReady(@NonNull GoogleMap googleMap) {
             try {
                 //dia chi sang kd vd
                 Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());

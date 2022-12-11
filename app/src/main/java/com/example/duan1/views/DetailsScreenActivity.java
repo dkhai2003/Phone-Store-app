@@ -2,7 +2,6 @@ package com.example.duan1.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,16 +13,13 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.duan1.R;
-import com.example.duan1.adapter.ProductAdapter;
 import com.example.duan1.adapter.ProductAdapterAnother;
 import com.example.duan1.model.Product;
-import com.example.duan1.model.Product_Type;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -31,7 +27,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -47,9 +42,9 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private ProductAdapterAnother productAdapter;
     int a = 0;
     private Button btnAddToCart;
-    private ImageView imgDetail, iv_fav,img1,img2,img3,img4,btnMinus,btnPlus;
-    private TextView tvNameDetail, tvPriceDetail,tvSlMua, tvTotalDetail, tvMota;
-    int soLuong =1;
+    private ImageView imgDetail, iv_fav, img1, img2, img3, img4, btnMinus, btnPlus;
+    private TextView tvNameDetail, tvPriceDetail, tvSlMua, tvTotalDetail, tvMota;
+    int soLuong = 1;
 
 
     @Override
@@ -57,15 +52,13 @@ public class DetailsScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details_screen);
         unitUi();
+        checkTotal();
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Details");
-
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         setValue();
         Bundle bundle = getIntent().getExtras();
         if (bundle == null) {
@@ -81,7 +74,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
                         .into(imgDetail);
             }
         });
-
 
 
         img2.setOnClickListener(new View.OnClickListener() {
@@ -114,6 +106,29 @@ public class DetailsScreenActivity extends AppCompatActivity {
 
     }
 
+    private void checkTotal() {
+        int Soluong = Integer.parseInt(tvSlMua.getText().toString());
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userEmail = user.getEmail();
+        String[] subEmail = userEmail.split("@");
+        String pathUserId = "User" + subEmail[0];
+        DatabaseReference myRef = database.getReference("duan/User/" + pathUserId);
+        myRef.child("Total").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.getValue() == null) {
+                    myRef.child("Total").setValue(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -132,16 +147,17 @@ public class DetailsScreenActivity extends AppCompatActivity {
         tvPriceDetail = findViewById(R.id.tvPriceDetail);
         tvMota = findViewById(R.id.tvDescribe);
         iv_fav = findViewById(R.id.iv_fav);
-        img1=findViewById(R.id.img1);
-        img2=findViewById(R.id.img2);
-        img3=findViewById(R.id.img3);
-        img4=findViewById(R.id.img4);
+        img1 = findViewById(R.id.img1);
+        img2 = findViewById(R.id.img2);
+        img3 = findViewById(R.id.img3);
+        img4 = findViewById(R.id.img4);
         btnAddToCart = findViewById(R.id.btnAddToCard);
-        btnMinus=findViewById(R.id.btnMinus);
-        btnPlus=findViewById(R.id.btnPlus);
-        tvSlMua=findViewById(R.id.tvSlMua);
+        btnMinus = findViewById(R.id.btnMinus);
+        btnPlus = findViewById(R.id.btnPlus);
+        tvSlMua = findViewById(R.id.tvSlMua);
         tvTotalDetail = findViewById(R.id.tvTotalDetail);
     }
+
     private void setValue() {
 
         Bundle bundle = getIntent().getExtras();
@@ -151,9 +167,7 @@ public class DetailsScreenActivity extends AppCompatActivity {
         Product product = (Product) bundle.get("SanPham");
 
 
-
         getRecyclerViewListProductAnother();
-
 
 
         Glide.with(imgDetail.getContext())
@@ -171,7 +185,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
         Glide.with(img4.getContext())
                 .load(product.getSpct().getHinh4())
                 .into(img4);
-
 
 
         tvMota.setText(product.getMoTa());
@@ -196,10 +209,10 @@ public class DetailsScreenActivity extends AppCompatActivity {
         btnMinus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (soLuong >1){
-                    soLuong-=1;
-                    tvSlMua.setText(soLuong+"");
-                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                if (soLuong > 1) {
+                    soLuong -= 1;
+                    tvSlMua.setText(soLuong + "");
+                    tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
                 }
             }
         });
@@ -207,15 +220,15 @@ public class DetailsScreenActivity extends AppCompatActivity {
         btnPlus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(soLuong>= 1){
-                    soLuong+=1;
-                    tvSlMua.setText(soLuong+"");
-                    tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+                if (soLuong >= 1) {
+                    soLuong += 1;
+                    tvSlMua.setText(soLuong + "");
+                    tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
                 }
             }
         });
 
-        tvTotalDetail.setText("Total: $"+soLuong*product.getGiaSP()+"");
+        tvTotalDetail.setText("Total: $" + soLuong * product.getGiaSP() + "");
 
 //        FirebaseDatabase database = FirebaseDatabase.getInstance();
 //        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -250,7 +263,6 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private void updateCartToFireBase(Product product) {
         int Soluong = Integer.parseInt(tvSlMua.getText().toString());
         product.setSoLuong(Soluong);
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String userEmail = user.getEmail();
@@ -268,9 +280,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 double value = snapshot.getValue(Double.class);
-                value += soLuong*product.getGiaSP();
+                value += soLuong * product.getGiaSP();
                 myRef.child("Total").setValue(value);
-
             }
 
             @Override
@@ -283,8 +294,8 @@ public class DetailsScreenActivity extends AppCompatActivity {
     private void getRecyclerViewListProductAnother() {
         Random rd = new Random();
         int number1 = rd.nextInt(8);
-        int b =number1+1;
-        String lsp1 = "lsp"+ b;
+        int b = number1 + 1;
+        String lsp1 = "lsp" + b;
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false);
         rcvListAnotherItem.setLayoutManager(linearLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp1).child("SanPham");
