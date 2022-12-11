@@ -471,7 +471,6 @@ public class EditProfileActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
             };
-
             String updateEmail = edEmail.getText().toString().trim();
             String updateName = edName.getText().toString().trim();
             String updatePhoneNumber = edPhone.getText().toString().trim();
@@ -486,7 +485,9 @@ public class EditProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
-                            Glide.with(getApplicationContext()).load(uriImage).error(R.drawable.none_avatar).into(ivAvatar);
+                            if(uriImage!=null){
+                                Glide.with(getApplicationContext()).load(uriImage).error(R.drawable.none_avatar).into(ivAvatar);
+                            }
                             progressDialog.dismiss();
                         }
                     });
