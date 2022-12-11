@@ -217,7 +217,6 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void onClickUpdatePassword() {
-
         View viewDialogUpdate = getLayoutInflater().inflate(R.layout.bottom_sheet_change_pass, null);
         BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(EditProfileActivity.this);
         EditText tvOldPass = viewDialogUpdate.findViewById(R.id.tvOldPass);
@@ -258,6 +257,10 @@ public class EditProfileActivity extends AppCompatActivity {
                                                         public void onSuccess(Void unused) {
                                                             progressDialog.dismiss();
                                                             Toast.makeText(EditProfileActivity.this, "Update Successful", Toast.LENGTH_SHORT).show();
+                                                            Intent intent = new Intent(EditProfileActivity.this, LoginActivity.class);
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            startActivity(intent);
+                                                            finishAffinity();
                                                         }
                                                     })
                                                     .addOnFailureListener(new OnFailureListener() {

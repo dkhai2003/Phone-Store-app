@@ -204,6 +204,12 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
+
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         progressDialogLoginGoogle.show();

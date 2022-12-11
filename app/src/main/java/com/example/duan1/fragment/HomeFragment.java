@@ -44,7 +44,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import me.relex.circleindicator.CircleIndicator3;
 
@@ -155,6 +154,7 @@ public class HomeFragment extends Fragment {
             }
         }
     };
+
     //
     private void sortBySpinner() {
         AlertDialog.Builder b = new AlertDialog.Builder(getContext());
@@ -354,7 +354,7 @@ public class HomeFragment extends Fragment {
         Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
         Bundle bundle = new Bundle();
         bundle.putSerializable("SanPham", product);
-        bundle.putString("lsp",loaiSanPham);
+        bundle.putString("lsp", loaiSanPham);
         intent.putExtras(bundle);
         startActivity(intent);
     }
