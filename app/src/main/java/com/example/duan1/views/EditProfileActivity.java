@@ -71,8 +71,8 @@ public class EditProfileActivity extends AppCompatActivity {
                         try {
                             Uri uri = intent.getData();
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            setUriImage(uri);
                             setBitMapImageViewAvatar(bitmap);
+                            setUriImage(uri);
                         } catch (IOException e) {
                             Log.d("IntentResult", e.getMessage());
                             e.printStackTrace();
@@ -342,9 +342,8 @@ public class EditProfileActivity extends AppCompatActivity {
                 openGallery();
             } else {
                 Toast.makeText(this, "You are DENIED permisstions", Toast.LENGTH_SHORT).show();
-
-                String[] permisstions = {Manifest.permission.READ_EXTERNAL_STORAGE};
-                this.requestPermissions(permisstions, MY_REQUEST_CODE);
+//                String[] permisstions = {Manifest.permission.READ_EXTERNAL_STORAGE};
+//                this.requestPermissions(permisstions, MY_REQUEST_CODE);
             }
         }
     }
@@ -484,6 +483,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
+                            Glide.with(getApplicationContext()).load(uriImage).error(R.drawable.none_avatar).into(ivAvatar);
                             progressDialog.dismiss();
                         }
                     });
