@@ -93,7 +93,6 @@ public class FavoritesFragment extends Fragment {
             favoritesItemAdapter = new FavoritesItemAdapter(options, new FavoritesItemAdapter.IClickProduct() {
                 @Override
                 public void onClickDetailsScreen(Product product) {
-                    Toast.makeText(getContext(), "Card" + product.getMaSP(), Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getContext(), DetailsScreenActivity.class);
                     intent.putExtra("SanPham", product);
                     startActivity(intent);

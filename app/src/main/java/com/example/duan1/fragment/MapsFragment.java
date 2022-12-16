@@ -48,19 +48,8 @@ public class MapsFragment extends Fragment {
             googleMap.addMarker(new MarkerOptions().position(FPT).title("Phone Store"));
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom( FPT,18);
             googleMap.animateCamera(cameraUpdate, 3000, null);
-//            try {
-//                //dia chi sang kd vd
-//                Geocoder geocoder = new Geocoder(getActivity().getApplicationContext());
-//                List<Address> list = geocoder.getFromLocationName("Trường Cao đẳng Thực hành FPT Polytechnic cơ sở 3, công viên phần mềm Quang Trung, Quận 12, Thành phố Hồ Chí Minh", 3);
-//                if (list == null) return;
-//                Address location = list.get(0);
-//                // hien thi len map
-//                LatLng sydney = new LatLng(location.getLatitude(), location.getLongitude());//kinh do vi do
-//                googleMap.addMarker(new MarkerOptions().position(sydney).title("Phone Store"));
-//                googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-//            } catch (Exception e) {
-//                Log.d("<<<<TAG MAPS", e.getMessage());
-//            }
+
+
         }
     };
 
