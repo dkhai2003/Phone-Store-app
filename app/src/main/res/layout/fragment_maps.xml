@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< Updated upstream
 <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+=======
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> Stashed changes
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/map"
-    android:name="com.google.android.gms.maps.SupportMapFragment"
+   android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.MapsFragment" />
+    tools:context=".fragment.MapsFragment">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="PhoneStone address"
+        android:textColor="@color/white"
+        android:gravity="center"
+        android:textSize="30sp"
+        android:fontFamily="@font/interbold"
+        android:background="@color/purple_500"/>
+
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".fragment.MapsFragment"/>
+
+</LinearLayout>
