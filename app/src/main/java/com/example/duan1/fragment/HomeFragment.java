@@ -199,7 +199,7 @@ public class HomeFragment extends Fragment {
     private void edSearch(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str.toUpperCase()).endAt(str + "~"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
                         .build();
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
