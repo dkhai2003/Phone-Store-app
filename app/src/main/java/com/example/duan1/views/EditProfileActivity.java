@@ -312,12 +312,13 @@ public class EditProfileActivity extends AppCompatActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 Log.d("TAG", "Email sent.");
+                                Toast.makeText(EditProfileActivity.this, "Đã gửi email xác thực về tài khoản gmail của bạn vui lòng kiểm tra!!", Toast.LENGTH_SHORT).show();
                             }
                         }
                     }).addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EditProfileActivity.this, "CC", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditProfileActivity.this, "email xác thực đã được gửi vui lòng kiểm tra lại ở mục thư rác!!", Toast.LENGTH_SHORT).show();
                         }
                     });
         }

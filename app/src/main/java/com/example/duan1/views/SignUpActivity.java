@@ -118,7 +118,8 @@ public class SignUpActivity extends AppCompatActivity {
                                     if(password.length()<6){
                                         Toast.makeText(SignUpActivity.this, "vui lòng nhập mật khẩu trên 6 ký tự",
                                             Toast.LENGTH_SHORT).show();
-                                    }else {
+                                    }
+                                    else {
                                         Toast.makeText(SignUpActivity.this, "vui lòng nhập đúng định dạng email",
                                                 Toast.LENGTH_SHORT).show();
                                     }
