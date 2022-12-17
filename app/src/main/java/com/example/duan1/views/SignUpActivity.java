@@ -115,10 +115,18 @@ public class SignUpActivity extends AppCompatActivity {
                                     startLoginActivityMethod();
                                 } else {
                                     // If sign in fails, display a message to the user.
+                                    if(password.length()<6){
+                                        Toast.makeText(SignUpActivity.this, "vui lòng nhập mật khẩu trên 6 ký tự",
+                                            Toast.LENGTH_SHORT).show();
+                                    }
+                                    else {
+                                        Toast.makeText(SignUpActivity.this, "vui lòng nhập đúng định dạng email",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
                                     progressDialog.dismiss();
                                     Log.w("TAG", "createUserWithEmail:failure", task.getException());
-                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
-                                            Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(SignUpActivity.this, "Authentication failed.",
+//                                            Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });

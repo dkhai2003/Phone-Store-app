@@ -26,6 +26,7 @@ import com.example.duan1.R;
 import com.example.duan1.adapter.PhotoSlideAdapter;
 import com.example.duan1.adapter.ProductAdapter;
 import com.example.duan1.adapter.Product_TypeAdapter;
+import com.example.duan1.adapter.SortDataAdapter;
 import com.example.duan1.model.PhotoSlide;
 import com.example.duan1.model.Product;
 import com.example.duan1.model.Product_Type;
@@ -35,6 +36,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -49,6 +51,10 @@ import me.relex.circleindicator.CircleIndicator3;
 
 
 public class HomeFragment extends Fragment {
+    private SortDataAdapter sortDataAdapter;
+    private  List<Product> listSort;
+
+
     private View mView;
     private SearchView edSearch;
     private RecyclerView recyclerViewListProduct, recyclerViewListProduct_type;
@@ -75,6 +81,7 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         mView = inflater.inflate(R.layout.fragment_home, container, false);
         unitUi();
+
         edSearch.clearFocus();
         return mView;
     }
@@ -97,12 +104,12 @@ public class HomeFragment extends Fragment {
                 return false;
             }
         });
-//        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                sortBySpinner();
-//            }
-//        });
+        btnSortListProduct.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortBySpinner();
+            }
+        });
 
         getRecyclerViewListProduct();
         product_typeAdapter.startListening();
@@ -171,7 +178,8 @@ public class HomeFragment extends Fragment {
                         break;
                     case 1:
                         sortHighToLow(loaiSanPham);
-                        productAdapter.startListening();
+                        recyclerViewListProduct.setAdapter(sortDataAdapter);
+//                        productAdapter.startListening();
                         break;
                 }
             }
@@ -185,13 +193,13 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct_type = (RecyclerView) mView.findViewById(R.id.recyclerViewListProduct_type);
         mViewPager2 = (ViewPager2) mView.findViewById(R.id.mViewPager2);
         mCircleIndicator3 = (CircleIndicator3) mView.findViewById(R.id.mCircleIndicator3);
-//        btnSortListProduct = mView.findViewById(R.id.btnSortListProduct);
+        btnSortListProduct = mView.findViewById(R.id.btnSortData);
     }
 
     private void edSearch(String str, String lsp) {
         FirebaseRecyclerOptions<Product> options =
                 new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str.toUpperCase()).endAt(str + "~"), Product.class)
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham").orderByChild("tenSP").startAt(str).endAt(str+"~"), Product.class)
                         .build();
 
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
@@ -320,7 +328,7 @@ public class HomeFragment extends Fragment {
         productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
             @Override
             public void onClickDetailsScreen(Product product) {
-
+                onClickGoToDetail(product);
             }
         });
         recyclerViewListProduct.setAdapter(productAdapter);
@@ -333,21 +341,64 @@ public class HomeFragment extends Fragment {
         recyclerViewListProduct.setLayoutManager(gridLayoutManager);
         DatabaseReference myRef = FirebaseDatabase.getInstance().getReference().child("duan").child("LoaiSanPham").child(lsp).child("SanPham");
         Query query = myRef.orderByChild("giaSP");
-
-
-        FirebaseRecyclerOptions<Product> options =
-                new FirebaseRecyclerOptions.Builder<Product>()
-                        .setQuery(query, Product.class)
-                        .build();
-
-        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+        listSort = new ArrayList<>();
+        sortDataAdapter = new SortDataAdapter(listSort, new SortDataAdapter.IClickProduct2() {
             @Override
             public void onClickDetailsScreen(Product product) {
                 onClickGoToDetail(product);
             }
         });
-        recyclerViewListProduct.setAdapter(productAdapter);
-        productAdapter.notifyDataSetChanged();
+        query.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Product  product = snapshot.getValue(Product.class);
+                if(product !=  null){
+                    listSort.add(0,product);
+                    sortDataAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                Product product = snapshot.getValue(Product.class);
+                for(int i = 0; i<listSort.size();i++){
+                    if(product.getMaSP() == listSort.get(i).getMaSP()){
+                        listSort.set(i,product);
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+//        FirebaseRecyclerOptions<Product> options =
+//                new FirebaseRecyclerOptions.Builder<Product>()
+//                        .setQuery(query, Product.class)
+//                        .build();
+//
+//        productAdapter = new ProductAdapter(options, new ProductAdapter.IClickProduct() {
+//            @Override
+//            public void onClickDetailsScreen(Product product) {
+//                onClickGoToDetail(product);
+//            }
+//        });
+//        recyclerViewListProduct.setAdapter(productAdapter);
+//        productAdapter.notifyDataSetChanged();
     }
 
     public void onClickGoToDetail(Product product) {

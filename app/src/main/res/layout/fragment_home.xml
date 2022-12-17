@@ -45,13 +45,23 @@
                         android:layout_alignTop="@id/mViewPager2"
                         android:layout_marginStart="12dp"
                         android:layout_marginTop="12dp"
-                        android:layout_marginEnd="12dp"
+                        android:layout_marginEnd="40dp"
                         android:layout_marginBottom="12dp"
                         android:layout_weight="14"
                         android:background="#CCffffff"
                         android:drawableStart="@drawable/search"
                         android:iconifiedByDefault="false"
                         android:queryHint="Search here" />
+
+                    <ImageView
+                        android:id="@+id/btnSortData"
+                        android:layout_width="wrap_content"
+                        android:layout_height="32dp"
+
+                        android:layout_alignEnd="@+id/edSreach"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginEnd="-31dp"
+                        android:src="@drawable/ic_sort" />
 
                     <me.relex.circleindicator.CircleIndicator3
                         android:id="@+id/mCircleIndicator3"
