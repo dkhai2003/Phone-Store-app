@@ -51,9 +51,10 @@ import vn.zalopay.sdk.ZaloPayError;
 import vn.zalopay.sdk.ZaloPaySDK;
 import vn.zalopay.sdk.listeners.PayOrderListener;
 
+
 public class CheckOutActivity extends AppCompatActivity {
     private Toolbar toolbar;
-    private Button btnConfirmAndPay, btnZaloPay;
+    private Button btnConfirmAndPay;
     private TextView tvTotalCheckOut, userName, userAddress, userPhoneNumber;
     private String TAG = "=====";
     private ProgressDialog progressDialog;
@@ -84,59 +85,8 @@ public class CheckOutActivity extends AppCompatActivity {
 
         // ZaloPay SDK Init
         ZaloPaySDK.init(553, Environment.SANDBOX);
-        btnZaloPay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                clickPayWithZaloPay();
-            }
-        });
 
         getUserInformation();
-    }
-
-    private void clickPayWithZaloPay() {
-        CreateOrder orderApi = new CreateOrder();
-        try {
-            JSONObject data = orderApi.createOrder(tvTotalCheckOut.getText().toString());
-            Log.d("Amount", tvTotalCheckOut.getText().toString());
-            String code = data.getString("returncode");
-            Log.d("code", code + "");
-            if (code.equals("1")) {
-                String token = data.getString("zptranstoken");
-                ZaloPaySDK.getInstance().payOrder(CheckOutActivity.this, token, "demozpdk://app", new PayOrderListener() {
-                    @Override
-                    public void onPaymentSucceeded(String s, String s1, String s2) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                new AlertDialog.Builder(CheckOutActivity.this)
-                                        .setTitle("Payment Success")
-                                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                            }
-                                        })
-                                        .setNegativeButton("Cancel", null).show();
-                            }
-
-                        });
-                    }
-
-                    @Override
-                    public void onPaymentCanceled(String s, String s1) {
-
-                    }
-
-                    @Override
-                    public void onPaymentError(ZaloPayError zaloPayError, String s, String s1) {
-
-                    }
-                });
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
@@ -285,7 +235,6 @@ public class CheckOutActivity extends AppCompatActivity {
 
 
     private void unitUi() {
-        btnZaloPay = findViewById(R.id.btnZaloPay);
         userName = findViewById(R.id.userName);
         userAddress = findViewById(R.id.userAddress);
         userPhoneNumber = findViewById(R.id.userPhoneNumber);
