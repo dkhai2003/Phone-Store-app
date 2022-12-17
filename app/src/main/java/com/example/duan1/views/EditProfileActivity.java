@@ -345,6 +345,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 openGallery();
             } else {
                 Toast.makeText(this, "You are DENIED permisstions", Toast.LENGTH_SHORT).show();
+                return;
 //                String[] permisstions = {Manifest.permission.READ_EXTERNAL_STORAGE};
 //                this.requestPermissions(permisstions, MY_REQUEST_CODE);
             }
@@ -485,7 +486,7 @@ public class EditProfileActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                             Log.d("SaveUidToRealtime", "saveIdU");
-                            if(uriImage!=null){
+                            if (uriImage != null) {
                                 Glide.with(getApplicationContext()).load(uriImage).error(R.drawable.none_avatar).into(ivAvatar);
                             }
                             progressDialog.dismiss();

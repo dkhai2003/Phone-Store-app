@@ -43,7 +43,6 @@ public class HistoryItemAdapter extends FirebaseRecyclerAdapter<Product, History
         holder.card_view_cart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(holder.card_view_cart.getContext(), ""+model.getMaSP(), Toast.LENGTH_SHORT).show();
                 iClickProduct.onClickDetailsScreen(model);
             }
         });

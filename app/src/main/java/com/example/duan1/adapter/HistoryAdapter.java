@@ -90,7 +90,6 @@ public class HistoryAdapter extends FirebaseRecyclerAdapter<Bill, HistoryAdapter
                     new FirebaseRecyclerOptions.Builder<Product>()
                             .setQuery(myRef().child("Bill").child(bill.getMaHoaDon()).child("Cart"), Product.class)
                             .build();
-            Log.d("YYY", bill.getMaHoaDon());
             historyItemAdapter = new HistoryItemAdapter(options, new HistoryItemAdapter.IClickProduct() {
                 @Override
                 public void onClickDetailsScreen(Product product) {
